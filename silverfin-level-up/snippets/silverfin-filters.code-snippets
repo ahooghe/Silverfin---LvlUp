@@ -1,0 +1,506 @@
+{
+    "Split": {
+        "prefix": "split",
+        "body": [
+            "| split:$1"
+        ],
+        "description": "Splits a string into an array"
+    },
+    "Date": {
+        "prefix": "date",
+        "body": [
+            "| date:$1"
+        ],
+        "description": "Formats a date"
+    },
+    "Append": {
+        "prefix": "append",
+        "body": [
+            "| append:$1"
+        ],
+        "description": "Appends a value to a string"
+    },
+    "Upcase": {
+        "prefix": "upcase",
+        "body": [
+            "| upcase:$1"
+        ],
+        "description": "Converts a string to uppercase"
+    },
+    "Downcase": {
+        "prefix": "downcase",
+        "body": [
+            "| downcase:$1"
+        ],
+        "description": "Converts a string to lowercase"
+    },
+    "Replace": {
+        "prefix": "replace",
+        "body": [
+            "| replace:'$1', '$2'"
+        ],
+        "description": "Replaces a substring in a string"
+    },
+    "Remove": {
+        "prefix": "remove",
+        "body": [
+            "| remove:'$1'"
+        ],
+        "description": "Removes a section from the string"
+    },
+    "Join": {
+        "prefix": "join",
+        "body": [
+            "| join:$1"
+        ],
+        "description": "Joins an array into a string"
+    },
+    "Plus": {
+        "prefix": "plus",
+        "body": [
+            "| plus:$1"
+        ],
+        "description": "Adds a value to another"
+    },
+    "Minus": {
+        "prefix": "minus",
+        "body": [
+            "| minus:$1"
+        ],
+        "description": "Subtracts a value from another"
+    },
+    "Times": {
+        "prefix": "times",
+        "body": [
+            "| times:$1"
+        ],
+        "description": "Multiplies a value by another"
+    },
+    "Divided By": {
+        "prefix": "divided_by",
+        "body": [
+            "| divided_by:$1"
+        ],
+        "description": "Divides a value by another"
+    },
+    "Capitalize": {
+        "prefix": "capitalize",
+        "body": [
+            "| capitalize"
+        ],
+        "description": "Capitalizes the first letter of a string."
+    },
+    "Prepend": {
+        "prefix": "prepend",
+        "body": [
+            "| prepend:$1"
+        ],
+        "description": "Prepends a value to a string."
+    },
+    "Strip": {
+        "prefix": "strip",
+        "body": [
+            "| strip"
+        ],
+        "description": "Removes leading and trailing whitespace from a string."
+    },
+    "String Value": {
+        "prefix": "string_value",
+        "body": [
+            "| string_value"
+        ],
+        "description": "Forces a value to be treated as a string."
+    },
+    "URL Encode": {
+        "prefix": "url_encode",
+        "body": [
+            "| url_encode"
+        ],
+        "description": "Encodes a string for use in a URL."
+    },
+    "URL Decode": {
+        "prefix": "url_decode",
+        "body": [
+            "| url_decode"
+        ],
+        "description": "Decodes a URL-encoded string."
+    },
+    "Strip HTML": {
+        "prefix": "strip_html",
+        "body": [
+            "| strip_html"
+        ],
+        "description": "Removes HTML tags from a string."
+    },
+    "MD5": {
+        "prefix": "md5",
+        "body": [
+            "| md5"
+        ],
+        "description": "Generates an MD5 hash of a string."
+    },
+    "Transliterate": {
+        "prefix": "transliterate",
+        "body": [
+            "| transliterate"
+        ],
+        "description": "Converts special characters to their plain-text equivalents."
+    },
+    "Allow False": {
+        "prefix": "allow_false",
+        "body": [
+            "| allow_false"
+        ],
+        "description": "Forces a value to be treated as `false` if it is explicitly `false` or `nil`."
+    },
+    "Newline to BR": {
+        "prefix": "newline_to_br",
+        "body": [
+            "| newline_to_br"
+        ],
+        "description": "Converts newline characters (`\\n`) in a string to HTML `<br>` tags."
+    },
+    "Slice": {
+        "prefix": "slice",
+        "body": [
+            "| slice:$1"
+        ],
+        "description": "Extracts a substring from a string, starting at the specified index and optionally with a specified length."
+    },
+    "Size": {
+        "prefix": "size",
+        "body": [
+            "| size"
+        ],
+        "description": "Returns the size (length) of a string or array."
+    },
+    "Default": {
+        "prefix": "default",
+        "body": [
+            "| default:$1"
+        ],
+        "description": "Sets a default value if the variable is nil, false, or empty."
+    },
+    "Abs": {
+        "prefix": "abs",
+        "body": [
+            "| abs"
+        ],
+        "description": "Returns the absolute value of a number."
+    },
+    "Ceil": {
+        "prefix": "ceil",
+        "body": [
+            "| ceil"
+        ],
+        "description": "Rounds a number up to the nearest whole number."
+    },
+    "Floor": {
+        "prefix": "floor",
+        "body": [
+            "| floor"
+        ],
+        "description": "Rounds a number down to the nearest whole number."
+    },
+    "Round": {
+        "prefix": "round",
+        "body": [
+            "| round:$1"
+        ],
+        "description": "Rounds a number to the nearest whole number or to a specified number of decimal places."
+    },
+    "Modulo": {
+        "prefix": "modulo",
+        "body": [
+            "| modulo:$1"
+        ],
+        "description": "Returns the remainder of a division operation."
+    },
+    "Max": {
+        "prefix": "max",
+        "body": [
+            "| max:$1"
+        ],
+        "description": "Returns the greater of the input value and the specified number."
+    },
+    "Min": {
+        "prefix": "min",
+        "body": [
+            "| min:$1"
+        ],
+        "description": "Returns the lesser of the input value and the specified number."
+    },
+    "At Least": {
+        "prefix": "at_least",
+        "body": [
+            "| at_least:$1"
+        ],
+        "description": "Ensures a number is at least a specified value."
+    },
+    "At Most": {
+        "prefix": "at_most",
+        "body": [
+            "| at_most:$1"
+        ],
+        "description": "Ensures a number is at most a specified value."
+    },
+    "Currency": {
+        "prefix": "currency",
+        "body": [
+            "| currency:$1"
+        ],
+        "description": "Formats a number as currency with a specified number of decimals."
+    },
+    "Currency Invert": {
+        "prefix": "currencyinvert",
+        "body": [
+            "| currency:$1, invert"
+        ],
+        "description": "Formats a number as currency with a specified number of decimals and inverts it."
+    },
+    "Invert": {
+        "prefix": "invert",
+        "body": [
+            "| invert"
+        ],
+        "description": "Inverts the sign of a number (used with `currency`)."
+    },
+    "Integer": {
+        "prefix": "integer",
+        "body": [
+            "| integer"
+        ],
+        "description": "Formats a number as an integer."
+    },
+    "Percentage": {
+        "prefix": "percentage",
+        "body": [
+            "| percentage"
+        ],
+        "description": "Formats a number as a percentage."
+    },
+    "Number to Human": {
+        "prefix": "number_to_human",
+        "body": [
+            "| number_to_human"
+        ],
+        "description": "Formats a number in a human-readable format."
+    },
+    "Number to Currency": {
+        "prefix": "number_to_currency",
+        "body": [
+            "| number_to_currency"
+        ],
+        "description": "Formats a number as currency."
+    },
+    "Concat": {
+        "prefix": "concat",
+        "body": [
+            "| concat:$1"
+        ],
+        "description": "Concatenates two arrays."
+    },
+    "Sort": {
+        "prefix": "sort",
+        "body": [
+            "| sort"
+        ],
+        "description": "Sorts the elements of an array in ascending order."
+    },
+    "Uniq": {
+        "prefix": "uniq",
+        "body": [
+            "| uniq"
+        ],
+        "description": "Removes duplicate elements from an array."
+    },
+    "Reverse": {
+        "prefix": "reverse",
+        "body": [
+            "| reverse"
+        ],
+        "description": "Reverses the order of elements in an array."
+    },
+    "First": {
+        "prefix": "first",
+        "body": [
+            "| first"
+        ],
+        "description": "Returns the first element of an array."
+    },
+    "Last": {
+        "prefix": "last",
+        "body": [
+            "| last"
+        ],
+        "description": "Returns the last element of an array."
+    },
+    "Map": {
+        "prefix": "map",
+        "body": [
+            "| map:$1"
+        ],
+        "description": "Creates an array by extracting a property from each element in a collection."
+    },
+    "Range": {
+        "prefix": "range",
+        "body": [
+            "| range:$1"
+        ],
+        "description": "Filters a collection to a specified range."
+    },
+    "Group By": {
+        "prefix": "group_by",
+        "body": [
+            "| group_by:$1"
+        ],
+        "description": "Groups a collection by a specified property."
+    },
+    "Index By": {
+        "prefix": "index_by",
+        "body": [
+            "| index_by:$1"
+        ],
+        "description": "Indexes a collection by a specified property."
+    },
+    "Where": {
+        "prefix": "where",
+        "body": [
+            "| where:'$1','$2'"
+        ],
+        "description": "Filters a collection by a condition."
+    },
+    "Analytical Code": {
+        "prefix": "analytical_code",
+        "body": [
+            "| analytical_code:$1"
+        ],
+        "description": "Filters a collection of accounts by the specified dimension/company code."
+    },
+    "Add Rounding Difference": {
+        "prefix": "add_rounding_difference",
+        "body": [
+            "| add_rounding_difference"
+        ],
+        "description": "Shows the rounding difference of a collection of accounts to ensure totals match."
+    },
+    "Advance Years": {
+        "prefix": "advance_years",
+        "body": [
+            "| advance_years:$1"
+        ],
+        "description": "Advances a date by a specified number of years."
+    },
+    "Retract Years": {
+        "prefix": "retract_years",
+        "body": [
+            "| retract_years:$1"
+        ],
+        "description": "Retracts a date by a specified number of years."
+    },
+    "Advance Months": {
+        "prefix": "advance_months",
+        "body": [
+            "| advance_months:$1"
+        ],
+        "description": "Advances a date by a specified number of months."
+    },
+    "Retract Months": {
+        "prefix": "retract_months",
+        "body": [
+            "| retract_months:$1"
+        ],
+        "description": "Retracts a date by a specified number of months."
+    },
+    "Advance Weeks": {
+        "prefix": "advance_weeks",
+        "body": [
+            "| advance_weeks:$1"
+        ],
+        "description": "Advances a date by a specified number of weeks."
+    },
+    "Retract Weeks": {
+        "prefix": "retract_weeks",
+        "body": [
+            "| retract_weeks:$1"
+        ],
+        "description": "Retracts a date by a specified number of weeks."
+    },
+    "Advance Days": {
+        "prefix": "advance_days",
+        "body": [
+            "| advance_days:$1"
+        ],
+        "description": "Advances a date by a specified number of days."
+    },
+    "Retract Days": {
+        "prefix": "retract_days",
+        "body": [
+            "| retract_days:$1"
+        ],
+        "description": "Retracts a date by a specified number of days."
+    },
+    "Advance Hours": {
+        "prefix": "advance_hours",
+        "body": [
+            "| advance_hours:$1"
+        ],
+        "description": "Advances a date by a specified number of hours."
+    },
+    "Retract Hours": {
+        "prefix": "retract_hours",
+        "body": [
+            "| retract_hours:$1"
+        ],
+        "description": "Retracts a date by a specified number of hours."
+    },
+    "Advance Minutes": {
+        "prefix": "advance_minutes",
+        "body": [
+            "| advance_minutes:$1"
+        ],
+        "description": "Advances a date by a specified number of minutes."
+    },
+    "Retract Minutes": {
+        "prefix": "retract_minutes",
+        "body": [
+            "| retract_minutes:$1"
+        ],
+        "description": "Retracts a date by a specified number of minutes."
+    },
+    "Advance Seconds": {
+        "prefix": "advance_seconds",
+        "body": [
+            "| advance_seconds:$1"
+        ],
+        "description": "Advances a date by a specified number of seconds."
+    },
+    "Retract Seconds": {
+        "prefix": "retract_seconds",
+        "body": [
+            "| retract_seconds:$1"
+        ],
+        "description": "Retracts a date by a specified number of seconds."
+    },
+    "Localized Date": {
+        "prefix": "localized_date",
+        "body": [
+            "| localized_date:$1"
+        ],
+        "description": "Formats a date using a localized format."
+    },
+    "Today": {
+        "prefix": "today",
+        "body": [
+            "{{ 'today' | date:'${1:%d/%m/%Y}' }}"
+        ],
+        "description": "Displays today's date with a default format of %d/%m/%Y."
+    },
+    "Now": {
+        "prefix": "now",
+        "body": [
+            "{{ 'now' | date:'${1:%d/%m/%Y}' }}"
+        ],
+        "description": "Displays the current date and time with a default format of %d/%m/%Y."
+    }
+}
