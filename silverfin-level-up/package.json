@@ -3,7 +3,7 @@
   "displayName": "Silverfin: Level-Up",
   "description": "Silverfin: Level-Up is a Visual Studio Code extension that enhances the development experience for Silverfin `.liquid` templates. It provides syntax highlighting, auto-closing tags, snippets, hover documentation, and more.",
   "version": "0.1.0",
-  "publisher": "ahooghe",
+  "publisher": "AnthonyHooghe",
   "engines": {
     "vscode": "^1.50.0"
   },
