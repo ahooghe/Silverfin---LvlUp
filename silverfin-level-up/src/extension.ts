@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
         provideHover(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken) {
             const lineText = document.lineAt(position.line).text;
         
-            const range = document.getWordRangeAtPosition(position, /[\w:]+/);
+            const range = document.getWordRangeAtPosition(position, /[\w:.]+/);
             const word = range ? document.getText(range) : '';
         
             let entry = silverfinDictionary[word];
@@ -30,16 +30,16 @@ export function activate(context: vscode.ExtensionContext) {
                 let hoverText = entry.description;
         
                 if (entry.example) {
-                    hoverText += `\n\n**Example:**\n${entry.example.replace(/`/g, '\\`')}`;
+                    hoverText += `\n\n**Example:**\n\n${entry.example.replace(/\n/g, '\n\n').replace(/`/g, '\\`')}`;
                 }
         
                 if (entry.attributes) {
                     hoverText += `\n\n**Attributes:**`;
                     for (const [attr, attrDesc] of Object.entries(entry.attributes)) {
                         if (typeof attrDesc === 'string') {
-                            hoverText += `\n- **${attr}**: ${attrDesc}`;
+                            hoverText += `\n- **${attr}**: ${attrDesc.replace(/\n/g, '\n\n')}`;
                         } else if (typeof attrDesc === 'object' && attrDesc.description) {
-                            hoverText += `\n- **${attr}**: ${attrDesc.description}`;
+                            hoverText += `\n- **${attr}**: ${attrDesc.description.replace(/\n/g, '\n\n')}`;
                             if (attrDesc.options) {
                                 hoverText += `\n  - **Options for ${attr}:**`;
                                 for (const [option, optionDesc] of Object.entries(attrDesc.options)) {
