@@ -491,6 +491,165 @@ export const silverfinDictionary: {
         "example": `INT(-23,5555) \n\n**Output:**\n-23`
     },
 
-    
-
+    "unreconciled": {
+        "description": "The `unreconciled` tag is used to indicate whether a template (account or reconciliation template) is reconciled. It evaluates a formula and determines if the result is zero (reconciled) or non-zero (unreconciled).",
+        "example": `{% assign income_accounts_total = period.accounts | range:"70" %}\n{% unreconciled -income_accounts_total-table_total %}`,
+        "attributes": {
+            "as": "Displays the reconciliation status as an indicator. Use `as:indicator` to show a green dot (reconciled) or a red triangle (unreconciled).",
+            "unreconciled_text": "Adds a string of text to explain the difference when the indicator is unreconciled.\n\nExample:\n{% unreconciled -income_accounts_total-table_total as:indicator unreconciled_text:'Difference explanation' %}"
+        }
+    },
+    "result": {
+        "description": "The `result` tag is used to reference values across templates. It allows you to store a value in one template and access it in another.",
+        "example": `{% result "tax_calculation" $1 %}`,
+        "attributes": {
+            "usage": "Defines a result with a unique name and content. Example:\n{% result \"name\" content %}",
+            "loop_usage": "Result tags can be used in loops. To ensure proper functionality, remove quotes around the name in each iteration. Example:\n{% result name content %}",
+            "accessing_results": "Access a result from another template using its handle. Example:\n{{ period.reconciliations.template_a.results.tax_calculation }}"
+        }
+    },
+    "rollforward": {
+        "description": "The `rollforward` tag is used to copy data from one period to another. It allows transferring values between database variables across periods.",
+        "example": `{% rollforward custom.depreciation.passed+custom.depreciation.current custom.depreciation.passed %}\n{% rollforward nil custom.depreciation.current %}`,
+        "attributes": {
+            "rollforward.period": "Allows checking the period to which data is being copied. Useful for conditional rollforward operations.\n\nExample:\n{% assign rollforward_to_year = rollforward.period.year_end_date | date:\"%Y\" %}\n{% assign rollforward_from_year = period.year_end_date | date:\"%Y\" %}\n\n{% if rollforward_to_year > rollforward_from_year %}\n  {% rollforward custom.depreciation.current_year custom.depreciation.previous_year %}\n  {% rollforward nil custom.depreciation.current_year %}\n{% endif %}",
+            "as:file": "Used for inputs containing files. Ensures files are copied, removed, or replaced correctly during rollforward operations.\n\nExample:\n{% rollforward nil custom.invoice.pdf_1 as:file %}\n{% rollforward custom.invoice.pdf_1 custom.invoices.last_year as:file %}"
+        }
+    },
+    "locale": {
+        "description": "The `locale` tag forces the content of a template to follow a specific language, overriding the user's chosen language. It also influences currency formatting within the locale tags.",
+        "example": `{% t="Hello" nl:"Hallo" fr:"Bonjour" %}\n\n{% locale "nl" %}\n  {% t "Hello" %}\n{% endlocale %}\n\n**Output:**\nHallo`,
+        "attributes": {
+            "currency_formatting": "The `locale` tag also affects currency formatting. Example:\n\n{% locale \"nl\" %}\n  {{ 6000000 | currency }}\n{% endlocale %}\n\n{% locale \"en\" %}\n  {{ 6000000 | currency }}\n{% endlocale %}\n\n**Output:**\n6.000.000,00\n6,000,000.00"
+        }
+    },
+    "include": {
+        "description": "The `include` tag allows you to access and execute code stored in parts or shared parts. It helps organize and reuse code across templates.",
+        "example": `{% include "parts/name_of_a_part" %}`,
+        "attributes": {
+            "parts": "Parts are sections of code stored within a template. The main part is always loaded first, while additional parts are loaded only when called using the `include` tag.",
+            "shared_parts": "Shared parts are reusable code snippets that can be used across multiple templates. They must be activated in your firm and are executed within the template where they are included.\n\nExample:\n{% include \"shared/general_translations\" %}\n{{ trademarks_t }}",
+            "parameters": "You can pass parameters or variables to included parts or shared parts for modular and reusable code.\n\nExample:\n{% assign var_a = 4 %}\n{% assign var_b = 5 %}\n{% include 'parts/sum' a:var_a b:var_b %}\n\nCode in part 'sum':\n{% assign sum = a+b %}\n\n**Output:**\n9"
+        }
+    },
+    "linkto": {
+        "description": "The `linkto` tag creates a link that lets you jump to another template, section, or external URL.",
+        "example": `{% linkto period.reconciliations.benefit_in_kind %}\n  link to template benefit in kind\n{% endlinkto %}`,
+        "attributes": {
+            "target": "Defines a specific section in the target template to jump to.\n\nExample:\n{% linkto period.reconciliations.benefit_in_kind target:\"Additional_explanation\" %}\n  link to additional explanation of benefit in kind\n{% endlinkto %}\n\nIn the target template:\n{::target id=\"Additional_explanation\"}Additional explanation{:/target}",
+            "account": "Creates a link to a specific account.\n\nExample:\n{% linkto period.accounts.100008.first %}Link to account{% endlinkto %}",
+            "external_link": "Creates a link to an external URL. Use `http://` or `https://`.\n\nExample:\n{% linkto \"https://www.silverfin.com\" %}Silverfin{% endlinkto %}",
+            "as:button": "Turns the link into a clickable button.\n\nExample:\n{% linkto \"https://developer.silverfin.com/docs/content\" as:button %}Developer Site{% endlinkto %}",
+            "new_tab": "Opens the link in a new browser tab. Must be set to `true`.\n\nExample:\n{% linkto \"https://developer.silverfin.com/docs/content\" new_tab:true %}Developer's site{% endlinkto %}"
+        }
+    },
+    "adjustmentbutton": {
+        "description": "The `adjustmentbutton` tag is used to create a button that automatically makes an adjustment, filled with values taken from Liquid logic.",
+        "example": `{% adjustmentbutton text:"create new adjustment" category:"internal" %}\n{% adjustmenttransaction account_number:"100000" description:"Some description" value:1000.23 %}\n{% adjustmenttransaction account_number:"120000" description:"Some other description" value:-1000.23 %}\n{% endadjustmentbutton %}`,
+        "attributes": {
+            "purpose": "Allows creating an adjustment that belongs to a unique purpose. Example:\n\n{% assign selected_accounts = custom.accounts.counter | prepend:\"selected_accounts_for:\" %}\n{% adjustmentbutton text:adj_txt purpose:selected_accounts %}",
+            "analytical_dimension_1_id": "Specifies an analytical dimension or consolidation file for the adjustment. Example:\n\n{% adjustmentbutton text:\"create new adjustment\" category:\"internal\" %}\n{% adjustmenttransaction account_number:\"100000\" description:\"Some description\" value:1000.23 analytical_dimension_1_id:company.analytical_type_1_codes[0].code %}\n{% adjustmenttransaction account_number:\"120000\" description:\"Some other description\" value:-1000.23 analytical_dimension_1_id:company.analytical_type_1_codes[1].code %}\n{% endadjustmentbutton %}"
+        }
+    },
+    "group": {
+        "description": "The `group` tag is used to group certain parts of the text in the Silverfin templating language, ensuring that they remain on the same page in export view.",
+        "example": `{% nic %}\n{::group}\nContent to group\n{:/group}\n{% endnic %}`,
+        "attributes": {
+            "usage_in_text_templates": "For text templates, open and close the `group` tag to group content.\n\nExample:\n{% nic %}\n{::group}\nTitle and paragraph\n{:/group}\n{% endnic %}",
+            "usage_in_accounts_and_reconciliation_templates": "For accounts and reconciliation templates, close the `group` tag first, then open it again.\n\nExample:\n{% nic %}\n{:/group}\n{::group}\nContent to group\n{% endnic %}",
+            "restrictions": "The `group` tags cannot be used within `stripnewlines`."
+        }
+    },
+    "addnewinputs": {
+        "description": "The `addnewinputs` tag is used to sort your custom collection in Silverfin templating language.",
+        "example": `{% addnewinputs %}\n  {% assign investments = custom.investments_office_material | sort:\"investment_date\" %}\n{% endaddnewinputs %}\n\n{% stripnewlines %}\n{% fori acc in investments %}\n  {% if forloop.first %}\n| Date\n| Description\n| Value\n{% newline %}\n|----15%----\n|----60%----\n|----------:+\n  {% endif %}\n{% newline %}  \n| {% input acc.investment_date as:date %}\n| {% input acc.descr as:text size:mini placeholder:\"Description\" %}\n| {% input acc.value as:currency %}\n{% endfori %}\n{% endstripnewlines %}`
+    },
+    "signmarker": {
+        "description": "The `signmarker` tag is used to integrate with third-party digital signing services, allowing documents to be signed digitally.",
+        "example": `{% signmarker name:"Steve" %}\n\n{% signmarker name:auditor_name email:auditor_email role:auditor_role %}`,
+        "attributes": {
+            "name": "Specifies the name of the signer.",
+            "email": "Specifies the email address of the signer.",
+            "phone": "Specifies the phone number of the signer.",
+            "role": "Specifies the role of the signer (e.g., auditor, manager).",
+            "on_behalf_of": "Specifies if the signer is signing on behalf of someone else."
+        }
+    },
+    "push": {
+        "description": "The `push` tag adds an item to an array in Silverfin templates. By default, it appends the item to the end of the array (LIFO logic).",
+        "example": `{% push "Land" to:asset_categories_array %}`,
+        "attributes": {
+            "to": "Specifies the array to which the item will be added.",
+            "at:beginning": "Overrides the default LIFO behavior and inserts the item at the beginning of the array.\n\nExample:\n{% push \"Land\" to:asset_categories_array at:beginning %}"
+        }
+    },
+    "pop": {
+        "description": "The `pop` tag removes the last item from an array and optionally stores it in a variable. By default, it removes the last item (LIFO logic).",
+        "example": `{% pop asset_categories_array to:new_assets_categories_array %}`,
+        "attributes": {
+            "to": "Specifies the variable where the removed item will be stored.",
+            "at:beginning": "Overrides the default LIFO behavior and removes the first item from the array.\n\nExample:\n{% pop asset_categories_array to:new_assets_categories_array at:beginning %}"
+        }
+    },
+    "changeorientation": {
+        "description": "The `changeorientation` tag allows you to change the orientation of the page in PDF exports.",
+        "example": `{% changeorientation "landscape" %}\n\n{% changeorientation "portrait" %}`,
+        "attributes": {
+            "orientation": "Specifies the orientation of the page. Options are:\n- **landscape**\n- **portrait**"
+        }
+    },
+    "currencyconfiguration": {
+        "description": "The `currencyconfiguration` tag is used to configure the formatting of the `currency` filter within a template, overriding firm/locale-level settings.",
+        "example": `{% currencyconfiguration negative_format:"-xxx" zero_format:"0" precision:3 delimiter:" " separator:"," %}\n  {% input custom.some.variable as:currency %} : {{ custom.some.variable | currency }}\n  {% input custom.some.variable as:currency precision:1 %} : {{ custom.some.variable | currency:5 }}\n{% endcurrencyconfiguration %}`,
+        "attributes": {
+            "zero_format": "Defines how zero values are displayed. Options: `0`, `-`.",
+            "negative_format": "Defines how negative values are displayed. Options: `-xxx`, `(xxx)`.",
+            "precision": "Specifies the number of decimal places. Any whole number is allowed.",
+            "delimiter": "Defines the thousands delimiter. Options: `,`, `.`, `''` (no space), `' '` (space).",
+            "separator": "Defines the decimal separator. Options: `,`, `.`."
+        }
+    },
+    "newpage": {
+        "description": "The `newpage` tag generates page breaks in PDF exports. It is ignored in input and preview screens.",
+        "example": `{% newpage %}\n\n{% newpage 'landscape' %}\n\n{% newpage section_break:true %}`,
+        "attributes": {
+            "preferred_orientation": "Defines the page orientation for the new page. Options are:\n- **landscape**\n- **portrait**.\n\nExample:\n{% newpage 'landscape' %}",
+            "section_break": "Adds a visual split between pages in input mode without creating new pages in the PDF export.\n\nExample:\n{% newpage section_break:true %}"
+        }
+    },
+    "radiogroup": {
+        "description": "The `radiogroup` tag allows you to create radio buttons in Silverfin templates. It is used to present multiple options where only one can be selected.",
+        "example": `What's your favorite music genre?\n{% radiogroup custom.music.fav_genre default:"pop" %}\n  {% radioinput label:"Folk" value:"folk" %}\n  {% radioinput label:"Jazz" value:"jazz" %}\n  {% radioinput label:"Pop" value:"pop" %}\n  {% radioinput label:"Metal" value:"metal" %}\n{% endradiogroup %}`,
+        "attributes": {
+            "required": "Makes the radiogroup mandatory. The user must select an option before proceeding.\n\nExample:\n{% radiogroup custom.music.bts_famous required:true %}\n  {% radioinput label:\"Yes\" value:\"yes\" %}\n  {% radioinput label:\"No\" value:\"no\" %}\n{% endradiogroup %}",
+            "default": "Sets a default value for the radiogroup. The default value is visually selected but not stored in the database unless the user confirms it.\n\nExample:\n{% radiogroup custom.music.fav_genre default:\"pop\" %}\n  {% radioinput label:\"Pop\" value:\"pop\" %}\n{% endradiogroup %}",
+            "import_title": "Adds a title to distinguish between multiple radiogroups when importing data."
+        }
+    },
+    "radioinput": {
+        "description": "The `radioinput` tag defines individual radio buttons within a `radiogroup`. Each `radioinput` must have a unique value within the same group.",
+        "example": `What's your favorite instrument?\n{% radiogroup custom.music.instrument default:"other" %}\n  {% radioinput label:"Piano" value:"piano" %}\n  {% radioinput value:"guitar" %}\n  {% radioinput value:"other" %}\n{% endradiogroup %}`,
+        "attributes": {
+            "label": "Defines the text displayed next to the radio button. If no label is provided, the value will be displayed instead.\n\nExample:\n{% radioinput label:\"Piano\" value:\"piano\" %}",
+            "value": "Specifies the value stored in the template when the radio button is selected. Values must be unique within the same `radiogroup`.\n\nExample:\n{% radioinput value:\"guitar\" %}"
+        }
+    },
+    "input_validation": {
+        "description": "The `input_validation` tag allows you to validate data entered into inputs, ensuring it meets specific criteria without requiring additional checks.",
+        "example": `# Positive numeric validation\n{% input_validation 'validation_positive_values' as:numeric min:0 %}\n\n# Date range validation\n{% input_validation 'date_validation' start_date:"2022-01-01" end_date:"2022-12-31" %}`,
+        "attributes": {
+            "as": "Specifies the type of validation. Options include:\n- **numeric**: For numeric inputs (e.g., integers, currency).\n- **date**: For date inputs.\n\nExample:\n{% input_validation 'numeric_validation' as:numeric max:10 min:0 %}",
+            "min": "Defines the minimum value for numeric inputs.\n\nExample:\n{% input_validation 'validation_positive_values' as:numeric min:0 %}",
+            "max": "Defines the maximum value for numeric inputs.\n\nExample:\n{% input_validation 'numeric_validation' as:numeric max:10 %}",
+            "start_date": "Specifies the earliest allowed date for date inputs.\n\nExample:\n{% input_validation 'date_validation' start_date:\"2022-01-01\" %}",
+            "end_date": "Specifies the latest allowed date for date inputs.\n\nExample:\n{% input_validation 'date_validation' end_date:\"2022-12-31\" %}"
+        }
+    },
+    "validation": {
+        "description": "The `validation` attribute is used in input tags to apply a predefined input validation.",
+        "example": `{% input custom.depreciation.value as:currency placeholder:0 validation:validation_positive_values %}`,
+        "attributes": {
+            "validation_name": "References the name of the predefined input validation to apply.\n\nExample:\n{% input custom.depreciation.value as:currency validation:validation_positive_values %}"
+        }
+    }
 };
