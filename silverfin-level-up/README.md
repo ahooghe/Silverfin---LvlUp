@@ -7,8 +7,9 @@ Welcome to **Silverfin: Level-Up**, a Visual Studio Code extension designed to e
 ### 1. **Syntax Highlighting**
 - Comprehensive syntax highlighting for Silverfin `.liquid` templates.
 - Supports all Silverfin-specific tags, filters, and constructs, including:
-  - `assign`, `capture`, `if`, `elsif`, `else`, `unless`, `for`, `fori`, `case`, `when`, `t`, and more.
-  - Filters like `upcase`, `downcase`, `replace`, `remove`, `append`, `prepend`, `date`, `currency`, and many others.
+  - Tags: `assign`, `capture`, `if`, `elsif`, `else`, `unless`, `for`, `fori`, `case`, `when`, `t`, `locale`, `comment`, `adjustmentbutton`, `currencyconfiguration`, and more.
+  - Filters: `upcase`, `downcase`, `replace`, `remove`, `append`, `prepend`, `date`, `currency`, `capitalize`, `size`, `strip`, `number_to_human`, `number_to_currency`, and many others.
+  - HTML tags: `<p>`, `<b>`, `<i>`, `<u>`, `<table>`, `<tr>`, `<td>`, `<th>`, `<a>`, `<h1>`, `<h2>`, and more.
 - Differentiated styling for HTML tags, attributes, and embedded Liquid variables.
 
 ### 2. **Hover Documentation**
@@ -17,24 +18,31 @@ Welcome to **Silverfin: Level-Up**, a Visual Studio Code extension designed to e
 
 ### 3. **Auto-Closing Tags**
 - Automatically closes Silverfin tags like `{% if %}`, `{% for %}`, `{% case %}`, and more.
-- Ensures proper nesting and reduces syntax errors.
+- Auto-closes basic constructs like `{%`, `{{`, `[`, `"`, `'`.
+- Auto-closes HTML tags like `<p>`, `<b>`, `<i>`, `<u>`, `<table>`, `<tr>`, `<td>`, `<th>`, `<a>`, `<h1>`, `<h2>`, and more.
 
-### 4. **Auto-Padding**
-- Automatically adds proper indentation for nested tags and blocks.
-- Improves readability and maintains consistent formatting.
-
-### 5. **Snippets**
+### 4. **Snippets**
 - Predefined snippets for common Silverfin constructs:
-  - `assign`, `input`, `if`, `for`, `fori`, `case`, `capture`, `locale`, and more.
+  - Tags: `assign`, `input`, `if`, `for`, `fori`, `case`, `capture`, `locale`, `comment`, `adjustmentbutton`, `currencyconfiguration`, `radiogroup`, and more.
+  - Filters: `upcase`, `downcase`, `replace`, `remove`, `append`, `prepend`, `date`, `currency`, `capitalize`, `size`, `strip`, `number_to_human`, `number_to_currency`, and others.
+  - HTML tags: `<p>`, `<b>`, `<i>`, `<u>`, `<table>`, `<tr>`, `<td>`, `<th>`, `<a>`, `<h1>`, `<h2>`, and more.
 - Quickly insert boilerplate code with placeholders for customization.
 
-### 6. **Semantic Tokens**
+### 5. **Semantic Tokens**
 - Enhanced semantic highlighting for specific keywords like `assign`, `forloop`, and `filters`.
 - Differentiates between types, declarations, and variables for better readability.
 
-### 7. **Customizable Theme**
+### 6. **Customizable Theme**
 - Comes with the **Silverfin Theme**, a dark theme tailored for Silverfin development.
 - Highlights HTML tags, attributes, and Liquid constructs with distinct colors for improved clarity.
+
+### 7. **HTML Support**
+- Auto-closing and snippets for common HTML tags like `<p>`, `<b>`, `<i>`, `<u>`, `<table>`, `<tr>`, `<td>`, `<th>`, `<a>`, `<h1>`, `<h2>`, and more.
+- Syntax highlighting for embedded HTML within `.liquid` files.
+
+### 8. **Auto-Padding**
+- Automatically adds proper indentation for nested tags and blocks.
+- Improves readability and maintains consistent formatting.
 
 ## Installation
 
@@ -63,6 +71,8 @@ Welcome to **Silverfin: Level-Up**, a Visual Studio Code extension designed to e
 ## Usage
 
 - Open any `.liquid` file to see the syntax highlighting in action.
+- Use snippets to quickly insert common Silverfin constructs and HTML tags.
+- Hover over tags, filters, and attributes to see detailed documentation.
 
 ## Contributing
 
