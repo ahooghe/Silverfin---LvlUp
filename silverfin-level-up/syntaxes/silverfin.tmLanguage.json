@@ -166,11 +166,11 @@
         },
         {
           "name": "keyword.control.flow.silverfin",
-          "match": "\\b(if|else|elsif|ifi|for|fori|in|case|when|unless|endif|endifi|endfor|endfori|endunless|endcase)\\b"
+          "match": "\\b(if|else|elsif|ifi|for|fori|in|case|when|unless|endif|endifi|endfor|endfori|endunless|endcase|adjustmentbutton|endadjustmentbutton)\\b"
         },
         {
           "name": "keyword.control.assignment.silverfin",
-          "match": "(?<=\\{%(\\s*)?)\\b(assign|capture|endcapture|input|t)\\b"
+          "match": "(?<=\\{%(\\s*)?)\\b(assign|capture|endcapture|input|t|adjustmenttransaction)\\b"
         },
         {
           "name": "keyword.control.utility.silverfin",
