@@ -232,6 +232,24 @@
         "foreground": "#61AFEF",
         "fontStyle": "underline"
       }
+    },
+    {
+      "scope": "entity.name.tag.silverfin",
+      "settings": {
+        "foreground": "#569CD6"
+      }
+    },
+    {
+      "scope": "entity.other.attribute-name.silverfin",
+      "settings": {
+        "foreground": "#9CDCFE"
+      }
+    },
+    {
+      "scope": "punctuation.definition.tag.silverfin",
+      "settings": {
+        "foreground": "#E5C07B"
+      }
     }
   ]
 }

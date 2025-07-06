@@ -19,6 +19,87 @@
       ]
     },
     {
+      "name": "meta.html.silverfin",
+      "begin": "<\\/?[a-zA-Z][a-zA-Z0-9]*",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.tag.silverfin" }
+      },
+      "end": ">",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.tag.silverfin" }
+      },
+      "patterns": [
+        {
+          "name": "entity.name.tag.silverfin",
+          "match": "[a-zA-Z][a-zA-Z0-9]*"
+        },
+        {
+          "name": "entity.other.attribute-name.silverfin",
+          "match": "\\b[a-zA-Z-]+(?=\\=)"
+        },
+        {
+          "name": "string.quoted.double.silverfin",
+          "begin": "\"",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.string.begin.silverfin" }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.string.end.silverfin" }
+          },
+          "patterns": [
+            {
+              "name": "meta.output.silverfin",
+              "begin": "{{",
+              "beginCaptures": {
+                "0": { "name": "punctuation.output.start.silverfin" }
+              },
+              "end": "}}",
+              "endCaptures": {
+                "0": { "name": "punctuation.output.end.silverfin" }
+              },
+              "patterns": [
+                {
+                  "name": "variable.other.silverfin",
+                  "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*|\\d+[.,]?\\d*)\\b"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.silverfin",
+          "begin": "'",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.string.begin.silverfin" }
+          },
+          "end": "'",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.string.end.silverfin" }
+          },
+          "patterns": [
+            {
+              "name": "meta.output.silverfin",
+              "begin": "{{",
+              "beginCaptures": {
+                "0": { "name": "punctuation.output.start.silverfin" }
+              },
+              "end": "}}",
+              "endCaptures": {
+                "0": { "name": "punctuation.output.end.silverfin" }
+              },
+              "patterns": [
+                {
+                  "name": "variable.other.silverfin",
+                  "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*|\\d+[.,]?\\d*)\\b"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "meta.block.silverfin",
       "begin": "{%",
       "beginCaptures": {
@@ -96,7 +177,7 @@
         },
         {
           "name": "keyword.control.utility.silverfin",
-          "match": "(?<=\\{%(\\s*)?)\\b(stripnewlines|newline|endstripnewlines|result|rollforward|locale|endlocale)\\b"
+          "match": "(?<=\\{%(\\s*)?)\\b(stripnewlines|newline|endstripnewlines|result|rollforward|locale|endlocale|currencyconfiguration|endcurrencyconfiguration|linkto|endlinkto)\\b"
         },
         {
           "name": "keyword.boolean.silverfin",
