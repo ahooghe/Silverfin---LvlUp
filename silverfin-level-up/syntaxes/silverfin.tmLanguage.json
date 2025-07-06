@@ -166,7 +166,7 @@
         },
         {
           "name": "keyword.control.flow.silverfin",
-          "match": "\\b(if|else|elsif|ifi|for|in|case|when|unless|endif|endifi|endunless|endcase)\\b"
+          "match": "\\b(if|else|elsif|ifi|for|fori|in|case|when|unless|endif|endifi|endfor|endfori|endunless|endcase)\\b"
         },
         {
           "name": "keyword.control.assignment.silverfin",
