@@ -177,7 +177,7 @@
         },
         {
           "name": "keyword.control.utility.silverfin",
-          "match": "(?<=\\{%(\\s*)?)\\b(stripnewlines|newline|endstripnewlines|result|rollforward|locale|endlocale|currencyconfiguration|endcurrencyconfiguration|linkto|endlinkto)\\b"
+          "match": "(?<=\\{%(\\s*)?)\\b(stripnewlines|newline|endstripnewlines|result|rollforward|locale|endlocale|currencyconfiguration|endcurrencyconfiguration|linkto|endlinkto|unreconciled|push|pop)\\b"
         },
         {
           "name": "keyword.boolean.silverfin",
