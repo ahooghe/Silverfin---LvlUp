@@ -248,7 +248,13 @@
     {
       "scope": "punctuation.definition.tag.silverfin",
       "settings": {
-        "foreground": "#E5C07B"
+        "foreground": "#777777"
+      }
+    },
+    {
+      "scope": "entity.name.tag.silverfin",
+      "settings": {
+        "foreground": "#E5C07B" // Blue for tag names
       }
     }
   ]

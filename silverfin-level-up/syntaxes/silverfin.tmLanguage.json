@@ -20,19 +20,16 @@
     },
     {
       "name": "meta.html.silverfin",
-      "begin": "<\\/?[a-zA-Z][a-zA-Z0-9]*",
+      "begin": "(</?)([a-zA-Z][a-zA-Z0-9]*)",
       "beginCaptures": {
-        "0": { "name": "punctuation.definition.tag.silverfin" }
+        "1": { "name": "punctuation.definition.tag.silverfin" },
+        "2": { "name": "entity.name.tag.silverfin" }
       },
-      "end": ">",
+      "end": "(>)",
       "endCaptures": {
-        "0": { "name": "punctuation.definition.tag.silverfin" }
+        "1": { "name": "punctuation.definition.tag.silverfin" }
       },
       "patterns": [
-        {
-          "name": "entity.name.tag.silverfin",
-          "match": "[a-zA-Z][a-zA-Z0-9]*"
-        },
         {
           "name": "entity.other.attribute-name.silverfin",
           "match": "\\b[a-zA-Z-]+(?=\\=)"
