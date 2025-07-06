@@ -66,7 +66,7 @@ export const silverfinDictionary: {
     },
     "assign": {
         "description": "The `assign` tag is used to assign a value to a variable. Assigned values are stored as strings and can be manipulated using filters.",
-        "example": "{% assign profit = 100 %}\n{{ profit }}\n\n**Output:**\n100",
+        "example": "{% assign profit = 100 %}",
         "attributes": {
             "description": "Filters can be applied to modify or manipulate assigned values. Available filters include:",
             "string_filters": "remove, replace, upcase, downcase, capitalize, append, prepend, size, strip, string_value, url_encode, url_decode, strip_html, md5, transliterate, newline_to_br, slice, default, allow_false",
@@ -77,7 +77,7 @@ export const silverfinDictionary: {
     },
     "capture": {
         "description": "The `capture` tag captures the string inside the opening and closing tags and assigns it to a variable. Captured values are stored as strings.",
-        "example": "{% capture profit_sentence %}\n  Your profit is {{ profit }}.\n{% endcapture %}\n\n{{ profit_sentence }}\n\n**Output:**\nYour profit is 100."
+        "example": "{% capture profit_sentence %}\n  Your profit is {{ profit }}.\n{% endcapture %}"
     },
     "default": {
         "description": "Sets a default value if the variable is nil, false, or empty.",
@@ -194,7 +194,7 @@ export const silverfinDictionary: {
         "example": `{{ 9 | modulo:2 }}\n\n**Output:**\n1`
     },
     "currency": {
-        "description": "Formats a number as currency.",
+        "description": "Formats a number as currency. The amount of decimals can be specified with an optional argument (e.g., `currency:2` for two decimals). This can also be configured globally for a template with `currencyconfiguration`.",
         "example": `{{ 121590.31 | currency:2 }}\n\n**Output:**\n121,590.31`
     },
     "invert": {
@@ -386,10 +386,111 @@ export const silverfinDictionary: {
             }
         }
     },
-    "for": "Creates a loop over a collection. Example:\n`{% for item in collection %}...{% endfor %}`",
-    "if": "Creates a conditional block. Example:\n`{% if condition %}...{% endif %}`",
-    "case": "Creates a case statement with `when` and `else` conditions.",
-    "stripnewlines": "Removes newlines from the enclosed block.",
-    "comment": "Adds a comment block. Example:\n`{% comment %} This is a comment {% endcomment %}`",
-    "include": "Includes a file from a specified directory. Example:\n`{% include 'shared/filename' %}`"
+    "t": {
+        "description": "The `t` tag allows you to add translations to your templates, enabling content to be displayed in different languages. You can change the used language with locale tags to override the environment language.",
+        "example": `{% t= "expense" nl:"kost" fr:"les frais" en:"expense" %}`,
+        "attributes": {
+            "Use translations": "Use the `t` tag without equals sign (=) to print the translation.",
+            "Defaults": "If a translation is not specified for a language, the tag name acts as the default. You can override this with a `default` translation.",
+            "Variables": "Use variables in translations to make parts dynamic. \n**Example:**\n{% t= \"company_info\" en:\"The company {{ company_name }} is in {{ company_city }}\" %}\n{% t \"company_info\" | company_name:company.name company_city:company.city %}"
+        }
+    },
+    "elsif": {
+        "description": "The `elsif` statement is used with `if` to check another condition if the `if` condition is false.",
+        "example": `{% if profit > 0 %}\n  There's a profit this year.\n{% elsif profit < 0 %}\n  There's a loss this year.\n{% endif %}`
+    },
+    "if": {
+        "description": "The `if` statement checks whether a condition is true or false. If true, the code inside the `if` block is executed. Use `else` or `elsif` for additional conditions. Must be closed with `{% endif %}`.",
+        "example": `{% if profit > 0 %}\n  There's a profit this year.\n{% else %}\n  No profit this year.\n{% endif %}`
+    },
+    "ifi": {
+        "description": "The `ifi` statement acts as an `if` statement that is always true in input view and depends on the condition in export view. Use `else` or `elsif` for additional conditions. Must be closed with `{% endifi %}`.",
+        "example": `{% ifi supply_change != 0 %}\n  The supplies changed with {{ supply_change }}\n{% else %}\n  No supply change.\n{% endifi %}\n\n**Output (in input view):**\nThe supplies changed with 0.`
+    },
+    "unless": {
+        "description": "The `unless` statement executes code unless the condition is true. Use `else` for additional options. Must be closed with `{% endunless %}`.",
+        "example": `{% unless profit > 0 %}\n  There is a loss\n{% else %}\n  There is a profit\n{% endunless %}`
+    },
+    "case": {
+        "description": "The `case` statement compares a variable with multiple values. Use `when` for conditions and `else` for a fallback. Must be closed with `{% endcase %}`.",
+        "example": `{% case fiscal_year %}\n{% when 2018 %}\n  {% assign ratio = 0.23 %}\n{% else %}\n  {% assign ratio = 0.19 %}\n{% endcase %}`
+    },
+    "fori": {
+        "description": "The `fori` loop creates custom collections and iterates over them, often used for dynamic inputs. Must be closed with `{% endfori %}`.",
+        "example": `{% fori item in custom.the_namespace %}\n  {% input item.some_data %}\n{% endfori %}\n\n**Output:**\nInputs in a fori collection can be filled out using the 'Import reconciliation data' action.`,
+        "attributes": {
+            "import_title": "Adds a title to distinguish between multiple `fori` collections when importing data.",
+            "limit": "Limits the number of iterations in the `fori` loop.\n\nExample:\n{% fori item in custom.the_namespace limit:3 %}\n  {% input item.some_data %}\n{% endfori %}",
+            "offset": "Starts the `fori` loop at a specific index.\n\nExample:\n{% fori item in custom.the_namespace offset:2 %}\n  {% input item.some_data %}\n{% endfori %}",
+            "reversed": "Reverses the order of the `fori` loop.\n\nExample:\n{% fori item in custom.the_namespace reversed %}\n  {% input item.some_data %}\n{% endfori %}"
+        }
+    },
+    "for": {
+        "description": "The `for` loop iterates over collections, arrays, or ranges of numbers, executing code repeatedly for each item. Must be closed with `{% endfor %}`.",
+        "example": `{% for item in custom.the_namespace %}\n  {{ item.some_data }}\n{% endfor %}\n\n**Output:**\nPrints all variables in the custom collection.`,
+        "attributes": {
+            "range": "Defines a range of numbers to loop through.\n\nExample:\n{% for i in (1..5) %}\n  {{ i }}\n{% endfor %}\n\n**Output:**\n1\n2\n3\n4\n5",
+            "helper_variables": "Provides helper variables like `forloop.index`, `forloop.index0`, `forloop.rindex`, `forloop.length`, `forloop.first`, and `forloop.last`.",
+            "limit": "Limits the number of iterations in the loop.\n\nExample:\n{% for i in (1..10) limit:3 %}\n  {{ i }}\n{% endfor %}\n\n**Output:**\n1\n2\n3",
+            "offset": "Starts the loop at a specific index.\n\nExample:\n{% for i in (1..5) offset:2 %}\n  {{ i }}\n{% endfor %}\n\n**Output:**\n3\n4\n5",
+            "reversed": "Reverses the order of the loop.\n\nExample:\n{% for i in (1..5) reversed %}\n  {{ i }}\n{% endfor %}\n\n**Output:**\n5\n4\n3\n2\n1"
+        }
+    },
+    "forloop.index": {
+        "description": "Returns the current iteration index (1-based).",
+        "example": `{% for i in (1..3) %}\n  {{ forloop.index }}\n{% endfor %}\n\n**Output:**\n1\n2\n3`
+    },
+    "forloop.index0": {
+        "description": "Returns the current iteration index (0-based).",
+        "example": `{% for i in (1..3) %}\n  {{ forloop.index0 }}\n{% endfor %}\n\n**Output:**\n0\n1\n2`
+    },
+    "forloop.rindex": {
+        "description": "Returns the reverse index of the current iteration (1-based).",
+        "example": `{% for i in (1..3) %}\n  {{ forloop.rindex }}\n{% endfor %}\n\n**Output:**\n3\n2\n1`
+    },
+    "forloop.length": {
+        "description": "Returns the total number of iterations in the loop.",
+        "example": `{% for i in (1..3) %}\n  {{ forloop.length }}\n{% endfor %}\n\n**Output:**\n3\n3\n3`
+    },
+    "forloop.first": {
+        "description": "Returns `true` if the current iteration is the first.",
+        "example": `{% for i in (1..3) %}\n  {{ forloop.first }}\n{% endfor %}\n\n**Output:**\ntrue\nfalse\nfalse`
+    },
+    "forloop.last": {
+        "description": "Returns `true` if the current iteration is the last.",
+        "example": `{% for i in (1..3) %}\n  {{ forloop.last }}\n{% endfor %}\n\n**Output:**\nfalse\nfalse\ntrue`
+    },
+    "break": {
+        "description": "The `break` tag causes the loop to stop iterating when it encounters the `break` tag.",
+        "example": `{% assign numbers = "1;2;3;4;5" | split:";" %}\n\n{% for item in numbers %}\n  {{ item }}\n  {% if INT(item) > 2 %}\n    {% break %}\n  {% endif %}\n{% endfor %}\n\n**Output:**\n1\n2\n3`
+    },
+    "continue": {
+        "description": "The `continue` tag causes the loop to skip the current iteration when it encounters the `continue` tag.",
+        "example": `{% assign numbers = "1;2;3;4" | split:";" %}\n\n{% for item in numbers %}\n  {% if INT(item) == 2 %}\n    {% continue %}\n  {% else %}\n    {{ item }}\n  {% endif %}\n{% endfor %}\n\n**Output:**\n1\n3\n4`
+    },
+    "limit": {
+        "description": "The `limit` attribute allows you to exit the `for` loop at a specific index.",
+        "example": `{% input custom.numberOfMonths.perPeriod as:select options:"1|2|3|4|5|6|7|8|9|10|11|12" default:"12" %}\n{% assign numberOfMonths = custom.numberOfMonths.perPeriod | default:12 %}\n\n{% for month in period.month_end_dates limit:INT(numberOfMonths) %}\n  **_{{ month | date:'%m/%Y'}}_**\n{% endfor %}`
+    },
+    "offset": {
+        "description": "The `offset` attribute allows you to start the `for` loop at a specific index.",
+        "example": `{% assign numbers = "1;2;3;4;5" | split:";" %}\n\n{% for item in numbers offset:2 %}\n  {{ item }}\n{% endfor %}\n\n**Output:**\n3\n4\n5`
+    },
+    "reversed": {
+        "description": "The `reversed` attribute allows you to reverse the order of the loop.",
+        "example": `{% assign numbers = "1;2;3;4;5" | split:";" %}\n\n{% for item in numbers reversed %}\n  {{ item }}\n{% endfor %}\n\n**Output:**\n5\n4\n3\n2\n1`
+    },
+
+    
+    "ABS": {
+        "description": "Returns the absolute value of a number.",
+        "example": `ABS(-23) \n\n**Output:**\n23`
+    },
+    "INT": {
+        "description": "Returns the integer value of a number.",
+        "example": `INT(-23,5555) \n\n**Output:**\n-23`
+    },
+
+    
+
 };
