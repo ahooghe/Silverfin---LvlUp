@@ -1,9 +1,9 @@
 {
   "name": "silverfin-level-up",
   "displayName": "Silverfin: Level-Up",
-  "description": "A syntax highlighting extension for Silverfin .liquid files.",
+  "description": "Silverfin: Level-Up is a Visual Studio Code extension that enhances the development experience for Silverfin `.liquid` templates. It provides syntax highlighting, auto-closing tags, snippets, hover documentation, and more.",
   "version": "0.1.0",
-  "publisher": "Anthony Hooghe",
+  "publisher": "ahooghe",
   "engines": {
     "vscode": "^1.50.0"
   },
@@ -11,14 +11,38 @@
     "onLanguage:liquid"
   ],
   "main": "./out/extension.js",
+  "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahooghe/Silverfin---LvlUp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ahooghe/Silverfin---LvlUp/issues"
+  },
+  "homepage": "https://github.com/ahooghe/Silverfin---LvlUp",
+  "license": "MIT",
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Other"
+  ],
+  "keywords": [
+    "silverfin",
+    "liquid",
+    "syntax highlighting",
+    "snippets",
+    "hover documentation",
+    "auto-closing tags",
+    "html"
+  ],
   "contributes": {
     "themes": [
-    {
-      "label": "Silverfin Theme",
-      "uiTheme": "vs-dark",
-      "path": "./themes/silverfin-color-theme.json"
-    }
-  ],
+      {
+        "label": "Silverfin Theme",
+        "uiTheme": "vs-dark",
+        "path": "./themes/silverfin-color-theme.json"
+      }
+    ],
     "languages": [
       {
         "id": "liquid",
@@ -35,22 +59,22 @@
       }
     ],
     "configurationDefaults": {
-    "workbench.colorTheme": "Silverfin Theme"
-  },
-  "snippets": [
-    {
-      "language": "liquid",
-      "path": "./snippets/silverfin.code-snippets"
+      "workbench.colorTheme": "Silverfin Theme"
     },
-    {
-      "language": "liquid",
-      "path": "./snippets/silverfin-filters.code-snippets"
-    },
-    {
-      "language": "liquid",
-      "path": "./snippets/html-in-liquid.code-snippets"
-    }
-  ]
+    "snippets": [
+      {
+        "language": "liquid",
+        "path": "./snippets/silverfin.code-snippets"
+      },
+      {
+        "language": "liquid",
+        "path": "./snippets/silverfin-filters.code-snippets"
+      },
+      {
+        "language": "liquid",
+        "path": "./snippets/html-in-liquid.code-snippets"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
