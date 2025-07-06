@@ -30,7 +30,7 @@ export function activate(context: vscode.ExtensionContext) {
                 let hoverText = entry.description;
         
                 if (entry.example) {
-                    hoverText += `\n\n**Example:**\n\`${entry.example}\``;
+                    hoverText += `\n\n**Example:**\n${entry.example.replace(/`/g, '\\`')}`;
                 }
         
                 if (entry.attributes) {
