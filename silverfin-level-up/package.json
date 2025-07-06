@@ -41,6 +41,10 @@
     {
       "language": "liquid",
       "path": "./snippets/silverfin.code-snippets"
+    },
+    {
+      "language": "liquid",
+      "path": "./snippets/html-in-liquid.code-snippets"
     }
   ]
   },

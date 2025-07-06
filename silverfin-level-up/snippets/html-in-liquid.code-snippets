@@ -1,0 +1,127 @@
+{
+  "Paragraph": {
+    "prefix": "p",
+    "body": [
+      "<p>${1}</p>"
+    ],
+    "description": "Insert a paragraph tag"
+  },
+  "Line Break": {
+    "prefix": "br",
+    "body": [
+      "<br>"
+    ],
+    "description": "Insert a line break tag"
+  },
+  "Horizontal Rule": {
+    "prefix": "hr",
+    "body": [
+      "<hr>"
+    ],
+    "description": "Insert a horizontal rule tag"
+  },
+  "Table": {
+    "prefix": "table",
+    "body": [
+      "<table class=\"${1:usr-width-100}\">",
+      "\t<thead>",
+      "\t\t<tr>",
+      "\t\t\t<th class=\"${2}\"></th>",
+      "\t\t\t<th class=\"${3}\"></th>",
+      "\t\t</tr>",
+      "\t</thead>",
+      "\t<tbody>",
+      "\t\t<tr>",
+      "\t\t\t<td class=\"${4}\"></td>",
+      "\t\t\t<td class=\"${5}\"></td>",
+      "\t\t</tr>",
+      "\t</tbody>",
+      "</table>"
+    ],
+    "description": "Insert a table with default structure"
+  },
+  "Table Row": {
+    "prefix": "tr",
+    "body": [
+      "<tr>${1}</tr>"
+    ],
+    "description": "Insert a table row tag"
+  },
+  "Table Data": {
+    "prefix": "td",
+    "body": [
+      "<td>${1}</td>"
+    ],
+    "description": "Insert a table data tag"
+  },
+  "Table Header": {
+    "prefix": "th",
+    "body": [
+      "<th>${1}</th>"
+    ],
+    "description": "Insert a table header tag"
+  },
+  "Font": {
+    "prefix": "font",
+    "body": [
+      "<font>${1}</font>"
+    ],
+    "description": "Insert a font tag"
+  },
+  "Bold": {
+    "prefix": "b",
+    "body": [
+      "<b>${1}</b>"
+    ],
+    "description": "Insert a bold tag"
+  },
+  "Italic": {
+    "prefix": "i",
+    "body": [
+      "<i>${1}</i>"
+    ],
+    "description": "Insert an italic tag"
+  },
+  "Underline": {
+    "prefix": "u",
+    "body": [
+      "<u>${1}</u>"
+    ],
+    "description": "Insert an underline tag"
+  },
+  "Subscript": {
+    "prefix": "sub",
+    "body": [
+      "<sub>${1}</sub>"
+    ],
+    "description": "Insert a subscript tag"
+  },
+  "Superscript": {
+    "prefix": "sup",
+    "body": [
+      "<sup>${1}</sup>"
+    ],
+    "description": "Insert a superscript tag"
+  },
+  "Heading 1": {
+    "prefix": "h1",
+    "body": [
+      "<h1>${1}</h1>"
+    ],
+    "description": "Insert a heading 1 tag"
+  },
+  "Heading 2": {
+    "prefix": "h2",
+    "body": [
+      "<h2>${1}</h2>"
+    ],
+    "description": "Insert a heading 2 tag"
+  },
+  "Anchor": {
+    "prefix": "a",
+    "body": [
+      "<a href=\"${1:#}\">${2:link text}</a>"
+    ],
+    "description": "Insert an anchor tag"
+  }
+}
