@@ -63,7 +63,6 @@ Welcome to **Silverfin: Level-Up**, a Visual Studio Code extension designed to e
 ## Usage
 
 - Open any `.liquid` file to see the syntax highlighting in action.
-- Customize the highlighting rules by modifying the `syntaxes/silverfin.tmLanguage.json` file.
 
 ## Contributing
 
