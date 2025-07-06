@@ -1,0 +1,17 @@
+# This file specifies which files and directories should be ignored when packaging the extension for distribution.
+.vscode
+node_modules
+*.ts
+*.map
+*.test.ts
+*.spec.ts
+*.md
+*.json
+*.yml
+*.yaml
+*.log
+*.tmp
+// filepath: c:\Users\antho\Desktop\Silverfin - LvlUp\.vscodeignore
+!silverfin-color-theme.json
+!silverfin.tmLanguage.json
+!silverfin.code-snippets

@@ -1,0 +1,57 @@
+{
+  "name": "silverfin-level-up",
+  "displayName": "Silverfin: Level-Up",
+  "description": "A syntax highlighting extension for Silverfin .liquid files.",
+  "version": "0.1.0",
+  "publisher": "Anthony Hooghe",
+  "engines": {
+    "vscode": "^1.50.0"
+  },
+  "activationEvents": [
+    "onLanguage:liquid"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "themes": [
+    {
+      "label": "Silverfin Theme",
+      "uiTheme": "vs-dark",
+      "path": "./themes/silverfin-color-theme.json"
+    }
+  ],
+    "languages": [
+      {
+        "id": "liquid",
+        "aliases": ["Silverfin: Level-Up", "silverfin"],
+        "extensions": [".liquid"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "liquid",
+        "scopeName": "source.silverfin",
+        "path": "./syntaxes/silverfin.tmLanguage.json"
+      }
+    ],
+    "configurationDefaults": {
+    "workbench.colorTheme": "Silverfin Theme"
+  },
+  "snippets": [
+    {
+      "language": "liquid",
+      "path": "./snippets/silverfin.code-snippets"
+    }
+  ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.0",
+    "@types/vscode": "^1.50.0",
+    "vscode-languageclient": "^7.0.0"
+  }
+}

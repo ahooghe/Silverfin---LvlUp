@@ -1,0 +1,219 @@
+{
+  "scopeName": "source.silverfin",
+  "patterns": [
+    {
+      "name": "comment.block.silverfin",
+      "begin": "{%\\s*comment\\s*%}",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.comment.begin.silverfin" }
+      },
+      "end": "{%\\s*endcomment\\s*%}",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.comment.end.silverfin" }
+      },
+      "patterns": [
+        {
+          "name": "comment.block.content.silverfin",
+          "match": ".+?"
+        }
+      ]
+    },
+    {
+      "name": "meta.block.silverfin",
+      "begin": "{%",
+      "beginCaptures": {
+        "0": { "name": "punctuation.block.start.silverfin" }
+      },
+      "end": "%}",
+      "endCaptures": {
+        "0": { "name": "punctuation.block.end.silverfin" }
+      },
+      "patterns": [
+        {
+          "name": "string.quoted.double.silverfin",
+          "begin": "\"",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.string.begin.silverfin" }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.string.end.silverfin" }
+          },
+          "patterns": []
+        },
+        {
+          "name": "string.quoted.single.silverfin",
+          "begin": "'",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.string.begin.silverfin" }
+          },
+          "end": "'",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.string.end.silverfin" }
+          },
+          "patterns": []
+        },
+        {
+          "name": "meta.square.brackets.silverfin",
+          "begin": "\\[",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.square.bracket.begin.silverfin" }
+          },
+          "end": "\\]",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.square.bracket.end.silverfin" }
+          },
+          "patterns": [
+            {
+              "name": "variable.forloop.silverfin",
+              "match": "\\bforloop\\.(index0|index|first|last)\\b"
+            },
+            {
+              "name": "variable.calculator.silverfin",
+              "match": "\\$\\d+"
+            },
+            {
+              "name": "variable.other.silverfin",
+              "match": ".+?"
+            }
+          ]
+        },
+        {
+          "name": "variable.forloop.silverfin",
+          "match": "\\bforloop\\.(index0|index|first|last)\\b"
+        },
+        {
+          "name": "variable.calculator.silverfin",
+          "match": "\\$\\d+"
+        },
+        {
+          "name": "keyword.control.flow.silverfin",
+          "match": "\\b(if|else|elsif|ifi|for|in|case|when|unless|endif|endifi|endunless|endcase)\\b"
+        },
+        {
+          "name": "keyword.control.assignment.silverfin",
+          "match": "(?<=\\{%(\\s*)?)\\b(assign|capture|endcapture|input|t)\\b"
+        },
+        {
+          "name": "keyword.control.utility.silverfin",
+          "match": "(?<=\\{%(\\s*)?)\\b(stripnewlines|newline|endstripnewlines|result|rollforward|locale|endlocale)\\b"
+        },
+        {
+          "name": "keyword.boolean.silverfin",
+          "match": "\\b(true|false|nil)\\b"
+        },
+        {
+          "name": "keyword.operator.logical.silverfin",
+          "match": "\\b(and|or|contains)\\b"
+        },
+        {
+          "name": "keyword.operator.comparison.silverfin",
+          "match": "(==|!=|<=|>=|<|>)"
+        },
+        {
+          "name": "variable.other.silverfin",
+          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*|\\d+[.,]?\\d*)\\b"
+        },
+        {
+          "name": "keyword.function.silverfin",
+          "match": "\\|\\s*(localized|upcase|downcase|abs|currency|integer|percentage|number_to_human|number_to_currency|round|capitalize|size|strip|newline_to_br|multiline_table|url_encode|strip_html|md5|transliterate)"
+        },
+        {
+          "name": "keyword.function.silverfin",
+          "match": "\\|\\s*([a-zA-Z_][a-zA-Z0-9_]*):"
+        },
+        {
+          "name": "variable.other.silverfin",
+          "match": "[^\\s:\\=\\-\\*\\+/]"
+        }
+      ]
+    },
+    {
+      "name": "meta.output.silverfin",
+      "begin": "{{",
+      "beginCaptures": {
+        "0": { "name": "punctuation.output.start.silverfin" }
+      },
+      "end": "}}",
+      "endCaptures": {
+        "0": { "name": "punctuation.output.end.silverfin" }
+      },
+      "patterns": [
+        {
+          "name": "string.quoted.double.silverfin",
+          "begin": "\"",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.string.begin.silverfin" }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.string.end.silverfin" }
+          },
+          "patterns": []
+        },
+        {
+          "name": "string.quoted.single.silverfin",
+          "begin": "'",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.string.begin.silverfin" }
+          },
+          "end": "'",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.string.end.silverfin" }
+          },
+          "patterns": []
+        },
+        {
+          "name": "meta.square.brackets.silverfin",
+          "begin": "\\[",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.square.bracket.begin.silverfin" }
+          },
+          "end": "\\]",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.square.bracket.end.silverfin" }
+          },
+          "patterns": [
+            {
+              "name": "variable.forloop.silverfin",
+              "match": "\\bforloop\\.(index0|index|first|last)\\b"
+            },
+            {
+              "name": "variable.calculator.silverfin",
+              "match": "\\$\\d+"
+            },
+            {
+              "name": "variable.other.silverfin",
+              "match": ".+?"
+            }
+          ]
+        },
+        {
+          "name": "variable.forloop.silverfin",
+          "match": "\\bforloop\\.(index0|index|first|last)\\b"
+        },
+        {
+          "name": "variable.calculator.silverfin",
+          "match": "\\$\\d+"
+        },
+        {
+          "name": "keyword.function.silverfin",
+          "match": "\\|\\s*(localized|upcase|downcase|abs|currency|integer|percentage|number_to_human|number_to_currency|round|capitalize|size|strip|newline_to_br|multiline_table|url_encode|strip_html|md5|transliterate)"
+        },
+        {
+          "name": "keyword.function.silverfin",
+          "match": "\\|\\s*([a-zA-Z_][a-zA-Z0-9_]*):"
+        },
+        {
+          "name": "variable.other.silverfin",
+          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*|\\d+[.,]?\\d*)\\b"
+        },
+        {
+          "name": "variable.other.silverfin",
+          "match": "[^\\s:\\=\\-\\*\\+/]"
+        }
+      ]
+    }
+  ],
+  "repository": {}
+}
