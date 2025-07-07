@@ -66,9 +66,9 @@ export const silverfinDictionary: {
     },
     "assign": {
         "description": "The `assign` tag is used to assign a value to a variable. Assigned values are stored as strings and can be manipulated using filters.",
-        "example": "{% assign profit = 100 %}",
         "attributes": {
             "description": "Filters can be applied to modify or manipulate assigned values. Available filters include:",
+            "dynamic_allocation": "You can use square brackets to assign to a variable whose name is determined dynamically, e.g. `{% assign [myvar] = 'value' %}` assigns to the variable named by the value of `myvar`.",
             "string_filters": "remove, replace, upcase, downcase, capitalize, append, prepend, size, strip, string_value, url_encode, url_decode, strip_html, md5, transliterate, newline_to_br, slice, default, allow_false",
             "numeric_filters": "abs, ceil, floor, round, modulo, max, min, at_least, at_most, plus, minus, times, divided_by, currency, invert, integer, percentage, number_to_human, number_to_currency",
             "array_filters": "concat, split, first, last, join, sort, uniq, reverse, map, range, group_by, index_by, where, analytical_code, add_rounding_difference",
