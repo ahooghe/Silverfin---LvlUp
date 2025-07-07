@@ -170,7 +170,7 @@
         },
         {
           "name": "keyword.control.assignment.silverfin",
-          "match": "(?<=\\{%(\\s*)?)\\b(assign|capture|endcapture|input|t|adjustmenttransaction)\\b"
+          "match": "(?<=\\{%(\\s*)?)\\b(assign|capture|endcapture|input|t|adjustmenttransaction|include)\\b"
         },
         {
           "name": "keyword.control.utility.silverfin",
