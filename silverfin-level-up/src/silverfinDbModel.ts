@@ -275,4 +275,12 @@ export const silverfinDbModel = {
         'name': { type: 'string', description: 'Name of the Silverfin user (string)' },
         'email': { type: 'string', description: 'Email of the Silverfin user (string)' },
     },
+    'forloop': {
+        'index': { type: 'integer', description: 'The current index of the forloop (starts at 0) (integer)' },
+        'index0': { type: 'integer', description: 'The current index of the forloop (starts at 1) (integer)' },
+        'length': { type: 'integer', description: 'The total length of the forloop (integer)' },
+        'rindex': { type: 'integer', description: 'The reverse index of the forloop (starts at 1) (integer)' },
+        'first': { type: 'boolean', description: 'Returns true if this is the first iteration of the forloop (boolean)' },
+        'last': { type: 'boolean', description: 'Returns true if this is the last iteration of the forloop (boolean)' },
+    }
 };
