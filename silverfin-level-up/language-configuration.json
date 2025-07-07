@@ -50,17 +50,17 @@
     { "open": "<table>", "close": "</table>" }
   ],
   "indentationRules": {
-    "increaseIndentPattern": "(<([a-zA-Z0-9]+)([^/>]*)?>|\\{%(\\s)*(if|for|fori|capture|locale|stripnewlines)[^%]*%})",
-    "decreaseIndentPattern": "(</([a-zA-Z0-9]+)>|\\{%(\\s)*end(if|for|fori|capture|locale|stripnewlines)[^%]*%})"
+    "increaseIndentPattern": "(<([a-zA-Z0-9]+)([^/>]*)?>|\\{%(\\s)*(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})",
+    "decreaseIndentPattern": "(</([a-zA-Z0-9]+)>|\\{%(\\s)*end(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})"
   },
   "onEnterRules": [
   {
-    "beforeText": "(<([a-zA-Z0-9]+)([^/>]*)?>|\\{%(\\s)*(if|for|fori|capture|locale|stripnewlines)[^%]*%})",
-    "afterText": "(</([a-zA-Z0-9]+)>|\\{%(\\s)*end(if|for|fori|capture|locale|stripnewlines)[^%]*%})",
+    "beforeText": "(<([a-zA-Z0-9]+)([^/>]*)?>|\\{%(\\s)*(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})",
+    "afterText": "(</([a-zA-Z0-9]+)>|\\{%(\\s)*end(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})",
     "action": { "indent": "indentOutdent" }
   },
   {
-    "beforeText": "(<([a-zA-Z0-9]+)([^/>]*)?>|\\{%(\\s)*(if|for|fori|capture|locale|stripnewlines)[^%]*%})",
+    "beforeText": "(<([a-zA-Z0-9]+)([^/>]*)?>|\\{%(\\s)*(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})",
     "action": { "indent": "indent" }
   }
 ]
