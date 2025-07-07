@@ -45,7 +45,7 @@
       "prefix": "if",
       "body": [
         "{% if ${1:condition} %}",
-        "    ${2:# code here}",
+        "    ${2:{% comment %} Enter code here {% endcomment%}}",
         "{% endif %}"
       ],
       "description": "Creates a conditional if statement"
@@ -54,7 +54,7 @@
       "prefix": "contains",
       "body": [
         "{% if ${1:collection} contains '${2:value}' %}",
-        "  ${3:# code here}",
+        "  ${3:{% comment %} Enter code here {% endcomment%}}",
         "{% endif %}"
       ],
       "description": "Checks if a collection contains a specific value"
@@ -63,9 +63,9 @@
       "prefix": "ifelse",
       "body": [
         "{% if ${1:condition} %}",
-        "    ${2:# code here}",
+        "    ${2:{% comment %} Enter code here {% endcomment%}}",
         "{% else %}",
-        "    ${2:# code here}",
+        "    ${2:{% comment %} Enter code here {% endcomment%}}",
         "{% endif %}"
       ],
       "description": "Creates a conditional if-else statement"
@@ -88,7 +88,7 @@
       "prefix": "ifi",
       "body": [
         "{% ifi ${1:condition} %}",
-        "    ${2:# code here}",
+        "    ${2:{% comment %} Enter code here {% endcomment%}}",
         "{% endifi %}"
       ],
       "description": "Creates an ifi conditional block"
@@ -97,7 +97,7 @@
       "prefix": "unless",
       "body": [
         "{% unless ${1:condition} %}",
-        "    ${2:# code here}",
+        "    ${2:{% comment %} Enter code here {% endcomment%}}",
         "{% endunless %}"
       ],
       "description": "Creates an unless conditional block"
@@ -106,7 +106,7 @@
       "prefix": "for",
       "body": [
         "{% for ${1:item} in ${2:collection} %}",
-        "    ${3:# code here}",
+        "    ${3:{% comment %} Enter code here {% endcomment%}}",
         "{% endfor %}"
       ],
       "description": "Creates a for loop"
@@ -115,7 +115,7 @@
       "prefix": "fori",
       "body": [
         "{% fori ${1:item} in ${2:collection} %}",
-        "    ${3:# code here}",
+        "    ${3:{% comment %} Enter code here {% endcomment%}}",
         "{% endfori %}"
       ],
       "description": "Creates a fori loop"
@@ -146,9 +146,9 @@
       "body": [
         "{% case ${1:variable} %}",
         "  {% when ${2:value} %}",
-        "    ${3:# code here}",
+        "    ${3:{% comment %} Enter code here {% endcomment%}}",
         "  {% else %}",
-        "    ${4:# fallback code here}",
+        "    ${4:{% comment %} Enter fallback code here {% endcomment%}}",
         "{% endcase %}"
       ],
       "description": "Creates a case statement with when and else conditions"
@@ -157,7 +157,7 @@
       "prefix": "locale",
       "body": [
         "{% locale ${1:language} %}",
-        "    ${2:# code here}",
+        "    ${2:{% comment %} Enter code here {% endcomment%}}",
         "{% endlocale %}"
       ],
       "description": "Creates a locale block for a specific language"
@@ -166,7 +166,7 @@
       "prefix": "stripnewlines",
       "body": [
         "{% stripnewlines %}",
-        "    ${1:# code here}",
+        "    ${1:{% comment %} Enter code here {% endcomment%}}",
         "{% endstripnewlines %}"
       ],
       "description": "Removes newlines from the enclosed block"
@@ -321,7 +321,7 @@
       "prefix": "capture",
       "body": [
         "{% capture ${1:variable} %}",
-        "  ${2:# code here}",
+        "  ${2:{% comment %} Enter code here {% endcomment%}}",
         "{% endcapture %}"
       ],
       "description": "Captures the output of a block into a variable"
@@ -329,7 +329,7 @@
     "Capture Single line": {
       "prefix": "capture",
       "body": [
-        "{% capture ${1:variable} %}${2:# code here}{% endcapture %}"
+        "{% capture ${1:variable} %}${2:{% comment %} Enter code here {% endcomment%}}{% endcapture %}"
       ],
       "description": "Captures the output of a single line into a variable"
     },
@@ -351,7 +351,7 @@
       "prefix": "currencyconfiguration",
       "body": [
         "{% currencyconfiguration negative_format:'${1:-xxx}' zero_format:'${2:0}' precision:${3:2} delimiter:'${4:.}' separator:'${5:,}' %}",
-        "  ${2:# code here}",
+        "  ${2:{% comment %} Enter code here {% endcomment%}}",
         "{% endcurrencyconfiguration %}"
       ],
       "description": "Creates a currency configuration block with specified formats and precision"
@@ -431,7 +431,7 @@
       "prefix": "locale",
       "body": [
         "{% locale \"${1:language}\" %}",
-        "  ${2:# code here}",
+        "  ${2:{% comment %} Enter code here {% endcomment%}}",
         "{% endlocale %}"
       ],
       "description": "Creates a locale block for a specific language."
