@@ -166,15 +166,15 @@
         },
         {
           "name": "keyword.control.flow.silverfin",
-          "match": "\\b(if|else|elsif|ifi|for|fori|in|case|when|unless|endif|endifi|endfor|endfori|endunless|endcase|adjustmentbutton|endadjustmentbutton|ic|endic|nic|endic)\\b"
+          "match": "\\b(if|else|elsif|ifi|for|fori|in|case|when|unless|endif|endifi|endfor|endfori|endunless|endcase|adjustmentbutton|endadjustmentbutton)\\b"
         },
         {
           "name": "keyword.control.assignment.silverfin",
-          "match": "(?<=\\{%(\\s*)?)\\b(assign|capture|endcapture|input|t|adjustmenttransaction|include)\\b"
+          "match": "(?<=\\{%(\\s*)?)\\b(assign|capture|endcapture|input|t|adjustmenttransaction|include|signmarker|newpage|radioinput|input_validation|validation|changeorientation|result|rollforward|unreconciled|push|pop)\\b"
         },
         {
           "name": "keyword.control.utility.silverfin",
-          "match": "(?<=\\{%(\\s*)?)\\b(stripnewlines|newline|endstripnewlines|result|rollforward|locale|endlocale|currencyconfiguration|endcurrencyconfiguration|linkto|endlinkto|unreconciled|push|pop)\\b"
+          "match": "(?<=\\{%(\\s*)?)\\b(stripnewlines|newline|endstripnewlines|locale|addnewinputs|endaddnewinputs|endlocale|currencyconfiguration|endcurrencyconfiguration|linkto|endlinkto|ic|endic|nic|endic|radiogroup|endradiogroup)\\b"
         },
         {
           "name": "keyword.boolean.silverfin",
@@ -194,7 +194,7 @@
         },
         {
           "name": "keyword.function.silverfin",
-          "match": "\\|\\s*(localized|upcase|downcase|abs|currency|integer|percentage|number_to_human|number_to_currency|round|capitalize|size|strip|newline_to_br|multiline_table|url_encode|strip_html|md5|transliterate)"
+          "match": "\\|\\s*(localized|upcase|downcase|abs|currency|integer|percentage|number_to_human|number_to_currency|round|capitalize|size|strip_html|strip|newline_to_br|multiline_table|url_encode|url_decode|allow_false|md5|transliterate|ceil|floor|to|at_most|at_least|at|add_rounding_difference|as|default|options|option_values|uniq|reverse)"
         },
         {
           "name": "keyword.function.silverfin",
@@ -268,7 +268,7 @@
         },
         {
           "name": "variable.forloop.silverfin",
-          "match": "\\bforloop\\.(index0|index|first|last)\\b"
+          "match": "\\bforloop\\.(index0|index|first|last|rindex|length)\\b"
         },
         {
           "name": "variable.calculator.silverfin",
@@ -276,7 +276,7 @@
         },
         {
           "name": "keyword.function.silverfin",
-          "match": "\\|\\s*(localized|upcase|downcase|abs|currency|integer|percentage|number_to_human|number_to_currency|round|capitalize|size|strip|newline_to_br|multiline_table|url_encode|strip_html|md5|transliterate)"
+          "match": "\\|\\s*(localized|upcase|downcase|abs|currency|integer|percentage|number_to_human|number_to_currency|round|capitalize|size|strip_html|strip|newline_to_br|multiline_table|url_encode|url_decode|allow_false|md5|transliterate|ceil|floor|to|at_most|at_least|at|add_rounding_difference|as|default|options|option_values|uniq|reverse)"
         },
         {
           "name": "keyword.function.silverfin",
