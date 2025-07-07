@@ -1,54 +1,87 @@
-# Silverfin: Level-Up (Beta)
+# Silverfin: Level-Up
 
-Welcome to **Silverfin: Level-Up**, a Visual Studio Code extension designed to enhance your development experience with Silverfin `.liquid` templates. This extension is currently in **beta**, and we are actively working to improve and expand its functionality. Your feedback is invaluable in shaping the final product!
+**Silverfin: Level-Up** is a comprehensive Visual Studio Code extension designed to enhance your development experience with Silverfin `.liquid` templates. This extension provides advanced language support, intelligent features, and a tailored development environment for Silverfin template development.
 
-## Features
+## 🚀 Features
 
-### 1. **Syntax Highlighting**
-- Comprehensive syntax highlighting for Silverfin `.liquid` templates.
-- Supports all Silverfin-specific tags, filters, and constructs, including:
-  - Tags: `assign`, `capture`, `if`, `elsif`, `else`, `unless`, `for`, `fori`, `case`, `when`, `t`, `locale`, `comment`, `adjustmentbutton`, `currencyconfiguration`, and more.
-  - Filters: `upcase`, `downcase`, `replace`, `remove`, `append`, `prepend`, `date`, `currency`, `capitalize`, `size`, `strip`, `number_to_human`, `number_to_currency`, and many others.
-  - HTML tags: `<p>`, `<b>`, `<i>`, `<u>`, `<table>`, `<tr>`, `<td>`, `<th>`, `<a>`, `<h1>`, `<h2>`, and more.
-- Differentiated styling for HTML tags, attributes, and embedded Liquid variables.
+### 1. **Advanced Syntax Highlighting**
+- Complete syntax highlighting for Silverfin `.liquid` templates using a custom TextMate grammar
+- Supports all Silverfin-specific constructs including:
+  - **Liquid tags**: `assign`, `capture`, `if`, `elsif`, `else`, `unless`, `for`, `fori`, `case`, `when`, `comment`, `locale`, and more
+  - **Silverfin-specific tags**: `input`, `adjustmentbutton`, `currencyconfiguration`, `radiogroup`, `t` (translation)
+  - **Filters**: String filters (`upcase`, `downcase`, `replace`, `remove`, `append`, `prepend`, `strip`, `capitalize`), number filters (`currency`, `integer`, `percentage`, `number_to_human`, `abs`, `ceil`, `floor`, `round`), date filters, and more
+  - **HTML elements**: Full support for HTML tags with proper attribute highlighting
+- Differentiated styling for tags, attributes, strings, and embedded Liquid variables
+- Support for nested Liquid expressions within HTML attributes
 
-### 2. **Hover Documentation**
-- Hover over any Silverfin tag, filter, or attribute to see detailed documentation.
-- Includes descriptions, examples, and attribute details for quick reference.
+### 2. **Intelligent Hover Documentation**
+- Comprehensive hover documentation for Silverfin tags, filters, and attributes
+- Detailed descriptions with examples and usage information
+- Attribute-specific documentation with available options
+- Database model documentation for Silverfin data objects (period, accounts, transactions, etc.)
+- Smart context-aware lookups for complex object paths
 
-### 3. **Auto-Closing Tags**
-- Automatically closes Silverfin tags like `{% if %}`, `{% for %}`, `{% case %}`, and more.
-- Auto-closes basic constructs like `{%`, `{{`, `[`, `"`, `'`.
-- Auto-closes HTML tags like `<p>`, `<b>`, `<i>`, `<u>`, `<table>`, `<tr>`, `<td>`, `<th>`, `<a>`, `<h1>`, `<h2>`, and more.
+### 3. **Smart Auto-Completion**
+- IntelliSense completion for Silverfin database model properties
+- Dot-notation completion for complex object paths (e.g., `period.accounts.`, `account.details.`)
+- Context-aware suggestions based on object types
+- Support for dynamic object properties and collections
 
-### 4. **Snippets**
-- Predefined snippets for common Silverfin constructs:
-  - Tags: `assign`, `input`, `if`, `for`, `fori`, `case`, `capture`, `locale`, `comment`, `adjustmentbutton`, `currencyconfiguration`, `radiogroup`, and more.
-  - Filters: `upcase`, `downcase`, `replace`, `remove`, `append`, `prepend`, `date`, `currency`, `capitalize`, `size`, `strip`, `number_to_human`, `number_to_currency`, and others.
-  - HTML tags: `<p>`, `<b>`, `<i>`, `<u>`, `<table>`, `<tr>`, `<td>`, `<th>`, `<a>`, `<h1>`, `<h2>`, and more.
-- Quickly insert boilerplate code with placeholders for customization.
+### 4. **Auto-Closing Pairs**
+- Automatic closing for Liquid constructs: `{%`, `{{`
+- HTML tag auto-closing for common elements
+- Bracket and quote auto-closing: `[`, `(`, `"`, `'`
+- Smart pairing for nested structures
 
-### 5. **Semantic Tokens**
-- Enhanced semantic highlighting for specific keywords like `assign`, `forloop`, and `filters`.
-- Differentiates between types, declarations, and variables for better readability.
+### 5. **Rich Code Snippets**
+Three comprehensive snippet collections:
+- **Core Silverfin snippets** (`silverfin.code-snippets`):
+  - Input fields with various types: `input`, `inputas`, `selectinput`, `inputdefault`, `inputplaceholder`
+  - Control flow: `if`, `ifelse`, `unless`, `for`, `fori`, `case`, `capture`
+  - Utility tags: `assign`, `comment`, `locale`, `adjustmentbutton`, `currencyconfiguration`
+- **Filter snippets** (`silverfin-filters.code-snippets`):
+  - String manipulation: `split`, `append`, `upcase`, `downcase`, `replace`, `remove`
+  - Number formatting: `currency`, `integer`, `percentage`, `round`, `abs`
+  - Date formatting and utilities
+- **HTML snippets** (`html-in-liquid.code-snippets`):
+  - Common HTML elements: `p`, `br`, `hr`, `table`, `thead`, `tbody`, `tr`, `td`, `th`
+  - Text formatting: `b`, `i`, `u`, `strong`, `em`
+  - Links and headings: `a`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`
 
-### 6. **Customizable Theme**
-- Comes with the **Silverfin Theme**, a dark theme tailored for Silverfin development.
-- Highlights HTML tags, attributes, and Liquid constructs with distinct colors for improved clarity.
+### 6. **Semantic Token Provider**
+- Enhanced semantic highlighting for improved code readability
+- Special highlighting for assignment operations and key constructs
+- Type-based coloring for better visual distinction
 
-### 7. **HTML Support**
-- Auto-closing and snippets for common HTML tags like `<p>`, `<b>`, `<i>`, `<u>`, `<table>`, `<tr>`, `<td>`, `<th>`, `<a>`, `<h1>`, `<h2>`, and more.
-- Syntax highlighting for embedded HTML within `.liquid` files.
+### 7. **Custom Silverfin Theme**
+- Purpose-built dark theme optimized for Silverfin development
+- Distinct colors for different code elements:
+  - Golden yellow (`#FFD700`) for Liquid delimiters and operators
+  - Light green (`#B5E07A`) for control flow keywords
+  - Purple (`#b187e7`) for utility functions and variables
+  - Teal (`#2AA198`) for boolean values and assignments
+- Enhanced bracket highlighting for better code structure visibility
 
-### 8. **Auto-Padding**
-- Automatically adds proper indentation for nested tags and blocks.
-- Improves readability and maintains consistent formatting.
+### 8. **Comprehensive Database Model Support**
+Complete IntelliSense and documentation for Silverfin's data model:
+- **Period objects**: Access to fiscal year data, dates, account collections
+- **Account objects**: Individual account properties, values, types, and methods
+- **Transaction objects**: Transaction details, dates, relations, and custom fields
+- **Collections**: Accounts drops, details drops, results drops with filtering methods
+- **Navigation**: Period navigation (`minus_1p`, `plus_1y`, etc.)
 
-## Installation
+## 📦 Installation
 
+### From VSIX (Recommended)
+1. Download the latest `.vsix` file from the releases
+2. In VS Code, open the Command Palette (`Ctrl+Shift+P`)
+3. Run "Extensions: Install from VSIX..."
+4. Select the downloaded `.vsix` file
+
+### From Source
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/silverfin-level-up.git
+   git clone https://github.com/ahooghe/Silverfin---LvlUp.git
    ```
 
 2. Navigate to the project directory:
@@ -56,28 +89,72 @@ Welcome to **Silverfin: Level-Up**, a Visual Studio Code extension designed to e
    cd silverfin-level-up
    ```
 
-3. Install the dependencies:
+3. Install dependencies:
    ```bash
    npm install
    ```
 
-4. Open the project in Visual Studio Code:
+4. Compile the extension:
    ```bash
-   code .
+   npm run compile
    ```
 
-5. Press `F5` to run the extension in a new Extension Development Host window.
+5. Open in VS Code and press `F5` to run in Extension Development Host
 
-## Usage
+## 🎯 Usage
 
-- Open any `.liquid` file to see the syntax highlighting in action.
-- Use snippets to quickly insert common Silverfin constructs and HTML tags.
-- Hover over tags, filters, and attributes to see detailed documentation.
+### Getting Started
+1. **Open any `.liquid` file** - The extension automatically activates
+2. **Apply the Silverfin Theme** - The extension sets this as default, or manually select "Silverfin Theme" from the Color Theme picker
+3. **Start coding** - Enjoy syntax highlighting, auto-completion, and hover documentation
 
-## Contributing
+### Key Features in Action
+- **Type `input`** and press Tab to insert an input field snippet
+- **Hover over any tag or filter** to see detailed documentation
+- **Type `period.accounts.`** to see available properties and methods
+- **Use auto-completion** for complex object paths and properties
+- **Leverage snippets** for rapid template development
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+### File Association
+The extension automatically associates with `.liquid` files and provides the "Silverfin: Level-Up" language mode.
 
-## License
+## 🛠️ Development
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+### Project Structure
+```
+├── src/
+│   ├── extension.ts          # Main extension logic
+│   ├── dictionary.ts         # Hover documentation definitions
+│   └── silverfinDbModel.ts   # Database model for auto-completion
+├── snippets/                 # Code snippet definitions
+├── syntaxes/                 # TextMate grammar
+├── themes/                   # Color theme definition
+└── language-configuration.json # Language configuration
+```
+
+### Building
+```bash
+npm run compile      # Compile TypeScript
+npm run watch        # Watch mode for development
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please feel free to:
+- Report bugs or request features via [GitHub Issues](https://github.com/ahooghe/Silverfin---LvlUp/issues)
+- Submit pull requests for improvements
+- Suggest new snippets or documentation enhancements
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE.txt) file for details.
+
+## 🔗 Links
+
+- **Repository**: [GitHub](https://github.com/ahooghe/Silverfin---LvlUp)
+- **Issues**: [Bug Reports & Feature Requests](https://github.com/ahooghe/Silverfin---LvlUp/issues)
+- **Publisher**: AnthonyHooghe
+
+---
+
+*Enhance your Silverfin template development with intelligent code assistance, comprehensive documentation, and a tailored development environment.*
