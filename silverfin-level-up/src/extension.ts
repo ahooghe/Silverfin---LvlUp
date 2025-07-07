@@ -14,26 +14,26 @@ export function activate(context: vscode.ExtensionContext) {
     const disposableHover = vscode.languages.registerHoverProvider('silverfin-lvlup', {
         provideHover(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken) {
             const lineText = document.lineAt(position.line).text;
-        
+
             const range = document.getWordRangeAtPosition(position, /[\w:.?]+/);
             const word = range ? document.getText(range) : '';
-        
+
             let entry = silverfinDictionary[word];
-        
+
             if (!entry && word.includes(':')) {
                 const [baseWord] = word.split(':');
                 entry = silverfinDictionary[baseWord];
             }
-        
+
             if (typeof entry === 'string') {
                 return new vscode.Hover(entry);
             } else if (entry && typeof entry === 'object' && 'description' in entry) {
                 let hoverText = entry.description;
-        
+
                 if (entry.example) {
                     hoverText += `\n\n**Example:**\n\n${entry.example.replace(/\n/g, '\n\n').replace(/`/g, '\\`')}`;
                 }
-        
+
                 if (entry.attributes) {
                     hoverText += `\n\n**Attributes:**`;
                     for (const [attr, attrDesc] of Object.entries(entry.attributes)) {
@@ -50,7 +50,7 @@ export function activate(context: vscode.ExtensionContext) {
                         }
                     }
                 }
-        
+
                 return new vscode.Hover(hoverText);
             }
 
@@ -154,4 +154,4 @@ class SilverfinSemanticTokensProvider implements vscode.DocumentSemanticTokensPr
 
 const legend = new vscode.SemanticTokensLegend(['type'], ['declaration']);
 
-export function deactivate() {}
+export function deactivate() { }
