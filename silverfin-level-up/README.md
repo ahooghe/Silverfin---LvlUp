@@ -72,13 +72,25 @@ Complete IntelliSense and documentation for Silverfin's data model:
 
 ## 📦 Installation
 
-### From VSIX (Recommended)
-1. Download the latest `.vsix` file from the releases
+### From VS Code Marketplace (Recommended)
+1. Open VS Code
+2. Go to the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X`)
+3. Search for "Silverfin: Level-Up"
+4. Click **Install** on the extension by AnthonyHooghe
+5. Reload VS Code when prompted
+
+**Or install via Command Palette:**
+1. Open Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
+2. Type `ext install AnthonyHooghe.silverfin-level-up`
+3. Press Enter
+
+### From VSIX File
+1. Download the latest `.vsix` file from the [releases](https://github.com/ahooghe/Silverfin---LvlUp/releases)
 2. In VS Code, open the Command Palette (`Ctrl+Shift+P`)
 3. Run "Extensions: Install from VSIX..."
 4. Select the downloaded `.vsix` file
 
-### From Source
+### From Source (Development)
 1. Clone the repository:
    ```bash
    git clone https://github.com/ahooghe/Silverfin---LvlUp.git
@@ -151,6 +163,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE.txt) f
 
 ## 🔗 Links
 
+- **VS Code Marketplace**: [Install Silverfin: Level-Up](https://marketplace.visualstudio.com/items?itemName=AnthonyHooghe.silverfin-level-up)
 - **Repository**: [GitHub](https://github.com/ahooghe/Silverfin---LvlUp)
 - **Issues**: [Bug Reports & Feature Requests](https://github.com/ahooghe/Silverfin---LvlUp/issues)
 - **Publisher**: AnthonyHooghe
