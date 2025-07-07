@@ -240,8 +240,8 @@
       "prefix": "group",
       "body": [
         "{% nic %}",
-        "{::group}",
         "{:/group}",
+        "{::group}",
         "{% endnic %}"
       ],
       "description": "Creates a group block"
@@ -286,7 +286,7 @@
       "description": "Creates a single-line warning block"
     },
     "Block warning code": {
-      "prefix": "ic",
+      "prefix": "warningblock",
       "body": [
         "{% ic %}{::warningtext}",
         "$1",
@@ -295,14 +295,14 @@
       "description": "Creates a multi-line warning block"
     },
     "Single line infotext code": {
-      "prefix": "ic",
+      "prefix": "infotext",
       "body": [
         "{% ic %}{::infotext}$1{:/infotext}{% endic %}"
       ],
       "description": "Creates a single-line info text block"
     },
     "Block infotext code": {
-      "prefix": "ic",
+      "prefix": "infotextblock",
       "body": [
         "{% ic %}{::infotext}",
         "$1",

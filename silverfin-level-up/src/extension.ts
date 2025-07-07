@@ -3,14 +3,14 @@ import { silverfinDictionary } from './dictionary';
 
 export function activate(context: vscode.ExtensionContext) {
     const disposableTokens = vscode.languages.registerDocumentSemanticTokensProvider(
-        { language: 'liquid' },
+        { language: 'silverfin-lvlup' },
         new SilverfinSemanticTokensProvider(),
         legend
     );
 
     context.subscriptions.push(disposableTokens);
 
-    const disposableHover = vscode.languages.registerHoverProvider('liquid', {
+    const disposableHover = vscode.languages.registerHoverProvider('silverfin-lvlup', {
         provideHover(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken) {
             const lineText = document.lineAt(position.line).text;
         
