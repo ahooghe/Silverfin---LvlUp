@@ -1,67 +1,219 @@
 {
   "brackets": [
-    ["{", "}"],
-    ["[", "]"],
-    ["(", ")"],
-    ["<", ">"]
+    [
+      "{",
+      "}"
+    ],
+    [
+      "[",
+      "]"
+    ],
+    [
+      "(",
+      ")"
+    ],
+    [
+      "<",
+      ">"
+    ]
   ],
   "autoClosingPairs": [
-    { "open": "{%", "close": "%}" },
-    { "open": "{{", "close": "}}" },
-    { "open": "[", "close": "]" },
-    { "open": "(", "close": ")" },
-    { "open": "\"", "close": "\"" },
-    { "open": "'", "close": "'" },
-    { "open": "<p>", "close": "</p>" },
-    { "open": "<b>", "close": "</b>" },
-    { "open": "<i>", "close": "</i>" },
-    { "open": "<u>", "close": "</u>" },
-    { "open": "<sub>", "close": "</sub>" },
-    { "open": "<sup>", "close": "</sup>" },
-    { "open": "<h1>", "close": "</h1>" },
-    { "open": "<h2>", "close": "</h2>" },
-    { "open": "<a>", "close": "</a>" },
-    { "open": "<font>", "close": "</font>" },
-    { "open": "<tr>", "close": "</tr>" },
-    { "open": "<td>", "close": "</td>" },
-    { "open": "<th>", "close": "</th>" },
-    { "open": "<table>", "close": "</table>" }
+    {
+      "open": "{%",
+      "close": "%}"
+    },
+    {
+      "open": "{{",
+      "close": "}}"
+    },
+    {
+      "open": "[",
+      "close": "]"
+    },
+    {
+      "open": "(",
+      "close": ")"
+    },
+    {
+      "open": "\"",
+      "close": "\""
+    },
+    {
+      "open": "'",
+      "close": "'"
+    },
+    {
+      "open": "<p>",
+      "close": "</p>"
+    },
+    {
+      "open": "<b>",
+      "close": "</b>"
+    },
+    {
+      "open": "<i>",
+      "close": "</i>"
+    },
+    {
+      "open": "<u>",
+      "close": "</u>"
+    },
+    {
+      "open": "<sub>",
+      "close": "</sub>"
+    },
+    {
+      "open": "<sup>",
+      "close": "</sup>"
+    },
+    {
+      "open": "<h1>",
+      "close": "</h1>"
+    },
+    {
+      "open": "<h2>",
+      "close": "</h2>"
+    },
+    {
+      "open": "<a>",
+      "close": "</a>"
+    },
+    {
+      "open": "<font>",
+      "close": "</font>"
+    },
+    {
+      "open": "<tr>",
+      "close": "</tr>"
+    },
+    {
+      "open": "<td>",
+      "close": "</td>"
+    },
+    {
+      "open": "<th>",
+      "close": "</th>"
+    },
+    {
+      "open": "<table>",
+      "close": "</table>"
+    },
+    {
+      "open": "<thead>",
+      "close": "</thead>"
+    },
+    {
+      "open": "<tbody>",
+      "close": "</tbody>"
+    }
   ],
   "surroundingPairs": [
-    { "open": "{%", "close": "%}" },
-    { "open": "{{", "close": "}}" },
-    { "open": "[", "close": "]" },
-    { "open": "(", "close": ")" },
-    { "open": "\"", "close": "\"" },
-    { "open": "'", "close": "'" },
-    { "open": "<p>", "close": "</p>" },
-    { "open": "<b>", "close": "</b>" },
-    { "open": "<i>", "close": "</i>" },
-    { "open": "<u>", "close": "</u>" },
-    { "open": "<sub>", "close": "</sub>" },
-    { "open": "<sup>", "close": "</sup>" },
-    { "open": "<h1>", "close": "</h1>" },
-    { "open": "<h2>", "close": "</h2>" },
-    { "open": "<a>", "close": "</a>" },
-    { "open": "<font>", "close": "</font>" },
-    { "open": "<tr>", "close": "</tr>" },
-    { "open": "<td>", "close": "</td>" },
-    { "open": "<th>", "close": "</th>" },
-    { "open": "<table>", "close": "</table>" }
+    {
+      "open": "{%",
+      "close": "%}"
+    },
+    {
+      "open": "{{",
+      "close": "}}"
+    },
+    {
+      "open": "[",
+      "close": "]"
+    },
+    {
+      "open": "(",
+      "close": ")"
+    },
+    {
+      "open": "\"",
+      "close": "\""
+    },
+    {
+      "open": "'",
+      "close": "'"
+    },
+    {
+      "open": "<p>",
+      "close": "</p>"
+    },
+    {
+      "open": "<b>",
+      "close": "</b>"
+    },
+    {
+      "open": "<i>",
+      "close": "</i>"
+    },
+    {
+      "open": "<u>",
+      "close": "</u>"
+    },
+    {
+      "open": "<sub>",
+      "close": "</sub>"
+    },
+    {
+      "open": "<sup>",
+      "close": "</sup>"
+    },
+    {
+      "open": "<h1>",
+      "close": "</h1>"
+    },
+    {
+      "open": "<h2>",
+      "close": "</h2>"
+    },
+    {
+      "open": "<a>",
+      "close": "</a>"
+    },
+    {
+      "open": "<font>",
+      "close": "</font>"
+    },
+    {
+      "open": "<tr>",
+      "close": "</tr>"
+    },
+    {
+      "open": "<td>",
+      "close": "</td>"
+    },
+    {
+      "open": "<th>",
+      "close": "</th>"
+    },
+    {
+      "open": "<table>",
+      "close": "</table>"
+    },
+    {
+      "open": "<thead>",
+      "close": "</thead>"
+    },
+    {
+      "open": "<tbody>",
+      "close": "</tbody>"
+    }
   ],
   "indentationRules": {
-    "increaseIndentPattern": "(<([a-zA-Z0-9]+)([^/>]*)?>|\\{%(\\s)*(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})",
-    "decreaseIndentPattern": "(</([a-zA-Z0-9]+)>|\\{%(\\s)*end(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})"
+    "increaseIndentPattern": "(<(table|thead|tbody|tr)([^/>]*)?>|\\{%(\\s)*(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})",
+    "decreaseIndentPattern": "(</(table|thead|tbody|tr)>|\\{%(\\s)*end(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})"
   },
   "onEnterRules": [
-  {
-    "beforeText": "(<([a-zA-Z0-9]+)([^/>]*)?>|\\{%(\\s)*(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})",
-    "afterText": "(</([a-zA-Z0-9]+)>|\\{%(\\s)*end(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})",
-    "action": { "indent": "indentOutdent" }
-  },
-  {
-    "beforeText": "(<([a-zA-Z0-9]+)([^/>]*)?>|\\{%(\\s)*(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})",
-    "action": { "indent": "indent" }
-  }
-]
+    {
+      "beforeText": "(<(table|thead|tbody|tr)([^/>]*)?>|\\{%(\\s)*(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})",
+      "afterText": "(</(table|thead|tbody|tr)>|\\{%(\\s)*end(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})",
+      "action": {
+        "indent": "indentOutdent"
+      }
+    },
+    {
+      "beforeText": "(<(table|thead|tbody|tr)([^/>]*)?>|\\{%(\\s)*(if|ifi|for|fori|case|currencyconfiguration|capture|locale|stripnewlines|adjustmentbutton|ic|nic|linkto)[^%]*%})",
+      "action": {
+        "indent": "indent"
+      }
+    }
+  ]
 }
