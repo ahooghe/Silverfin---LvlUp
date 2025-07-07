@@ -48,5 +48,20 @@
     { "open": "<td>", "close": "</td>" },
     { "open": "<th>", "close": "</th>" },
     { "open": "<table>", "close": "</table>" }
-  ]
+  ],
+  "indentationRules": {
+    "increaseIndentPattern": "(<([a-zA-Z0-9]+)([^/>]*)?>|\\{%(\\s)*(if|for|fori|capture|locale|stripnewlines)[^%]*%})",
+    "decreaseIndentPattern": "(</([a-zA-Z0-9]+)>|\\{%(\\s)*end(if|for|fori|capture|locale|stripnewlines)[^%]*%})"
+  },
+  "onEnterRules": [
+  {
+    "beforeText": "(<([a-zA-Z0-9]+)([^/>]*)?>|\\{%(\\s)*(if|for|fori|capture|locale|stripnewlines)[^%]*%})",
+    "afterText": "(</([a-zA-Z0-9]+)>|\\{%(\\s)*end(if|for|fori|capture|locale|stripnewlines)[^%]*%})",
+    "action": { "indent": "indentOutdent" }
+  },
+  {
+    "beforeText": "(<([a-zA-Z0-9]+)([^/>]*)?>|\\{%(\\s)*(if|for|fori|capture|locale|stripnewlines)[^%]*%})",
+    "action": { "indent": "indent" }
+  }
+]
 }
