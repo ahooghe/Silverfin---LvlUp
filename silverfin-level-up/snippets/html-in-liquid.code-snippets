@@ -117,11 +117,46 @@
     ],
     "description": "Insert a heading 2 tag"
   },
+  "Heading 3": {
+    "prefix": "h3",
+    "body": [
+      "<h3>${1}</h3>"
+    ],
+    "description": "Insert a heading 3 tag"
+  },
+  "Heading 4": {
+    "prefix": "h4",
+    "body": [
+      "<h4>${1}</h4>"
+    ],
+    "description": "Insert a heading 4 tag"
+  },
+  "Heading 5": {
+    "prefix": "h5",
+    "body": [
+      "<h5>${1}</h5>"
+    ],
+    "description": "Insert a heading 5 tag"
+  },
+  "Heading 6": {
+    "prefix": "h6",
+    "body": [
+      "<h6>${1}</h6>"
+    ],
+    "description": "Insert a heading 6 tag"
+  },
   "Anchor": {
     "prefix": "a",
     "body": [
       "<a href=\"${1:#}\">${2:link text}</a>"
     ],
     "description": "Insert an anchor tag"
+  },
+  "Emphasis": {
+    "prefix": "em",
+    "body": [
+      "<em>${1}</em>"
+    ],
+    "description": "Insert an emphasis (em) tag"
   }
 }
