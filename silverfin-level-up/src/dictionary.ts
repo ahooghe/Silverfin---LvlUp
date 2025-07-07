@@ -659,5 +659,13 @@ export const silverfinDictionary: {
         "attributes": {
             "validation_name": "References the name of the predefined input validation to apply.\n\nExample:\n{% input custom.depreciation.value as:currency validation:validation_positive_values %}"
         }
+    },
+    "class": {
+        "description": "CSS classes for HTML tables in Silverfin. Apply to <table>, <thead>, <th>, or <td> as noted.",
+        "attributes": {
+            "`<table>` only": "usr-bordered, usr-line-(top,bottom,left,right), usr-double-line-(top,bottom,left,right), usr-width-1 ... usr-width-100",
+            "`<thead>` only": "usr-repeated-header, usr-hide-samepage-header",
+            "`<th>, <td>` only": "usr-align-(left,center,right,justify), usr-valign-(top,center,bottom), usr-width-1 ... usr-width-100, usr-line-(top,bottom,left,right), usr-double-line-(top,bottom,left,right), usr-border-color-<hex>, usr-background-color-<hex>, usr-indent-1 ... usr-indent-10, usr-grayed-out-background-input, usr-grayed-out-line-bottom-input"
+        }
     }
 };
