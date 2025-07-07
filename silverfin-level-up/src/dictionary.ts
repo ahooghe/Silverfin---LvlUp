@@ -416,24 +416,22 @@ export const silverfinDictionary: {
         "example": `{% case fiscal_year %}\n{% when 2018 %}\n  {% assign ratio = 0.23 %}\n{% else %}\n  {% assign ratio = 0.19 %}\n{% endcase %}`
     },
     "fori": {
-        "description": "The `fori` loop creates custom collections and iterates over them, often used for dynamic inputs. Must be closed with `{% endfori %}`.",
-        "example": `{% fori item in custom.the_namespace %}\n  {% input item.some_data %}\n{% endfori %}\n\n**Output:**\nInputs in a fori collection can be filled out using the 'Import reconciliation data' action.`,
+        "description": "Creates and iterates over a custom collection, often for dynamic inputs. Close with `{% endfori %}`.",
         "attributes": {
-            "import_title": "Adds a title to distinguish between multiple `fori` collections when importing data.",
-            "limit": "Limits the number of iterations in the `fori` loop.\n\nExample:\n{% fori item in custom.the_namespace limit:3 %}\n  {% input item.some_data %}\n{% endfori %}",
-            "offset": "Starts the `fori` loop at a specific index.\n\nExample:\n{% fori item in custom.the_namespace offset:2 %}\n  {% input item.some_data %}\n{% endfori %}",
-            "reversed": "Reverses the order of the `fori` loop.\n\nExample:\n{% fori item in custom.the_namespace reversed %}\n  {% input item.some_data %}\n{% endfori %}"
+            "import_title": "Title for distinguishing multiple `fori` collections when importing.",
+            "limit": "Limits the number of iterations.",
+            "offset": "Starts at a specific index.",
+            "reversed": "Reverses the order."
         }
     },
     "for": {
-        "description": "The `for` loop iterates over collections, arrays, or ranges of numbers, executing code repeatedly for each item. Must be closed with `{% endfor %}`.",
-        "example": `{% for item in custom.the_namespace %}\n  {{ item.some_data }}\n{% endfor %}\n\n**Output:**\nPrints all variables in the custom collection.`,
+        "description": "Iterates over collections, arrays, or ranges. Close with `{% endfor %}`.",
         "attributes": {
-            "range": "Defines a range of numbers to loop through.\n\nExample:\n{% for i in (1..5) %}\n  {{ i }}\n{% endfor %}\n\n**Output:**\n1\n2\n3\n4\n5",
-            "helper_variables": "Provides helper variables like `forloop.index`, `forloop.index0`, `forloop.rindex`, `forloop.length`, `forloop.first`, and `forloop.last`.",
-            "limit": "Limits the number of iterations in the loop.\n\nExample:\n{% for i in (1..10) limit:3 %}\n  {{ i }}\n{% endfor %}\n\n**Output:**\n1\n2\n3",
-            "offset": "Starts the loop at a specific index.\n\nExample:\n{% for i in (1..5) offset:2 %}\n  {{ i }}\n{% endfor %}\n\n**Output:**\n3\n4\n5",
-            "reversed": "Reverses the order of the loop.\n\nExample:\n{% for i in (1..5) reversed %}\n  {{ i }}\n{% endfor %}\n\n**Output:**\n5\n4\n3\n2\n1"
+            "range": "Defines a range of numbers to loop through.",
+            "helper_variables": "Provides variables like `forloop.index`, `forloop.length`, etc.",
+            "limit": "Limits the number of iterations.",
+            "offset": "Starts at a specific index.",
+            "reversed": "Reverses the order."
         }
     },
     "forloop.index": {
@@ -462,11 +460,9 @@ export const silverfinDictionary: {
     },
     "break": {
         "description": "The `break` tag causes the loop to stop iterating when it encounters the `break` tag.",
-        "example": `{% assign numbers = "1;2;3;4;5" | split:";" %}\n\n{% for item in numbers %}\n  {{ item }}\n  {% if INT(item) > 2 %}\n    {% break %}\n  {% endif %}\n{% endfor %}\n\n**Output:**\n1\n2\n3`
     },
     "continue": {
         "description": "The `continue` tag causes the loop to skip the current iteration when it encounters the `continue` tag.",
-        "example": `{% assign numbers = "1;2;3;4" | split:";" %}\n\n{% for item in numbers %}\n  {% if INT(item) == 2 %}\n    {% continue %}\n  {% else %}\n    {{ item }}\n  {% endif %}\n{% endfor %}\n\n**Output:**\n1\n3\n4`
     },
     "limit": {
         "description": "The `limit` attribute allows you to exit the `for` loop at a specific index.",
@@ -667,5 +663,13 @@ export const silverfinDictionary: {
             "`<thead>` only": "usr-repeated-header, usr-hide-samepage-header",
             "`<th>, <td>` only": "usr-align-(left,center,right,justify), usr-valign-(top,center,bottom), usr-width-1 ... usr-width-100, usr-line-(top,bottom,left,right), usr-double-line-(top,bottom,left,right), usr-border-color-<hex>, usr-background-color-<hex>, usr-indent-1 ... usr-indent-10, usr-grayed-out-background-input, usr-grayed-out-line-bottom-input"
         }
-    }
+    },
+    "stripnewlines": {
+        "description": "The `stripnewlines` tag removes all newline characters from the content between the opening and closing tags. This is useful for minifying output or ensuring that extra line breaks do not appear in the rendered result. Use `{% newline %}` inside to force a single newline where needed.",
+        "example": `{% stripnewlines %}\n  Line 1{% newline %}Line 2\n{% endstripnewlines %}\n\n**Output:**\nLine 1\nLine 2`
+    },
+    "newline": {
+        "description": "The `newline` tag is used within `stripnewlines` to insert a single newline character at that position in the output.",
+        "example": `{% stripnewlines %}\n  Line 1{% newline %}Line 2\n{% endstripnewlines %}\n\n**Output:**\nLine 1\nLine 2`
+    },
 };
