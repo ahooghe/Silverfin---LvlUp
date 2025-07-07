@@ -40,6 +40,20 @@
     ],
     "description": "Insert a table with default structure"
   },
+  "Table Head": {
+    "prefix": "thead",
+    "body": [
+      "<thead>${1}</thead>"
+    ],
+    "description": "Insert a table head tag"
+  },
+  "Table Body": {
+    "prefix": "tbody",
+    "body": [
+      "<tbody>${1}</tbody>"
+    ],
+    "description": "Insert a table body tag"
+  },
   "Table Row": {
     "prefix": "tr",
     "body": [
