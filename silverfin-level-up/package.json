@@ -38,7 +38,7 @@
   "contributes": {
     "themes": [
       {
-        "label": "Silverfin Theme",
+        "label": "Silverfin Theme - Refined Dark",
         "uiTheme": "vs-dark",
         "path": "./themes/silverfin-color-theme.json"
       }
