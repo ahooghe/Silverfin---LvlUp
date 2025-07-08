@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 > **Note:** Changes prior to version 0.0.3 were not tracked in this changelog.
 
-## [0.0.3] - YYYY-MM-DD
+## [0.0.3] - 08/07/2025
 ### Added
 - Initial `CHANGELOG.md` and `FAQ.md` files.
 - New `FEATURES.md` to document extension capabilities.

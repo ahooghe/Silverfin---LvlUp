@@ -45,9 +45,22 @@ Here’s everything you get with **Silverfin: Level-Up** for Visual Studio Code:
 ## 🏗️ HTML & Liquid Support
 
 - **HTML-in-Liquid snippets:**  
-  Insert tables, rows, and more with a keystroke—customized for Silverfin’s needs.
+  Insert tables, rows, and more with a keystroke; customized for Silverfin’s needs.
 - **Auto-closing tags:**  
   Write HTML and Liquid faster with automatic closing for tags and brackets.
+
+---
+
+## 🧹 One-Click Formatting for Liquid & HTML
+
+- **Smart auto-indentation:**  
+  Format your entire Silverfin/Liquid document with a single command.
+- **Unified block handling:**  
+  HTML and Liquid blocks are indented together for clean, readable code.
+- **Supports nested and mixed content:**  
+  Works seamlessly with complex templates containing both HTML and Liquid.
+- **Handles additional Liquid blocks:**  
+  Improved support for more Liquid block types and robust formatting.
 
 ---
 
@@ -88,4 +101,4 @@ Check the [README](./README.md) or [open an issue](https://github.com/ahooghe/Si
 
 ---
 
-*Silverfin: Level-Up — Make Silverfin development a joy,
+*Silverfin: Level-Up — Make Silverfin development a joy, not a chore.*

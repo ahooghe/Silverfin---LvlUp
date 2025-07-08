@@ -39,6 +39,8 @@ Tired of wrestling with syntax errors, missing documentation, or repetitive code
   No more hunting for docs or second-guessing syntax.
 - **Speed up your workflow**  
   Use handy snippets and auto-completions to write more, type less.
+- **Format your code instantly**  
+  Auto-indent your entire Silverfin/Liquid document with a single command. HTML and Liquid blocks are handled together for clean, readable code.
 - **Understand your code instantly**  
   Hover over tags, filters, and objects for clear, concise explanations.
 - **Customize your experience**  
@@ -51,6 +53,17 @@ Tired of wrestling with syntax errors, missing documentation, or repetitive code
 
 _Screenshots and demo GIFs will appear here in version 1.0!_
 -->
+
+---
+
+## 🧹 One-Click Formatting
+
+Keep your Silverfin and Liquid code beautiful and consistent with one command!  
+The formatter automatically indents HTML and Liquid blocks together, making even complex templates easy to read and maintain.
+
+- Works with mixed HTML and Liquid code
+- Supports nested and advanced block structures
+- Available from the Command Palette or on save (if enabled [🚧 WIP])
 
 ---
 
