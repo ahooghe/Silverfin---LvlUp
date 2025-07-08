@@ -46,11 +46,11 @@ function formatLiquid(text: string, config: FormatterConfig): string {
 
     // Regular expressions for detecting block-level Liquid tags and HTML elements
     const blockStart = new RegExp(
-        `{%\\s*(if|for|case|unless|capture|comment|tablerow|raw|customblock|fori|stripnewlines|locale|addnewinputs|currencyconfiguration|linkto|ic|nic|radiogroup)\\b|${htmlOpen}`,
+        `{%\\s*(if|ifi|for|case|unless|capture|comment|tablerow|raw|customblock|fori|stripnewlines|locale|addnewinputs|currencyconfiguration|linkto|ic|nic|radiogroup|adjustmentbutton)\\b|${htmlOpen}`,
         'i'
     );
     const blockEnd = new RegExp(
-        `{%\\s*end(if|for|case|unless|capture|comment|tablerow|raw|customblock|fori|stripnewlines|locale|addnewinputs|currencyconfiguration|linkto|ic|nic|radiogroup)\\s*%}|${htmlClose}`,
+        `{%\\s*end(if|ifi|for|case|unless|capture|comment|tablerow|raw|customblock|fori|stripnewlines|locale|addnewinputs|currencyconfiguration|linkto|ic|nic|radiogroup|adjustmentbutton)\\s*%}|${htmlClose}`,
         'i'
     );
 
