@@ -160,7 +160,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(disposableCompletion);
 
     // Set default color theme
-    vscode.workspace.getConfiguration('workbench').update('colorTheme', 'Silverfin Theme', vscode.ConfigurationTarget.Global);
+    vscode.workspace.getConfiguration('workbench').update('colorTheme', 'Silverfin Theme - Refined Dark', vscode.ConfigurationTarget.Global);
 
     console.log('Silverfin: Level-Up extension is now active!');
 }
@@ -169,17 +169,6 @@ export function activate(context: vscode.ExtensionContext) {
 class SilverfinSemanticTokensProvider implements vscode.DocumentSemanticTokensProvider {
     provideDocumentSemanticTokens(document: vscode.TextDocument): vscode.ProviderResult<vscode.SemanticTokens> {
         const builder = new vscode.SemanticTokensBuilder(legend);
-
-        // Highlight 'assign' keywords throughout the document
-        for (let line = 0; line < document.lineCount; line++) {
-            const text = document.lineAt(line).text;
-
-            const index = text.indexOf('assign');
-            if (index !== -1) {
-                builder.push(new vscode.Range(new vscode.Position(line, index), new vscode.Position(line, index + 6)), 'type');
-            }
-        }
-
         return builder.build();
     }
 }
