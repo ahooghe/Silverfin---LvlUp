@@ -5,11 +5,15 @@
       "name": "comment.block.silverfin",
       "begin": "{%\\s*comment\\s*%}",
       "beginCaptures": {
-        "0": { "name": "punctuation.definition.comment.begin.silverfin" }
+        "0": {
+          "name": "punctuation.definition.comment.begin.silverfin"
+        }
       },
       "end": "{%\\s*endcomment\\s*%}",
       "endCaptures": {
-        "0": { "name": "punctuation.definition.comment.end.silverfin" }
+        "0": {
+          "name": "punctuation.definition.comment.end.silverfin"
+        }
       },
       "patterns": [
         {
@@ -22,12 +26,18 @@
       "name": "meta.html.silverfin",
       "begin": "(</?)([a-zA-Z][a-zA-Z0-9]*)",
       "beginCaptures": {
-        "1": { "name": "punctuation.definition.tag.silverfin" },
-        "2": { "name": "entity.name.tag.silverfin" }
+        "1": {
+          "name": "punctuation.definition.tag.silverfin"
+        },
+        "2": {
+          "name": "entity.name.tag.silverfin"
+        }
       },
       "end": "(>)",
       "endCaptures": {
-        "1": { "name": "punctuation.definition.tag.silverfin" }
+        "1": {
+          "name": "punctuation.definition.tag.silverfin"
+        }
       },
       "patterns": [
         {
@@ -38,22 +48,30 @@
           "name": "string.quoted.double.silverfin",
           "begin": "\"",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.silverfin" }
+            "0": {
+              "name": "punctuation.definition.string.begin.silverfin"
+            }
           },
           "end": "\"",
           "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.silverfin" }
+            "0": {
+              "name": "punctuation.definition.string.end.silverfin"
+            }
           },
           "patterns": [
             {
               "name": "meta.output.silverfin",
               "begin": "\\{\\{",
               "beginCaptures": {
-                "0": { "name": "punctuation.output.start.silverfin" }
+                "0": {
+                  "name": "punctuation.output.start.silverfin"
+                }
               },
               "end": "\\}\\}",
               "endCaptures": {
-                "0": { "name": "punctuation.output.end.silverfin" }
+                "0": {
+                  "name": "punctuation.output.end.silverfin"
+                }
               },
               "patterns": [
                 {
@@ -68,22 +86,30 @@
           "name": "string.quoted.single.silverfin",
           "begin": "'",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.silverfin" }
+            "0": {
+              "name": "punctuation.definition.string.begin.silverfin"
+            }
           },
           "end": "'",
           "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.silverfin" }
+            "0": {
+              "name": "punctuation.definition.string.end.silverfin"
+            }
           },
           "patterns": [
             {
               "name": "meta.output.silverfin",
               "begin": "{{",
               "beginCaptures": {
-                "0": { "name": "punctuation.output.start.silverfin" }
+                "0": {
+                  "name": "punctuation.output.start.silverfin"
+                }
               },
               "end": "}}",
               "endCaptures": {
-                "0": { "name": "punctuation.output.end.silverfin" }
+                "0": {
+                  "name": "punctuation.output.end.silverfin"
+                }
               },
               "patterns": [
                 {
@@ -100,22 +126,30 @@
       "name": "meta.block.silverfin",
       "begin": "{%",
       "beginCaptures": {
-        "0": { "name": "punctuation.block.start.silverfin" }
+        "0": {
+          "name": "punctuation.block.start.silverfin"
+        }
       },
       "end": "%}",
       "endCaptures": {
-        "0": { "name": "punctuation.block.end.silverfin" }
+        "0": {
+          "name": "punctuation.block.end.silverfin"
+        }
       },
       "patterns": [
         {
           "name": "string.quoted.double.silverfin",
           "begin": "\"",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.silverfin" }
+            "0": {
+              "name": "punctuation.definition.string.begin.silverfin"
+            }
           },
           "end": "\"",
           "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.silverfin" }
+            "0": {
+              "name": "punctuation.definition.string.end.silverfin"
+            }
           },
           "patterns": []
         },
@@ -123,11 +157,15 @@
           "name": "string.quoted.single.silverfin",
           "begin": "'",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.silverfin" }
+            "0": {
+              "name": "punctuation.definition.string.begin.silverfin"
+            }
           },
           "end": "'",
           "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.silverfin" }
+            "0": {
+              "name": "punctuation.definition.string.end.silverfin"
+            }
           },
           "patterns": []
         },
@@ -135,11 +173,15 @@
           "name": "meta.square.brackets.silverfin",
           "begin": "\\[",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.square.bracket.begin.silverfin" }
+            "0": {
+              "name": "punctuation.definition.square.bracket.begin.silverfin"
+            }
           },
           "end": "\\]",
           "endCaptures": {
-            "0": { "name": "punctuation.definition.square.bracket.end.silverfin" }
+            "0": {
+              "name": "punctuation.definition.square.bracket.end.silverfin"
+            }
           },
           "patterns": [
             {
@@ -210,22 +252,30 @@
       "name": "meta.output.silverfin",
       "begin": "{{",
       "beginCaptures": {
-        "0": { "name": "punctuation.output.start.silverfin" }
+        "0": {
+          "name": "punctuation.output.start.silverfin"
+        }
       },
       "end": "}}",
       "endCaptures": {
-        "0": { "name": "punctuation.output.end.silverfin" }
+        "0": {
+          "name": "punctuation.output.end.silverfin"
+        }
       },
       "patterns": [
         {
           "name": "string.quoted.double.silverfin",
           "begin": "\"",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.silverfin" }
+            "0": {
+              "name": "punctuation.definition.string.begin.silverfin"
+            }
           },
           "end": "\"",
           "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.silverfin" }
+            "0": {
+              "name": "punctuation.definition.string.end.silverfin"
+            }
           },
           "patterns": []
         },
@@ -233,11 +283,15 @@
           "name": "string.quoted.single.silverfin",
           "begin": "'",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.silverfin" }
+            "0": {
+              "name": "punctuation.definition.string.begin.silverfin"
+            }
           },
           "end": "'",
           "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.silverfin" }
+            "0": {
+              "name": "punctuation.definition.string.end.silverfin"
+            }
           },
           "patterns": []
         },
@@ -245,11 +299,15 @@
           "name": "meta.square.brackets.silverfin",
           "begin": "\\[",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.square.bracket.begin.silverfin" }
+            "0": {
+              "name": "punctuation.definition.square.bracket.begin.silverfin"
+            }
           },
           "end": "\\]",
           "endCaptures": {
-            "0": { "name": "punctuation.definition.square.bracket.end.silverfin" }
+            "0": {
+              "name": "punctuation.definition.square.bracket.end.silverfin"
+            }
           },
           "patterns": [
             {

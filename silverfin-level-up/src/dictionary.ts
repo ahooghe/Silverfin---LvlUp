@@ -477,7 +477,7 @@ export const silverfinDictionary: {
         "example": `{% assign numbers = "1;2;3;4;5" | split:";" %}\n\n{% for item in numbers reversed %}\n  {{ item }}\n{% endfor %}\n\n**Output:**\n5\n4\n3\n2\n1`
     },
 
-    
+
     "ABS": {
         "description": "Returns the absolute value of a number.",
         "example": `ABS(-23) \n\n**Output:**\n23`

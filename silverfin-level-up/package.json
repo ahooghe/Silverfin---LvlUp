@@ -46,8 +46,13 @@
     "languages": [
       {
         "id": "silverfin-lvlup",
-        "aliases": ["Silverfin: Level-Up", "silverfin"],
-        "extensions": [".liquid"],
+        "aliases": [
+          "Silverfin: Level-Up",
+          "silverfin"
+        ],
+        "extensions": [
+          ".liquid"
+        ],
         "configuration": "./language-configuration.json"
       }
     ],

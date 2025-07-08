@@ -1,474 +1,474 @@
 {
-    "Assign Statement": {
-      "prefix": "assign",
-      "body": [
-        "{% assign ${1:variable} = ${2:value} %}"
-      ],
-      "description": "Assigns a value to a variable"
-    },
-    "Input Statement": {
-      "prefix": "input",
-      "body": [
-        "{% input custom.${1:namespace}.${2:value} %}"
-      ],
-      "description": "Creates an input field"
-    },
-    "Input with Type": {
-      "prefix": "inputas",
-      "body": [
-        "{% input custom.${1:namespace}.${2:value} as:${3|text,currency,integer,percentage,boolean,date,account_collection,file,document.link|} %}"
-      ],
-      "description": "Creates an input field with a specified type"
-    },
-    "Select input": {
-      "prefix": "selectinput",
-      "body": [
-        "{% input custom.${1:namespace}.${2:value} as:select options:${3:'options|split|with|pipes'} option_values:${4 :'values|split|with|pipes'} %}"
-      ],
-      "description": "Creates a select input field"
-    },
-    "Input with Default": {
-      "prefix": "inputdefault",
-      "body": [
-        "{% input custom.${1:namespace}.${2:value} default:${3:default_value} %}"
-      ],
-      "description": "Creates an input field with a default value"
-    },
-    "Input with Placeholder": {
-      "prefix": "inputplaceholder",
-      "body": [
-        "{% input custom.${1:namespace}.${2:value} placeholder:${3:placeholder_text} %}"
-      ],
-      "description": "Creates an input field with a placeholder"
-    },
-    "If Statement": {
-      "prefix": "if",
-      "body": [
-        "{% if ${1:condition} %}",
-        "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "{% endif %}"
-      ],
-      "description": "Creates a conditional if statement"
-    },
-    "Contains Check": {
-      "prefix": "contains",
-      "body": [
-        "{% if ${1:collection} contains '${2:value}' %}",
-        "\t${3:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "{% endif %}"
-      ],
-      "description": "Checks if a collection contains a specific value"
-    },
-    "If-Else Statement": {
-      "prefix": "ifelse",
-      "body": [
-        "{% if ${1:condition} %}",
-        "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "{% else %}",
-        "\t${2:{% comment %\\} Enter fallback code here {% endcomment%\\}}",
-        "{% endif %}"
-      ],
-      "description": "Creates a conditional if-else statement"
-    },
-    "Elsif": {
-      "prefix": "elsif",
-      "body": [
-        "{% elsif ${1:condition} %}"
-      ],
-      "description": "Adds an elsif condition to an if statement"
-    },
-    "Else": {
-      "prefix": "else",
-      "body": [
-        "{% else %}"
-      ],
-      "description": "Adds an else condition to an if statement"
-    },
-    "Ifi Statement": {
-      "prefix": "ifi",
-      "body": [
-        "{% ifi ${1:condition} %}",
-        "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "{% endifi %}"
-      ],
-      "description": "Creates an ifi conditional block"
-    },
-    "Unless Statement": {
-      "prefix": "unless",
-      "body": [
-        "{% unless ${1:condition} %}",
-        "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "{% endunless %}"
-      ],
-      "description": "Creates an unless conditional block"
-    },
-    "For Loop": {
-      "prefix": "for",
-      "body": [
-        "{% for ${1:item} in ${2:collection} %}",
-        "\t${3:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "{% endfor %}"
-      ],
-      "description": "Creates a for loop"
-    },
-    "Fori Loop": {
-      "prefix": "fori",
-      "body": [
-        "{% fori ${1:item} in ${2:collection} %}",
-        "\t${3:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "{% endfori %}"
-      ],
-      "description": "Creates a fori loop"
-    },
-    "Break Loop": {
-      "prefix": "break",
-      "body": [
-        "{% break %}"
-      ],
-      "description": "Stops the current loop iteration."
-    },
-    "Continue Loop": {
-      "prefix": "continue",
-      "body": [
-        "{% continue %}"
-      ],
-      "description": "Skips the current loop iteration and moves to the next."
-    },
-    "Forloop Helper Variables": {
-      "prefix": "forloop",
-      "body": [
-        "{{ forloop.${1|index,index0,rindex,length,first,last|} }}"
-      ],
-      "description": "Accesses helper variables within a for loop."
-    },
-    "Case Statement": {
-      "prefix": "case",
-      "body": [
-        "{% case ${1:variable} %}",
-        "\t{% when ${2:value} %}",
-        "\t\t${3:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "\t{% else %}",
-        "\t\t${4:{% comment %\\} Enter fallback code here {% endcomment%\\}}",
-        "{% endcase %}"
-      ],
-      "description": "Creates a case statement with when and else conditions"
-    },
-    "Locale Statement": {
-      "prefix": "locale",
-      "body": [
-        "{% locale ${1:language} %}",
-        "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "{% endlocale %}"
-      ],
-      "description": "Creates a locale block for a specific language"
-    },
-    "Stripnewlines Statement": {
-      "prefix": "stripnewlines",
-      "body": [
-        "{% stripnewlines %}",
-        "\t${1:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "{% endstripnewlines %}"
-      ],
-      "description": "Removes newlines from the enclosed block"
-    },
-    "One-Line Comment": {
-      "prefix": "comment",
-      "body": [
-        "{% comment %} $1 {% endcomment %}"
-      ],
-      "description": "Creates a one-line comment block"
-    },
-    "Block Comment": {
-      "prefix": "comment",
-      "body": [
-        "{% comment %}",
-        "\t$1",
-        "{% endcomment %}"
-      ],
-      "description": "Creates a multi-line comment block"
-    },
-    "Newline": {
-      "prefix": "newline",
-      "body": [
-        "{% newline %}"
-      ],
-      "description": "Inserts a newline"
-    },
-    "Push Item to Array": {
-      "prefix": "push",
-      "body": [
-        "{% push ${1:variable} to:${2:array} %}"
-      ],
-      "description": "Adds a variable to the end of an array"
-    },
-    "Pop Item from Array": {
-      "prefix": "pop",
-      "body": [
-        "{% pop ${1:array} to:${2:variable} %}"
-      ],
-      "description": "Removes the last variable from an array"
-    },
-    "Include File": {
-      "prefix": "include",
-      "body": [
-        "{% include '${1|shared,parts|}/${2:filename}' %}"
-      ],
-      "description": "Includes a file from the specified directory"
-    },
-    "Linkto": {
-      "prefix": "linkto",
-      "body": [
-        "{% linkto ${1|period.reconciliations.,https://example.com|}$2 %}{% endlinkto %}"
-      ],
-      "description": "Creates a link to either a reconciliation period or a weblink"
-    },
-    "Signmarker": {
-      "prefix": "signmarker",
-      "body": [
-        "{% signmarker name:${1:name} email:${2:email} phone_number:${3:phone_number} role:${4:role} on_behalf_of:${5:on_behalf_of} %}"
-      ],
-      "description": "Creates a signmarker with specified attributes"
-    },
-    "Unreconciled": {
-      "prefix": "unreconciled",
-      "body": [
-        "{% unreconciled ${1:value_of_unreconciled} as:${2:indicator} unreconciled_text:${3:text} %}"
-      ],
-      "description": "Creates an unreconciled statement"
-    },
-    "Group Statement": {
-      "prefix": "group",
-      "body": [
-        "{% nic %}",
-        "{:/group}",
-        "{::group}",
-        "{% endnic %}"
-      ],
-      "description": "Creates a group block"
-    },
-    "Single line output code": {
-      "prefix": "nic",
-      "body": [
-        "{% nic %}$1{% endnic %}"
-      ],
-      "description": "Creates a single-line output block"
-    },
-    "Single line input code": {
-      "prefix": "ic",
-      "body": [
-        "{% ic %}$1{% endic %}"
-      ],
-      "description": "Creates a single-line input block"
-    },
-    "Block output code": {
-      "prefix": "nic",
-      "body": [
-        "{% nic %}",
-        "$1",
-        "{% endnic %}"
-      ],
-      "description": "Creates a multi-line output block"
-    },
-    "Block input code": {
-      "prefix": "ic",
-      "body": [
-        "{% ic %}",
-        "$1",
-        "{% endic %}"
-      ],
-      "description": "Creates a multi-line input block"
-    },
-    "Single line warning code": {
-      "prefix": "warning",
-      "body": [
-        "{% ic %}{::warningtext}$1{:/warningtext}{% endic %}"
-      ],
-      "description": "Creates a single-line warning block"
-    },
-    "Block warning code": {
-      "prefix": "warningblock",
-      "body": [
-        "{% ic %}{::warningtext}",
-        "$1",
-        "{:/warningtext}{% endic %}"
-      ],
-      "description": "Creates a multi-line warning block"
-    },
-    "Single line infotext code": {
-      "prefix": "infotext",
-      "body": [
-        "{% ic %}{::infotext}$1{:/infotext}{% endic %}"
-      ],
-      "description": "Creates a single-line info text block"
-    },
-    "Block infotext code": {
-      "prefix": "infotextblock",
-      "body": [
-        "{% ic %}{::infotext}",
-        "$1",
-        "{:/infotext}{% endic %}"
-      ],
-      "description": "Creates a multi-line info text block"
-    },
-    "Translation tags": {
-      "prefix": "t",
-      "body": [
-        "{% t${1|= , |}${2:'translation_id'} default:'${3:translation}' ${4:secondary_language}:'${5:translation}' %}"
-      ],
-      "description": "Translation tags for Silverfin, with optional secondary language support"
-    },
-    "Capture Block": {
-      "prefix": "capture",
-      "body": [
-        "{% capture ${1:variable} %}",
-        "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "{% endcapture %}"
-      ],
-      "description": "Captures the output of a block into a variable"
-    },
-    "Capture Single line": {
-      "prefix": "capture",
-      "body": [
-        "{% capture ${1:variable} %}${2:{% comment %\\} Enter code here {% endcomment%\\}}{% endcapture %}"
-      ],
-      "description": "Captures the output of a single line into a variable"
-    },
-    "Result": {
-      "prefix": "result",
-      "body": [
-        "{% result '${1:Result name}' ${2:Variable containing result} %}"
-      ],
-      "description": "Creates a result value in Silverfin for easy access later"
-    },
-    "Rollforward": {
-      "prefix": "rollforward",
-      "body": [
-        "{% rollforward ${1:Custom field in current period} ${2:Custom field to rollforward to} %}"
-      ],
-      "description": "Copies data from one custom field to another in a different period"
-    },
-    "Currencyconfiguration": {
-      "prefix": "currencyconfiguration",
-      "body": [
-        "{% currencyconfiguration negative_format:'${1:-xxx}' zero_format:'${2:0}' precision:${3:2} delimiter:'${4:.}' separator:'${5:,}' %}",
-        "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "{% endcurrencyconfiguration %}"
-      ],
-      "description": "Creates a currency configuration block with specified formats and precision"
-    },
-    "Target": {
-      "prefix": "target",
-      "body": [
-        "{::target id='${1:target_id}'}$2{:/target}"
-      ],
-      "description": "Target block for linking to specific sections within a document"
-    },
-    "Adjustment Transaction": {
-      "prefix": "adjustmenttransaction",
-      "body": [
-        "{% adjustmenttransaction account_number:'${1:100000}' description:'${2:Some description}' value:${3:1000.23} %}"
-      ],
-      "description": "Creates a single adjustment transaction"
-    },
-    "Adjustment Button": {
-      "prefix": "adjustmentbutton",
-      "body": [
-        "{% adjustmentbutton text:'${1:create new adjustment}' category:'${2:internal}' %}",
-        "\t{% adjustmenttransaction account_number:'${3:100000}' description:'${4:Some description}' value:${5:1000.23} %}",
-        "\t{% adjustmenttransaction account_number:'${6:120000}' description:'${7:Some other description}' value:${8:-1000.23} %}",
-        "{% endadjustmentbutton %}"
-      ],
-      "description": "Creates an adjustment button with multiple transactions"
-    },
-    "Change Orientation": {
-      "prefix": "changeorientation",
-      "body": [
-        "{% changeorientation '${1|landscape,portrait|}' %}"
-      ],
-      "description": "Changes the orientation between landscape and portrait"
-    },
-      "New Page": {
-      "prefix": "newpage",
-      "body": [
-        "{% newpage %}"
-      ],
-      "description": "Inserts a new page break"
-    },
-    "Radiogroup": {
-      "prefix": "radiogroup",
-      "body": [
-        "{% radiogroup custom.${1:namespace}.${2:key} default:'${3:default value}' %}",
-        "\t{% radioinput label:'${4:Label}' value:'${5:value}' %}",
-        "\t{% radioinput label:'${6:Label}' value:'${7:value}' %}",
-        "{% endradiogroup %}"
-      ],
-      "description": "Creates a radiogroup with two radioinputs"
-    },
-    "Numeric Validation with Range": {
-      "prefix": "numeric_validation",
-      "body": [
-        "{% input_validation '${1:validation_name}' as:numeric max:${2:10} %}"
-      ],
-      "description": "Creates a numeric input validation with a specified range"
-    },
-      "Date Validation with Range": {
-      "prefix": "date_validation",
-      "body": [
-        "{% input_validation '${1:validation_name}' start_date:'${2:2022-01-01}' end_date:'${3:2022-12-31}' %}"
-      ],
-      "description": "Creates a date input validation with a specified start and end date"
-    },
-    "Add New Inputs": {
-      "prefix": "addnewinputs",
-      "body": [
-        "{% addnewinputs %}",
-        "\t{% assign ${1:variable_name} = custom.${2:namespace}.${3:field} | sort:\"${4:attribute}\" %}",
-        "{% endaddnewinputs %}"
-      ],
-      "description": "Allows the creation of fori input drops with a possible applied modification"
-    },
-    "Locale Block": {
-      "prefix": "locale",
-      "body": [
-        "{% locale \"${1:language}\" %}",
-        "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
-        "{% endlocale %}"
-      ],
-      "description": "Creates a locale block for a specific language."
-    },
-    "Unreconciled Statement": {
-      "prefix": "unreconciled",
-      "body": [
-        "{% unreconciled ${1:expression} as:${2:indicator} unreconciled_text:'${3:Explanation}' %}"
-      ],
-      "description": "Creates an unreconciled statement with an indicator and optional explanation."
-    },
-    "Result Tag": {
-      "prefix": "result",
-      "body": [
-        "{% result '${1:Result name}' ${2:Variable containing result} %}"
-      ],
-      "description": "Stores a result value for use across templates."
-    },
-    "Rollforward Tag": {
-      "prefix": "rollforward",
-      "body": [
-        "{% rollforward ${1:source_field} ${2:destination_field} %}"
-      ],
-      "description": "Transfers data from one custom field to another across periods."
-    },
-    "Input Validation": {
-      "prefix": "inputvalidation",
-      "body": [
-        "{% input_validation '${1:validation_name}' as:${2|numeric,date|} ${3:min:0} ${4:max:100} %}"
-      ],
-      "description": "Adds validation rules to input fields."
-    },
-    "Date Input Validation": {
-      "prefix": "datevalidation",
-      "body": [
-        "{% input_validation '${1:validation_name}' as:date start_date:'${2:2022-01-01}' end_date:'${3:2022-12-31}' %}"
-      ],
-      "description": "Validates date inputs with a specified range."
-    },
+  "Assign Statement": {
+    "prefix": "assign",
+    "body": [
+      "{% assign ${1:variable} = ${2:value} %}"
+    ],
+    "description": "Assigns a value to a variable"
+  },
+  "Input Statement": {
+    "prefix": "input",
+    "body": [
+      "{% input custom.${1:namespace}.${2:value} %}"
+    ],
+    "description": "Creates an input field"
+  },
+  "Input with Type": {
+    "prefix": "inputas",
+    "body": [
+      "{% input custom.${1:namespace}.${2:value} as:${3|text,currency,integer,percentage,boolean,date,account_collection,file,document.link|} %}"
+    ],
+    "description": "Creates an input field with a specified type"
+  },
+  "Select input": {
+    "prefix": "selectinput",
+    "body": [
+      "{% input custom.${1:namespace}.${2:value} as:select options:${3:'options|split|with|pipes'} option_values:${4 :'values|split|with|pipes'} %}"
+    ],
+    "description": "Creates a select input field"
+  },
+  "Input with Default": {
+    "prefix": "inputdefault",
+    "body": [
+      "{% input custom.${1:namespace}.${2:value} default:${3:default_value} %}"
+    ],
+    "description": "Creates an input field with a default value"
+  },
+  "Input with Placeholder": {
+    "prefix": "inputplaceholder",
+    "body": [
+      "{% input custom.${1:namespace}.${2:value} placeholder:${3:placeholder_text} %}"
+    ],
+    "description": "Creates an input field with a placeholder"
+  },
+  "If Statement": {
+    "prefix": "if",
+    "body": [
+      "{% if ${1:condition} %}",
+      "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "{% endif %}"
+    ],
+    "description": "Creates a conditional if statement"
+  },
+  "Contains Check": {
+    "prefix": "contains",
+    "body": [
+      "{% if ${1:collection} contains '${2:value}' %}",
+      "\t${3:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "{% endif %}"
+    ],
+    "description": "Checks if a collection contains a specific value"
+  },
+  "If-Else Statement": {
+    "prefix": "ifelse",
+    "body": [
+      "{% if ${1:condition} %}",
+      "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "{% else %}",
+      "\t${2:{% comment %\\} Enter fallback code here {% endcomment%\\}}",
+      "{% endif %}"
+    ],
+    "description": "Creates a conditional if-else statement"
+  },
+  "Elsif": {
+    "prefix": "elsif",
+    "body": [
+      "{% elsif ${1:condition} %}"
+    ],
+    "description": "Adds an elsif condition to an if statement"
+  },
+  "Else": {
+    "prefix": "else",
+    "body": [
+      "{% else %}"
+    ],
+    "description": "Adds an else condition to an if statement"
+  },
+  "Ifi Statement": {
+    "prefix": "ifi",
+    "body": [
+      "{% ifi ${1:condition} %}",
+      "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "{% endifi %}"
+    ],
+    "description": "Creates an ifi conditional block"
+  },
+  "Unless Statement": {
+    "prefix": "unless",
+    "body": [
+      "{% unless ${1:condition} %}",
+      "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "{% endunless %}"
+    ],
+    "description": "Creates an unless conditional block"
+  },
+  "For Loop": {
+    "prefix": "for",
+    "body": [
+      "{% for ${1:item} in ${2:collection} %}",
+      "\t${3:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "{% endfor %}"
+    ],
+    "description": "Creates a for loop"
+  },
+  "Fori Loop": {
+    "prefix": "fori",
+    "body": [
+      "{% fori ${1:item} in ${2:collection} %}",
+      "\t${3:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "{% endfori %}"
+    ],
+    "description": "Creates a fori loop"
+  },
+  "Break Loop": {
+    "prefix": "break",
+    "body": [
+      "{% break %}"
+    ],
+    "description": "Stops the current loop iteration."
+  },
+  "Continue Loop": {
+    "prefix": "continue",
+    "body": [
+      "{% continue %}"
+    ],
+    "description": "Skips the current loop iteration and moves to the next."
+  },
+  "Forloop Helper Variables": {
+    "prefix": "forloop",
+    "body": [
+      "{{ forloop.${1|index,index0,rindex,length,first,last|} }}"
+    ],
+    "description": "Accesses helper variables within a for loop."
+  },
+  "Case Statement": {
+    "prefix": "case",
+    "body": [
+      "{% case ${1:variable} %}",
+      "\t{% when ${2:value} %}",
+      "\t\t${3:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "\t{% else %}",
+      "\t\t${4:{% comment %\\} Enter fallback code here {% endcomment%\\}}",
+      "{% endcase %}"
+    ],
+    "description": "Creates a case statement with when and else conditions"
+  },
+  "Locale Statement": {
+    "prefix": "locale",
+    "body": [
+      "{% locale ${1:language} %}",
+      "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "{% endlocale %}"
+    ],
+    "description": "Creates a locale block for a specific language"
+  },
+  "Stripnewlines Statement": {
+    "prefix": "stripnewlines",
+    "body": [
+      "{% stripnewlines %}",
+      "\t${1:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "{% endstripnewlines %}"
+    ],
+    "description": "Removes newlines from the enclosed block"
+  },
+  "One-Line Comment": {
+    "prefix": "comment",
+    "body": [
+      "{% comment %} $1 {% endcomment %}"
+    ],
+    "description": "Creates a one-line comment block"
+  },
+  "Block Comment": {
+    "prefix": "comment",
+    "body": [
+      "{% comment %}",
+      "\t$1",
+      "{% endcomment %}"
+    ],
+    "description": "Creates a multi-line comment block"
+  },
+  "Newline": {
+    "prefix": "newline",
+    "body": [
+      "{% newline %}"
+    ],
+    "description": "Inserts a newline"
+  },
+  "Push Item to Array": {
+    "prefix": "push",
+    "body": [
+      "{% push ${1:variable} to:${2:array} %}"
+    ],
+    "description": "Adds a variable to the end of an array"
+  },
+  "Pop Item from Array": {
+    "prefix": "pop",
+    "body": [
+      "{% pop ${1:array} to:${2:variable} %}"
+    ],
+    "description": "Removes the last variable from an array"
+  },
+  "Include File": {
+    "prefix": "include",
+    "body": [
+      "{% include '${1|shared,parts|}/${2:filename}' %}"
+    ],
+    "description": "Includes a file from the specified directory"
+  },
+  "Linkto": {
+    "prefix": "linkto",
+    "body": [
+      "{% linkto ${1|period.reconciliations.,https://example.com|}$2 %}{% endlinkto %}"
+    ],
+    "description": "Creates a link to either a reconciliation period or a weblink"
+  },
+  "Signmarker": {
+    "prefix": "signmarker",
+    "body": [
+      "{% signmarker name:${1:name} email:${2:email} phone_number:${3:phone_number} role:${4:role} on_behalf_of:${5:on_behalf_of} %}"
+    ],
+    "description": "Creates a signmarker with specified attributes"
+  },
+  "Unreconciled": {
+    "prefix": "unreconciled",
+    "body": [
+      "{% unreconciled ${1:value_of_unreconciled} as:${2:indicator} unreconciled_text:${3:text} %}"
+    ],
+    "description": "Creates an unreconciled statement"
+  },
+  "Group Statement": {
+    "prefix": "group",
+    "body": [
+      "{% nic %}",
+      "{:/group}",
+      "{::group}",
+      "{% endnic %}"
+    ],
+    "description": "Creates a group block"
+  },
+  "Single line output code": {
+    "prefix": "nic",
+    "body": [
+      "{% nic %}$1{% endnic %}"
+    ],
+    "description": "Creates a single-line output block"
+  },
+  "Single line input code": {
+    "prefix": "ic",
+    "body": [
+      "{% ic %}$1{% endic %}"
+    ],
+    "description": "Creates a single-line input block"
+  },
+  "Block output code": {
+    "prefix": "nic",
+    "body": [
+      "{% nic %}",
+      "$1",
+      "{% endnic %}"
+    ],
+    "description": "Creates a multi-line output block"
+  },
+  "Block input code": {
+    "prefix": "ic",
+    "body": [
+      "{% ic %}",
+      "$1",
+      "{% endic %}"
+    ],
+    "description": "Creates a multi-line input block"
+  },
+  "Single line warning code": {
+    "prefix": "warning",
+    "body": [
+      "{% ic %}{::warningtext}$1{:/warningtext}{% endic %}"
+    ],
+    "description": "Creates a single-line warning block"
+  },
+  "Block warning code": {
+    "prefix": "warningblock",
+    "body": [
+      "{% ic %}{::warningtext}",
+      "$1",
+      "{:/warningtext}{% endic %}"
+    ],
+    "description": "Creates a multi-line warning block"
+  },
+  "Single line infotext code": {
+    "prefix": "infotext",
+    "body": [
+      "{% ic %}{::infotext}$1{:/infotext}{% endic %}"
+    ],
+    "description": "Creates a single-line info text block"
+  },
+  "Block infotext code": {
+    "prefix": "infotextblock",
+    "body": [
+      "{% ic %}{::infotext}",
+      "$1",
+      "{:/infotext}{% endic %}"
+    ],
+    "description": "Creates a multi-line info text block"
+  },
+  "Translation tags": {
+    "prefix": "t",
+    "body": [
+      "{% t${1|= , |}${2:'translation_id'} default:'${3:translation}' ${4:secondary_language}:'${5:translation}' %}"
+    ],
+    "description": "Translation tags for Silverfin, with optional secondary language support"
+  },
+  "Capture Block": {
+    "prefix": "capture",
+    "body": [
+      "{% capture ${1:variable} %}",
+      "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "{% endcapture %}"
+    ],
+    "description": "Captures the output of a block into a variable"
+  },
+  "Capture Single line": {
+    "prefix": "capture",
+    "body": [
+      "{% capture ${1:variable} %}${2:{% comment %\\} Enter code here {% endcomment%\\}}{% endcapture %}"
+    ],
+    "description": "Captures the output of a single line into a variable"
+  },
+  "Result": {
+    "prefix": "result",
+    "body": [
+      "{% result '${1:Result name}' ${2:Variable containing result} %}"
+    ],
+    "description": "Creates a result value in Silverfin for easy access later"
+  },
+  "Rollforward": {
+    "prefix": "rollforward",
+    "body": [
+      "{% rollforward ${1:Custom field in current period} ${2:Custom field to rollforward to} %}"
+    ],
+    "description": "Copies data from one custom field to another in a different period"
+  },
+  "Currencyconfiguration": {
+    "prefix": "currencyconfiguration",
+    "body": [
+      "{% currencyconfiguration negative_format:'${1:-xxx}' zero_format:'${2:0}' precision:${3:2} delimiter:'${4:.}' separator:'${5:,}' %}",
+      "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "{% endcurrencyconfiguration %}"
+    ],
+    "description": "Creates a currency configuration block with specified formats and precision"
+  },
+  "Target": {
+    "prefix": "target",
+    "body": [
+      "{::target id='${1:target_id}'}$2{:/target}"
+    ],
+    "description": "Target block for linking to specific sections within a document"
+  },
+  "Adjustment Transaction": {
+    "prefix": "adjustmenttransaction",
+    "body": [
+      "{% adjustmenttransaction account_number:'${1:100000}' description:'${2:Some description}' value:${3:1000.23} %}"
+    ],
+    "description": "Creates a single adjustment transaction"
+  },
+  "Adjustment Button": {
+    "prefix": "adjustmentbutton",
+    "body": [
+      "{% adjustmentbutton text:'${1:create new adjustment}' category:'${2:internal}' %}",
+      "\t{% adjustmenttransaction account_number:'${3:100000}' description:'${4:Some description}' value:${5:1000.23} %}",
+      "\t{% adjustmenttransaction account_number:'${6:120000}' description:'${7:Some other description}' value:${8:-1000.23} %}",
+      "{% endadjustmentbutton %}"
+    ],
+    "description": "Creates an adjustment button with multiple transactions"
+  },
+  "Change Orientation": {
+    "prefix": "changeorientation",
+    "body": [
+      "{% changeorientation '${1|landscape,portrait|}' %}"
+    ],
+    "description": "Changes the orientation between landscape and portrait"
+  },
+  "New Page": {
+    "prefix": "newpage",
+    "body": [
+      "{% newpage %}"
+    ],
+    "description": "Inserts a new page break"
+  },
+  "Radiogroup": {
+    "prefix": "radiogroup",
+    "body": [
+      "{% radiogroup custom.${1:namespace}.${2:key} default:'${3:default value}' %}",
+      "\t{% radioinput label:'${4:Label}' value:'${5:value}' %}",
+      "\t{% radioinput label:'${6:Label}' value:'${7:value}' %}",
+      "{% endradiogroup %}"
+    ],
+    "description": "Creates a radiogroup with two radioinputs"
+  },
+  "Numeric Validation with Range": {
+    "prefix": "numeric_validation",
+    "body": [
+      "{% input_validation '${1:validation_name}' as:numeric max:${2:10} %}"
+    ],
+    "description": "Creates a numeric input validation with a specified range"
+  },
+  "Date Validation with Range": {
+    "prefix": "date_validation",
+    "body": [
+      "{% input_validation '${1:validation_name}' start_date:'${2:2022-01-01}' end_date:'${3:2022-12-31}' %}"
+    ],
+    "description": "Creates a date input validation with a specified start and end date"
+  },
+  "Add New Inputs": {
+    "prefix": "addnewinputs",
+    "body": [
+      "{% addnewinputs %}",
+      "\t{% assign ${1:variable_name} = custom.${2:namespace}.${3:field} | sort:\"${4:attribute}\" %}",
+      "{% endaddnewinputs %}"
+    ],
+    "description": "Allows the creation of fori input drops with a possible applied modification"
+  },
+  "Locale Block": {
+    "prefix": "locale",
+    "body": [
+      "{% locale \"${1:language}\" %}",
+      "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
+      "{% endlocale %}"
+    ],
+    "description": "Creates a locale block for a specific language."
+  },
+  "Unreconciled Statement": {
+    "prefix": "unreconciled",
+    "body": [
+      "{% unreconciled ${1:expression} as:${2:indicator} unreconciled_text:'${3:Explanation}' %}"
+    ],
+    "description": "Creates an unreconciled statement with an indicator and optional explanation."
+  },
+  "Result Tag": {
+    "prefix": "result",
+    "body": [
+      "{% result '${1:Result name}' ${2:Variable containing result} %}"
+    ],
+    "description": "Stores a result value for use across templates."
+  },
+  "Rollforward Tag": {
+    "prefix": "rollforward",
+    "body": [
+      "{% rollforward ${1:source_field} ${2:destination_field} %}"
+    ],
+    "description": "Transfers data from one custom field to another across periods."
+  },
+  "Input Validation": {
+    "prefix": "inputvalidation",
+    "body": [
+      "{% input_validation '${1:validation_name}' as:${2|numeric,date|} ${3:min:0} ${4:max:100} %}"
+    ],
+    "description": "Adds validation rules to input fields."
+  },
+  "Date Input Validation": {
+    "prefix": "datevalidation",
+    "body": [
+      "{% input_validation '${1:validation_name}' as:date start_date:'${2:2022-01-01}' end_date:'${3:2022-12-31}' %}"
+    ],
+    "description": "Validates date inputs with a specified range."
+  },
 }

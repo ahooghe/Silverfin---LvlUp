@@ -163,13 +163,13 @@ export const silverfinDbModel = {
             'name': { type: 'string', description: 'The name of a report (string)' },
             'results': { type: 'collection', description: 'A collection with the names and values of all result tags. Using the name as a method will return the value (collection)' },
         }),
-    'people': Object.assign({
-        type: 'people drop',
-        description: 'All people attached to the period (people drop)'
-    }, {
-        'count': { type: 'integer', description: 'The amount of person drops in the people drop (integer)' },
-        'first': { type: 'person drop', description: 'Returns the person drop of the first person in the people drop (person drop)' },
-    }),
+        'people': Object.assign({
+            type: 'people drop',
+            description: 'All people attached to the period (people drop)'
+        }, {
+            'count': { type: 'integer', description: 'The amount of person drops in the people drop (integer)' },
+            'first': { type: 'person drop', description: 'Returns the person drop of the first person in the people drop (person drop)' },
+        }),
         'person': Object.assign({
             type: 'person drop',
             description: 'A specific person attached to the period (person drop)'
