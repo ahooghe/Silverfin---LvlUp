@@ -1,16 +1,25 @@
 import * as vscode from 'vscode';
 import { silverfinDictionary } from './dictionary';
 import { silverfinDbModel } from './silverfinDbModel';
+import { activateFormatter } from './formatter';
 
 export function activate(context: vscode.ExtensionContext) {
+    activateFormatter(context);
+    
     const disposableTokens = vscode.languages.registerDocumentSemanticTokensProvider(
         { language: 'silverfin-lvlup' },
         new SilverfinSemanticTokensProvider(),
         legend
     );
 
-    context.subscriptions.push(disposableTokens);
-
+    context.subscriptions.push(
+        vscode.commands.registerCommand('silverfinFormatter.formatDocument', async () => {
+            const editor = vscode.window.activeTextEditor;
+            if (editor && editor.document.languageId === 'silverfin-lvlup') {
+                await vscode.commands.executeCommand('editor.action.formatDocument');
+            }
+        })
+    );
     const disposableHover = vscode.languages.registerHoverProvider('silverfin-lvlup', {
         provideHover(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken) {
             const lineText = document.lineAt(position.line).text;

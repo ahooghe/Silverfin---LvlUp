@@ -8,7 +8,8 @@
     "vscode": "^1.50.0"
   },
   "activationEvents": [
-    "onLanguage:silverfin-lvlup"
+    "onLanguage:silverfin-lvlup",
+    "onCommand:silverfinFormatter.formatDocument"
   ],
   "main": "./out/extension.js",
   "icon": "icon.png",
@@ -36,6 +37,19 @@
     "html"
   ],
   "contributes": {
+    "commands": [
+        {
+            "command": "silverfinFormatter.formatDocument",
+            "title": "Format Silverfin Liquid Document"
+        }
+    ],
+    "keybindings": [
+        {
+            "command": "silverfinFormatter.formatDocument",
+            "key": "shift+alt+f",
+            "when": "editorLangId == silverfin-lvlup"
+        }
+    ],
     "themes": [
       {
         "label": "Silverfin Theme - Refined Dark",
