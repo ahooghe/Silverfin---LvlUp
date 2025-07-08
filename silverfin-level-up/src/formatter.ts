@@ -30,6 +30,87 @@ export function activateFormatter(context: vscode.ExtensionContext) {
     );
 }
 
+// Helper to trim extra spaces in Liquid tags, except inside quotes
+function trimLiquidTagSpaces(tag: string): string {
+    // Only process {% ... %} or {{ ... }}
+    const tagMatch = tag.match(/^({[{%])([\s\S]*?)([%}]})$/);
+    if (!tagMatch) return tag;
+
+    let [ , open, inner, close ] = tagMatch;
+
+    // Remove leading/trailing spaces in the inner part (but keep spaces inside quotes)
+    let result = '';
+    let inQuotes = false;
+    let quoteChar = '';
+    let prevChar = '';
+    let buffer = '';
+
+    // Collapse spaces outside quotes
+    for (let i = 0; i < inner.length; i++) {
+        const char = inner[i];
+
+        if ((char === '"' || char === "'") && prevChar !== '\\') {
+            if (!inQuotes) {
+                inQuotes = true;
+                quoteChar = char;
+            } else if (char === quoteChar) {
+                inQuotes = false;
+                quoteChar = '';
+            }
+        }
+
+        if (!inQuotes && /\s/.test(char)) {
+            if (buffer === '') buffer = ' ';
+        } else {
+            if (buffer) {
+                result += buffer;
+                buffer = '';
+            }
+            result += char;
+        }
+        prevChar = char;
+    }
+    if (buffer) result += buffer;
+
+    // Ensure pipes outside quotes are surrounded by single spaces
+    let final = '';
+    inQuotes = false;
+    quoteChar = '';
+    for (let i = 0; i < result.length; i++) {
+        const char = result[i];
+
+        if ((char === '"' || char === "'") && result[i - 1] !== '\\') {
+            if (!inQuotes) {
+                inQuotes = true;
+                quoteChar = char;
+            } else if (char === quoteChar) {
+                inQuotes = false;
+                quoteChar = '';
+            }
+        }
+
+        if (!inQuotes && char === '|') {
+            // Remove spaces before
+            while (final.length && final[final.length - 1] === ' ') {
+                final = final.slice(0, -1);
+            }
+            final += ' | ';
+            // Skip any spaces after the pipe
+            let j = i + 1;
+            while (j < result.length && result[j] === ' ') j++;
+            i = j - 1;
+        } else {
+            final += char;
+        }
+    }
+
+    // Trim leading/trailing spaces, then enforce exactly one space at start/end
+    final = final.trim();
+
+    // Add exactly one space after open and before close
+    return `${open} ${final} ${close}`;
+}
+
 // Core formatting logic for Liquid templates
 function formatLiquid(text: string, config: FormatterConfig): string {
     const lines = text.replace(/\r\n/g, '\n').split('\n');
@@ -91,12 +172,18 @@ function formatLiquid(text: string, config: FormatterConfig): string {
 
         // Handle single-line blocks (opening and closing on same line)
         if (isSingleLineBlock(line) || isHtmlSingleLine(line)) {
+            if (/{[{%].*[%}]}/.test(line)) {
+                line = line.replace(/({[{%][\s\S]*?[%}]})/g, m => trimLiquidTagSpaces(m));
+            }
             output.push('\t'.repeat(indentLevel) + line.trim());
             continue;
         }
 
         // Handle block closing tags - decrease indent first, then add line
         if (isBlockEnd(line)) {
+            if (/{[{%].*[%}]}/.test(line)) {
+                line = line.replace(/({[{%][\s\S]*?[%}]})/g, m => trimLiquidTagSpaces(m));
+            }
             indentLevel = Math.max(0, indentLevel - 1);
             output.push('\t'.repeat(indentLevel) + line.trim());
             continue;
@@ -104,6 +191,9 @@ function formatLiquid(text: string, config: FormatterConfig): string {
 
         // Handle block opening tags - add line first, then increase indent
         if (isBlockStart(line)) {
+            if (/{[{%].*[%}]}/.test(line)) {
+                line = line.replace(/({[{%][\s\S]*?[%}]})/g, m => trimLiquidTagSpaces(m));
+            }
             output.push('\t'.repeat(indentLevel) + line.trim());
             indentLevel++;
             continue;
@@ -115,12 +205,15 @@ function formatLiquid(text: string, config: FormatterConfig): string {
                 const tags = line.match(/{%.*?%}|{{.*?}}/g);
                 if (tags) {
                     tags.forEach(tag => {
+                        tag = trimLiquidTagSpaces(tag);
                         output.push('\t'.repeat(indentLevel) + tag.trim());
                     });
                 } else {
+                    line = line.replace(/({[{%][\s\S]*?[%}]})/g, m => trimLiquidTagSpaces(m));
                     output.push('\t'.repeat(indentLevel) + line.trim());
                 }
             } else {
+                line = line.replace(/({[{%][\s\S]*?[%}]})/g, m => trimLiquidTagSpaces(m));
                 output.push('\t'.repeat(indentLevel) + line.trim());
             }
             continue;
