@@ -436,27 +436,6 @@
     ],
     "description": "Creates a locale block for a specific language."
   },
-  "Unreconciled Statement": {
-    "prefix": "unreconciled",
-    "body": [
-      "{% unreconciled ${1:expression} as:${2:indicator} unreconciled_text:'${3:Explanation}' %}"
-    ],
-    "description": "Creates an unreconciled statement with an indicator and optional explanation."
-  },
-  "Result Tag": {
-    "prefix": "result",
-    "body": [
-      "{% result '${1:Result name}' ${2:Variable containing result} %}"
-    ],
-    "description": "Stores a result value for use across templates."
-  },
-  "Rollforward Tag": {
-    "prefix": "rollforward",
-    "body": [
-      "{% rollforward ${1:source_field} ${2:destination_field} %}"
-    ],
-    "description": "Transfers data from one custom field to another across periods."
-  },
   "Input Validation": {
     "prefix": "inputvalidation",
     "body": [
