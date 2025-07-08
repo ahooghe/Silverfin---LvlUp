@@ -110,7 +110,7 @@ function formatLiquid(text: string, config: FormatterConfig): string {
             continue;
         }
 
-        output.push('\t'.repeat(indentLevel) + line);
+        output.push('\t'.repeat(indentLevel) + line.replace(/^\s+/, ''));
     }
 
     return output.join('\n');
