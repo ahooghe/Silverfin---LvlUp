@@ -471,4 +471,123 @@
     ],
     "description": "Validates date inputs with a specified range."
   },
+  "End If": {
+    "prefix": "endif",
+    "body": [
+      "{% endif %}"
+    ],
+    "description": "Closes an if statement."
+  },
+  "End Ifi": {
+    "prefix": "endifi",
+    "body": [
+      "{% endifi %}"
+    ],
+    "description": "Closes an ifi statement."
+  },
+  "End Unless": {
+    "prefix": "endunless",
+    "body": [
+      "{% endunless %}"
+    ],
+    "description": "Closes an unless statement."
+  },
+  "End For": {
+    "prefix": "endfor",
+    "body": [
+      "{% endfor %}"
+    ],
+    "description": "Closes a for loop."
+  },
+  "End Fori": {
+    "prefix": "endfori",
+    "body": [
+      "{% endfori %}"
+    ],
+    "description": "Closes a fori loop."
+  },
+  "End Case": {
+    "prefix": "endcase",
+    "body": [
+      "{% endcase %}"
+    ],
+    "description": "Closes a case statement."
+  },
+  "End Locale": {
+    "prefix": "endlocale",
+    "body": [
+      "{% endlocale %}"
+    ],
+    "description": "Closes a locale block."
+  },
+  "End Stripnewlines": {
+    "prefix": "endstripnewlines",
+    "body": [
+      "{% endstripnewlines %}"
+    ],
+    "description": "Closes a stripnewlines block."
+  },
+  "End Comment": {
+    "prefix": "endcomment",
+    "body": [
+      "{% endcomment %}"
+    ],
+    "description": "Closes a comment block."
+  },
+  "End Linkto": {
+    "prefix": "endlinkto",
+    "body": [
+      "{% endlinkto %}"
+    ],
+    "description": "Closes a linkto block."
+  },
+  "End Nic": {
+    "prefix": "endnic",
+    "body": [
+      "{% endnic %}"
+    ],
+    "description": "Closes a nic (output code) block."
+  },
+  "End Ic": {
+    "prefix": "endic",
+    "body": [
+      "{% endic %}"
+    ],
+    "description": "Closes an ic (input code) block."
+  },
+  "End Capture": {
+    "prefix": "endcapture",
+    "body": [
+      "{% endcapture %}"
+    ],
+    "description": "Closes a capture block."
+  },
+  "End Currencyconfiguration": {
+    "prefix": "endcurrencyconfiguration",
+    "body": [
+      "{% endcurrencyconfiguration %}"
+    ],
+    "description": "Closes a currencyconfiguration block."
+  },
+  "End Adjustment Button": {
+    "prefix": "endadjustmentbutton",
+    "body": [
+      "{% endadjustmentbutton %}"
+    ],
+    "description": "Closes an adjustmentbutton block."
+  },
+  "End Radiogroup": {
+    "prefix": "endradiogroup",
+    "body": [
+      "{% endradiogroup %}"
+    ],
+    "description": "Closes a radiogroup block."
+  },
+  "End Add New Inputs": {
+    "prefix": "endaddnewinputs",
+    "body": [
+      "{% endaddnewinputs %}"
+    ],
+    "description": "Closes an addnewinputs block."
+  }
 }
