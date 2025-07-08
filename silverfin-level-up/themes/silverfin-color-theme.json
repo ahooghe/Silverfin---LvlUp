@@ -3,6 +3,7 @@
   "colors": {
     "editor.background": "#2b2b2b",
     "editor.foreground": "#D4D4D4",
+    "editorBracketHighlight.foreground1": "#FFD700",
     "editorBracketHighlight.foreground2": "#FFD700",
     "editorBracketHighlight.foreground3": "#FFD700",
     "editorBracketHighlight.foreground4": "#FFD700",
@@ -14,14 +15,19 @@
       "scope": [
         "punctuation.block.start.silverfin",
         "punctuation.block.end.silverfin",
-        "keyword.operator.logical.silverfin"
+        "punctuation.output.start.silverfin",
+        "punctuation.output.end.silverfin",
+        "keyword.operator.logical.silverfin",
       ],
       "settings": {
         "foreground": "#FFD700"
       }
     },
     {
-      "scope": "keyword.control.flow.silverfin",
+      "scope": [
+        "keyword.control.flow.silverfin",
+        "constant.language.json"
+      ],
       "settings": {
         "foreground": "#B5E07A"
       }
@@ -30,7 +36,8 @@
       "scope": [
         "keyword.control.utility.silverfin",
         "keyword.function.silverfin",
-        "variable.forloop.silverfin"
+        "variable.forloop.silverfin",
+        "constant.numeric.json"
       ],
       "settings": {
         "foreground": "#b187e7"
@@ -52,6 +59,7 @@
         "string.quoted.double.silverfin",
         "string.quoted.single.silverfin",
         "variable.calculator.silverfin",
+        "string.quoted.double.json"
       ],
       "settings": {
         "foreground": "#fc7452"
@@ -68,7 +76,8 @@
     {
       "scope": [
         "string.brackets.single.silverfin",
-        "variable.other.silverfin"
+        "variable.other.silverfin",
+        "support.type.property-name.json",
       ],
       "settings": {
         "foreground": "#61AFEF"
