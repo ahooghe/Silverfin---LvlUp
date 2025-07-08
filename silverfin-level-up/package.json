@@ -38,17 +38,17 @@
   ],
   "contributes": {
     "commands": [
-        {
-            "command": "silverfinFormatter.formatDocument",
-            "title": "Format Silverfin Liquid Document"
-        }
+      {
+        "command": "silverfinFormatter.formatDocument",
+        "title": "Format Silverfin Liquid Document"
+      }
     ],
     "keybindings": [
-        {
-            "command": "silverfinFormatter.formatDocument",
-            "key": "shift+alt+f",
-            "when": "editorLangId == silverfin-lvlup"
-        }
+      {
+        "command": "silverfinFormatter.formatDocument",
+        "key": "shift+alt+f",
+        "when": "editorLangId == silverfin-lvlup"
+      }
     ],
     "themes": [
       {

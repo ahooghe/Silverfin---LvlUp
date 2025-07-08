@@ -41,11 +41,11 @@ function formatLiquid(text: string, config: FormatterConfig): string {
     const htmlClose = `<\\/\\s*(${htmlTags.join('|')})\\s*>`;
 
     const blockStart = new RegExp(
-        `{%\\s*(if|for|case|unless|capture|comment|tablerow|raw|customblock|fori)\\b|${htmlOpen}`,
+        `{%\\s*(if|for|case|unless|capture|comment|tablerow|raw|customblock|fori|stripnewlines|locale|addnewinputs|currencyconfiguration|linkto|ic|nic|radiogroup)\\b|${htmlOpen}`,
         'i'
     );
     const blockEnd = new RegExp(
-        `{%\\s*end(if|for|case|unless|capture|comment|tablerow|raw|customblock|fori)\\s*%}|${htmlClose}`,
+        `{%\\s*end(if|for|case|unless|capture|comment|tablerow|raw|customblock|fori|stripnewlines|locale|addnewinputs|currencyconfiguration|linkto|ic|nic|radiogroup)\\s*%}|${htmlClose}`,
         'i'
     );
 

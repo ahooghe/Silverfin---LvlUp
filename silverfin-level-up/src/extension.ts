@@ -5,7 +5,7 @@ import { activateFormatter } from './formatter';
 
 export function activate(context: vscode.ExtensionContext) {
     activateFormatter(context);
-    
+
     const disposableTokens = vscode.languages.registerDocumentSemanticTokensProvider(
         { language: 'silverfin-lvlup' },
         new SilverfinSemanticTokensProvider(),
