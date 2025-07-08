@@ -1,6 +1,8 @@
+// Silverfin dictionary containing all template tags, filters, and their documentation
 export const silverfinDictionary: {
     [key: string]: string | { description: string; example?: string; attributes?: { [key: string]: string | { description: string; options?: { [key: string]: string } } } };
 } = {
+    // Input and form elements
     "input": {
         "description": "The `input` tag allows you to create input fields in Silverfin templates. For more details on attributes, hover over specific attributes like `as`.",
         "example": "{% input custom.namespace.key %}",
@@ -12,9 +14,12 @@ export const silverfinDictionary: {
             "validation": "Guides the user to create the correct data type (e.g., only positive values)."
         }
     },
+
+    // Input type definitions - different data types for input fields
     "as": {
         "description": "The `as` attribute changes the data type of the input field. Available types include:\n- **none**\n- **text**\n- **currency**\n- **integer**\n- **percentage**\n- **boolean**\n- **date**\n- **file**\n- **select**\n- **account_collection**\n- **external_account_collection**\n- **external_company_collection**"
     },
+
     "as:currency": {
         "description": "The `currency` type specifies a numeric value with decimals.",
         "attributes": {
@@ -64,6 +69,8 @@ export const silverfinDictionary: {
     "as:external_company_collection": {
         "description": "The `external_company_collection` type allows selecting companies from the Company links. Accepts `companies_var` and `single_selection` attributes."
     },
+
+    // Variable assignment and data manipulation
     "assign": {
         "description": "The `assign` tag is used to assign a value to a variable. Assigned values are stored as strings and can be manipulated using filters.",
         "attributes": {
@@ -79,6 +86,8 @@ export const silverfinDictionary: {
         "description": "The `capture` tag captures the string inside the opening and closing tags and assigns it to a variable. Captured values are stored as strings.",
         "example": "{% capture profit_sentence %}\n  Your profit is {{ profit }}.\n{% endcapture %}"
     },
+
+    // String manipulation filters
     "default": {
         "description": "Sets a default value if the variable is nil, false, or empty.",
         "example": `{{ company_form | default:"NV" }}\n\n**Output:**\nNV`
@@ -156,7 +165,7 @@ export const silverfinDictionary: {
         "example": `{{ "Silverfin" | size }}\n\n**Output:**\n9`
     },
 
-    // Numeric Filters
+    // Numeric Filters - mathematical operations and formatting
     "at_least": {
         "description": "Ensures a number is at least a specified value.",
         "example": `{{ 4 | at_least:5 }}\n\n**Output:**\n5`
@@ -234,7 +243,7 @@ export const silverfinDictionary: {
         "example": `{{ 4 | min:2 }}\n\n**Output:**\n2`
     },
 
-    // Array Filters
+    // Array Filters - operations on collections and arrays
     "concat": {
         "description": "Concatenates two arrays.",
         "example": `{% assign fixed_assets = "buildings,land" | split:"," %}\n{% assign intangible_assets = "goodwill,patents" | split:"," %}\n{% assign assets = fixed_assets | concat:intangible_assets %}\n\n**Output:**\nbuildings, land, goodwill, patents`
@@ -296,7 +305,7 @@ export const silverfinDictionary: {
         "example": `{% assign adjusted_accounts = accounts | add_rounding_difference %}`
     },
 
-    // Date Filters
+    // Date Filters - date manipulation and formatting operations
     "today": {
         "description": "Returns the current date.",
         "example": `{{ "now" | date:"%d/%m/%Y" }}\n\n**Output:**\n06/07/2025`
@@ -386,6 +395,8 @@ export const silverfinDictionary: {
             }
         }
     },
+
+    // Translation and localization
     "t": {
         "description": "The `t` tag allows you to add translations to your templates, enabling content to be displayed in different languages. You can change the used language with locale tags to override the environment language.",
         "example": `{% t= "expense" nl:"kost" fr:"les frais" en:"expense" %}`,
@@ -395,6 +406,8 @@ export const silverfinDictionary: {
             "Variables": "Use variables in translations to make parts dynamic. \n**Example:**\n{% t= \"company_info\" en:\"The company {{ company_name }} is in {{ company_city }}\" %}\n{% t \"company_info\" | company_name:company.name company_city:company.city %}"
         }
     },
+
+    // Control flow structures - conditional statements and loops
     "elsif": {
         "description": "The `elsif` statement is used with `if` to check another condition if the `if` condition is false.",
         "example": `{% if profit > 0 %}\n  There's a profit this year.\n{% elsif profit < 0 %}\n  There's a loss this year.\n{% endif %}`
@@ -415,6 +428,8 @@ export const silverfinDictionary: {
         "description": "The `case` statement compares a variable with multiple values. Use `when` for conditions and `else` for a fallback. Must be closed with `{% endcase %}`.",
         "example": `{% case fiscal_year %}\n{% when 2018 %}\n  {% assign ratio = 0.23 %}\n{% else %}\n  {% assign ratio = 0.19 %}\n{% endcase %}`
     },
+
+    // Loop structures and iteration helpers
     "fori": {
         "description": "Creates and iterates over a custom collection, often for dynamic inputs. Close with `{% endfori %}`.",
         "attributes": {
@@ -464,6 +479,8 @@ export const silverfinDictionary: {
     "continue": {
         "description": "The `continue` tag causes the loop to skip the current iteration when it encounters the `continue` tag.",
     },
+
+    // Loop modifiers
     "limit": {
         "description": "The `limit` attribute allows you to exit the `for` loop at a specific index.",
         "example": `{% input custom.numberOfMonths.perPeriod as:select options:"1|2|3|4|5|6|7|8|9|10|11|12" default:"12" %}\n{% assign numberOfMonths = custom.numberOfMonths.perPeriod | default:12 %}\n\n{% for month in period.month_end_dates limit:INT(numberOfMonths) %}\n  **_{{ month | date:'%m/%Y'}}_**\n{% endfor %}`
@@ -477,7 +494,7 @@ export const silverfinDictionary: {
         "example": `{% assign numbers = "1;2;3;4;5" | split:";" %}\n\n{% for item in numbers reversed %}\n  {{ item }}\n{% endfor %}\n\n**Output:**\n5\n4\n3\n2\n1`
     },
 
-
+    // Mathematical and utility functions
     "ABS": {
         "description": "Returns the absolute value of a number.",
         "example": `ABS(-23) \n\n**Output:**\n23`
@@ -487,6 +504,7 @@ export const silverfinDictionary: {
         "example": `INT(-23,5555) \n\n**Output:**\n-23`
     },
 
+    // Template system functionality - reconciliation, results, and data flow
     "unreconciled": {
         "description": "The `unreconciled` tag is used to indicate whether a template (account or reconciliation template) is reconciled. It evaluates a formula and determines if the result is zero (reconciled) or non-zero (unreconciled).",
         "example": `{% assign income_accounts_total = period.accounts | range:"70" %}\n{% unreconciled -income_accounts_total-table_total %}`,
@@ -512,6 +530,8 @@ export const silverfinDictionary: {
             "as:file": "Ensures files are copied, removed, or replaced correctly during rollforward operations."
         }
     },
+
+    // Presentation and navigation features
     "locale": {
         "description": "The `locale` tag forces the content of a template to follow a specific language, overriding the user's chosen language. It also influences currency formatting within the locale tags.",
         "example": `{% locale "nl" %}\n  {% t "Hello" %}\n{% endlocale %}`,
@@ -539,6 +559,8 @@ export const silverfinDictionary: {
             "new_tab": "Opens the link in a new browser tab."
         }
     },
+
+    // Adjustment and transaction handling
     "adjustmentbutton": {
         "description": "The `adjustmentbutton` tag is used to create a button that automatically makes an adjustment, filled with values taken from Liquid logic.",
         "example": `{% adjustmentbutton text:"create new adjustment" category:"internal" %}\n{% adjustmenttransaction account_number:"100000" description:"Some description" value:1000.23 %}\n{% endadjustmentbutton %}`,
@@ -556,6 +578,8 @@ export const silverfinDictionary: {
             "value": "Defines the value of the transaction."
         }
     },
+
+    // Content organization and layout
     "::group": {
         "description": "The `group` tag is used to group certain parts of the text in the Silverfin templating language, ensuring that they remain on the same page in export view.",
         "example": `{% nic %}\n{::group}\nContent to group\n{:/group}\n{% endnic %}`,
@@ -579,6 +603,8 @@ export const silverfinDictionary: {
             "on_behalf_of": "Specifies if the signer is signing on behalf of someone else."
         }
     },
+
+    // Array manipulation
     "push": {
         "description": "The `push` tag adds an item to an array in Silverfin templates. By default, it appends the item to the end of the array (LIFO logic).",
         "example": `{% push "Land" to:asset_categories_array %}`,
@@ -595,6 +621,8 @@ export const silverfinDictionary: {
             "at:beginning": "Overrides the default LIFO behavior and removes the first item from the array.\n\nExample:\n{% pop asset_categories_array to:new_assets_categories_array at:beginning %}"
         }
     },
+
+    // Document formatting and output control
     "changeorientation": {
         "description": "The `changeorientation` tag allows you to change the orientation of the page in PDF exports.",
         "example": `{% changeorientation "landscape" %}\n\n{% changeorientation "portrait" %}`,
@@ -621,6 +649,8 @@ export const silverfinDictionary: {
             "section_break": "Adds a visual split between pages in input mode without creating new pages in the PDF export."
         }
     },
+
+    // Form controls and input validation
     "radiogroup": {
         "description": "The `radiogroup` tag allows you to create radio buttons in Silverfin templates. It is used to present multiple options where only one can be selected.",
         "example": `{% radiogroup custom.music.fav_genre default:"pop" %}\n  {% radioinput label:"Pop" value:"pop" %}\n  {% radioinput label:"Jazz" value:"jazz" %}\n{% endradiogroup %}`,
@@ -656,6 +686,8 @@ export const silverfinDictionary: {
             "validation_name": "References the name of the predefined input validation to apply.\n\nExample:\n{% input custom.depreciation.value as:currency validation:validation_positive_values %}"
         }
     },
+
+    // Styling and presentation classes
     "class": {
         "description": "CSS classes for HTML tables in Silverfin. Apply to <table>, <thead>, <th>, or <td> as noted.",
         "attributes": {
@@ -664,6 +696,8 @@ export const silverfinDictionary: {
             "`<th>, <td>` only": "usr-align-(left,center,right,justify), usr-valign-(top,center,bottom), usr-width-1 ... usr-width-100, usr-line-(top,bottom,left,right), usr-double-line-(top,bottom,left,right), usr-border-color-<hex>, usr-background-color-<hex>, usr-indent-1 ... usr-indent-10, usr-grayed-out-background-input, usr-grayed-out-line-bottom-input"
         }
     },
+
+    // Text formatting and whitespace control
     "stripnewlines": {
         "description": "The `stripnewlines` tag removes all newline characters from the content between the opening and closing tags. This is useful for minifying output or ensuring that extra line breaks do not appear in the rendered result. Use `{% newline %}` inside to force a single newline where needed.",
         "example": `{% stripnewlines %}\n  Line 1{% newline %}Line 2\n{% endstripnewlines %}\n\n**Output:**\nLine 1\nLine 2`

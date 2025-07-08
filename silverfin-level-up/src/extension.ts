@@ -4,14 +4,17 @@ import { silverfinDbModel } from './silverfinDbModel';
 import { activateFormatter } from './formatter';
 
 export function activate(context: vscode.ExtensionContext) {
+    // Initialize formatter functionality
     activateFormatter(context);
 
+    // Register semantic tokens provider for syntax highlighting
     const disposableTokens = vscode.languages.registerDocumentSemanticTokensProvider(
         { language: 'silverfin-lvlup' },
         new SilverfinSemanticTokensProvider(),
         legend
     );
 
+    // Register format document command
     context.subscriptions.push(
         vscode.commands.registerCommand('silverfinFormatter.formatDocument', async () => {
             const editor = vscode.window.activeTextEditor;
@@ -20,6 +23,8 @@ export function activate(context: vscode.ExtensionContext) {
             }
         })
     );
+
+    // Register hover provider for displaying documentation on hover
     const disposableHover = vscode.languages.registerHoverProvider('silverfin-lvlup', {
         provideHover(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken) {
             const lineText = document.lineAt(position.line).text;
@@ -27,6 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
             const range = document.getWordRangeAtPosition(position, /[\w:.?]+/);
             const word = range ? document.getText(range) : '';
 
+            // Check for direct dictionary matches
             let entry = silverfinDictionary[word];
 
             if (!entry && word.includes(':')) {
@@ -34,6 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
                 entry = silverfinDictionary[baseWord];
             }
 
+            // Handle simple string entries
             if (typeof entry === 'string') {
                 return new vscode.Hover(entry);
             } else if (entry && typeof entry === 'object' && 'description' in entry) {
@@ -63,9 +70,11 @@ export function activate(context: vscode.ExtensionContext) {
                 return new vscode.Hover(hoverText);
             }
 
+            // Handle database model path navigation (e.g., object.property.subproperty)
             if (word.includes('.')) {
                 const path = word.split('.');
                 let node: any = silverfinDbModel;
+
                 for (const key of path) {
                     if (node && typeof node === 'object' && key in node) {
                         node = node[key];
@@ -82,6 +91,7 @@ export function activate(context: vscode.ExtensionContext) {
                         break;
                     }
                 }
+
                 if (node && typeof node === 'object' && (node.description || node.type)) {
                     let hoverText = '';
                     if (node.type) hoverText += `**Type:** ${node.type}\n\n`;
@@ -89,12 +99,14 @@ export function activate(context: vscode.ExtensionContext) {
                     return new vscode.Hover(new vscode.MarkdownString(hoverText));
                 }
             }
+
             return null;
         }
     });
 
     context.subscriptions.push(disposableHover);
 
+    // Register completion provider for auto-complete suggestions
     const disposableCompletion = vscode.languages.registerCompletionItemProvider(
         'silverfin-lvlup',
         {
@@ -102,11 +114,15 @@ export function activate(context: vscode.ExtensionContext) {
                 const line = document.lineAt(position).text;
                 const textBefore = line.substring(0, position.character);
                 const match = textBefore.match(/([\w]+(?:\.[\w]+)*)\.$/);
+
                 if (!match) {
                     return undefined;
                 }
+
+                // Navigate through the database model structure
                 const path = match[1].split('.');
                 let node: any = silverfinDbModel;
+
                 for (const key of path) {
                     if (node && typeof node === 'object' && key in node) {
                         node = node[key];
@@ -121,6 +137,8 @@ export function activate(context: vscode.ExtensionContext) {
                         return undefined;
                     }
                 }
+
+                // Generate completion items from available properties
                 if (node && typeof node === 'object') {
                     return Object.keys(node).map(k => {
                         const value = node[k];
@@ -132,22 +150,27 @@ export function activate(context: vscode.ExtensionContext) {
                         return item;
                     });
                 }
+
                 return undefined;
             }
         },
         '.'
     );
+
     context.subscriptions.push(disposableCompletion);
 
+    // Set default color theme
     vscode.workspace.getConfiguration('workbench').update('colorTheme', 'Silverfin Theme', vscode.ConfigurationTarget.Global);
 
     console.log('Silverfin: Level-Up extension is now active!');
 }
 
+// Semantic tokens provider for syntax highlighting
 class SilverfinSemanticTokensProvider implements vscode.DocumentSemanticTokensProvider {
     provideDocumentSemanticTokens(document: vscode.TextDocument): vscode.ProviderResult<vscode.SemanticTokens> {
         const builder = new vscode.SemanticTokensBuilder(legend);
 
+        // Highlight 'assign' keywords throughout the document
         for (let line = 0; line < document.lineCount; line++) {
             const text = document.lineAt(line).text;
 
