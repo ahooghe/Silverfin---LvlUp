@@ -47,11 +47,11 @@
           "patterns": [
             {
               "name": "meta.output.silverfin",
-              "begin": "{{",
+              "begin": "\\{\\{",
               "beginCaptures": {
                 "0": { "name": "punctuation.output.start.silverfin" }
               },
-              "end": "}}",
+              "end": "\\}\\}",
               "endCaptures": {
                 "0": { "name": "punctuation.output.end.silverfin" }
               },
@@ -174,7 +174,7 @@
         },
         {
           "name": "keyword.control.utility.silverfin",
-          "match": "(?<=\\{%(\\s*)?)\\b(stripnewlines|newline|endstripnewlines|locale|addnewinputs|endaddnewinputs|endlocale|currencyconfiguration|endcurrencyconfiguration|linkto|endlinkto|ic|endic|nic|endic|radiogroup|endradiogroup)\\b"
+          "match": "(?<=\\{%(\\s*)?)\\b(stripnewlines|newline|endstripnewlines|locale|addnewinputs|endaddnewinputs|endlocale|currencyconfiguration|endcurrencyconfiguration|linkto|endlinkto|ic|endic|nic|endnic|radiogroup|endradiogroup)\\b"
         },
         {
           "name": "keyword.boolean.silverfin",
@@ -202,7 +202,7 @@
         },
         {
           "name": "variable.other.silverfin",
-          "match": "[^\\s:\\=\\-\\*\\+/]"
+          "match": "[^\\s:\\=\\-\\*\\+/\\.,]"
         }
       ]
     },
