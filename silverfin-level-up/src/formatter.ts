@@ -36,7 +36,7 @@ function trimLiquidTagSpaces(tag: string): string {
     const tagMatch = tag.match(/^({[{%])([\s\S]*?)([%}]})$/);
     if (!tagMatch) return tag;
 
-    let [ , open, inner, close ] = tagMatch;
+    let [, open, inner, close] = tagMatch;
 
     // Remove leading/trailing spaces in the inner part (but keep spaces inside quotes)
     let result = '';
@@ -202,11 +202,17 @@ function formatLiquid(text: string, config: FormatterConfig): string {
 
         // Handle block closing tags - decrease indent first, then add line
         if (isBlockEnd(line)) {
-            if (/{[{%].*[%}]}/.test(line)) {
+            // Always trim tag spaces and remove all padding
+            line = line.trim();
+            if (/^({[{%][\s\S]*?[%}]})$/.test(line)) {
+                // If the line is just a tag (possibly with padding), trim the tag
+                line = trimLiquidTagSpaces(line);
+            } else if (/{[{%].*[%}]}/.test(line)) {
+                // If the line contains tags, trim all tags in the line
                 line = line.replace(/({[{%][\s\S]*?[%}]})/g, m => trimLiquidTagSpaces(m));
             }
             indentLevel = Math.max(0, indentLevel - 1);
-            output.push('\t'.repeat(indentLevel) + line.trim());
+            output.push('\t'.repeat(indentLevel) + line);
             continue;
         }
 
