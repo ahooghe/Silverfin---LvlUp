@@ -127,7 +127,12 @@ function formatLiquid(text: string, config: FormatterConfig): string {
     let rawLines = text.replace(/\r\n/g, '\n').split('\n');
     let lines: string[] = [];
     for (const rawLine of rawLines) {
-        lines.push(...splitMultiBlockTags(rawLine));
+        // Preserve empty lines (including those with only spaces)
+        if (/^\s*$/.test(rawLine)) {
+            lines.push('');
+        } else {
+            lines.push(...splitMultiBlockTags(rawLine));
+        }
     }
     let output: string[] = [];
     let indentLevel = 0;
@@ -185,6 +190,12 @@ function formatLiquid(text: string, config: FormatterConfig): string {
     for (let i = 0; i < lines.length; i++) {
         let line = stripTrailingSpaces(lines[i]);
 
+        // --- Preserve empty lines ---
+        if (/^\s*$/.test(lines[i])) {
+            output.push('');
+            continue;
+        }
+
         // Markdown lines: no indentation for lines starting with | or {:
         if (/^\s*(\||\{:+)/.test(line)) {
             output.push(line.replace(/^\s+/, ''));
@@ -222,6 +233,15 @@ function formatLiquid(text: string, config: FormatterConfig): string {
             }
             indentLevel = Math.max(0, indentLevel - 1);
             output.push('\t'.repeat(indentLevel) + line);
+
+            // Add a single empty line after a closing tag, but NOT if the next line is also a closing tag or already empty
+            if (
+                i + 1 < lines.length &&
+                !/^\s*$/.test(lines[i + 1]) &&
+                !isBlockEnd(stripTrailingSpaces(lines[i + 1]))
+            ) {
+                output.push('');
+            }
             continue;
         }
 
