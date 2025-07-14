@@ -111,9 +111,24 @@ function trimLiquidTagSpaces(tag: string): string {
     return `${open} ${final} ${close}`;
 }
 
+// Split lines that contain multiple block tags (e.g., {:/infotext}{% endic %}) into separate lines
+function splitMultiBlockTags(line: string): string[] {
+    // Add a newline before every {%, {{, {:
+    return line
+        .replace(/(\}{1,})(?=({[%{]))/g, '$1\n')
+        .replace(/(\}{1,})(?=({:))/g, '$1\n')
+        .split('\n')
+        .filter(l => l.trim().length > 0);
+}
+
 // Core formatting logic for Liquid templates
 function formatLiquid(text: string, config: FormatterConfig): string {
-    const lines = text.replace(/\r\n/g, '\n').split('\n');
+    // Instead of splitting just by \n, preprocess each line for multi-block tags
+    let rawLines = text.replace(/\r\n/g, '\n').split('\n');
+    let lines: string[] = [];
+    for (const rawLine of rawLines) {
+        lines.push(...splitMultiBlockTags(rawLine));
+    }
     let output: string[] = [];
     let indentLevel = 0;
 
@@ -169,6 +184,12 @@ function formatLiquid(text: string, config: FormatterConfig): string {
     // Main formatting loop - process each line and apply indentation
     for (let i = 0; i < lines.length; i++) {
         let line = stripTrailingSpaces(lines[i]);
+
+        // Markdown lines: no indentation for lines starting with | or {:
+        if (/^\s*(\||\{:+)/.test(line)) {
+            output.push(line.replace(/^\s+/, ''));
+            continue;
+        }
 
         // Handle single-line blocks (opening and closing on same line)
         if (isSingleLineBlock(line) || isHtmlSingleLine(line)) {
