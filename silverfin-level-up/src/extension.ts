@@ -190,6 +190,43 @@ export function activate(context: vscode.ExtensionContext) {
         })
     );
 
+    // Smart space insertion for {%|%} and {{|}}
+    context.subscriptions.push(
+        vscode.commands.registerCommand('silverfin-lvlup.smartSpace', async () => {
+            const editor = vscode.window.activeTextEditor;
+            if (!editor || editor.document.languageId !== 'silverfin-lvlup') {
+                await vscode.commands.executeCommand('type', { text: ' ' });
+                return;
+            }
+            const pos = editor.selection.active;
+            const line = editor.document.lineAt(pos.line).text;
+            // Check for {%|%} or {{|}}
+            if (
+                line.substring(pos.character - 2, pos.character) === '{%' &&
+                line.substring(pos.character, pos.character + 2) === '%}'
+            ) {
+                await editor.edit(editBuilder => {
+                    editBuilder.insert(pos, '  ');
+                });
+                // Move cursor back one space (between the two spaces)
+                const newPos = pos.translate(0, 1);
+                editor.selection = new vscode.Selection(newPos, newPos);
+            } else if (
+                line.substring(pos.character - 2, pos.character) === '{{' &&
+                line.substring(pos.character, pos.character + 2) === '}}'
+            ) {
+                await editor.edit(editBuilder => {
+                    editBuilder.insert(pos, '  ');
+                });
+                const newPos = pos.translate(0, 1);
+                editor.selection = new vscode.Selection(newPos, newPos);
+            } else {
+                // Default space
+                await vscode.commands.executeCommand('type', { text: ' ' });
+            }
+        })
+    );
+
     // Set default color theme
     vscode.workspace.getConfiguration('workbench').update('colorTheme', 'Silverfin Theme - Refined Dark', vscode.ConfigurationTarget.Global);
 

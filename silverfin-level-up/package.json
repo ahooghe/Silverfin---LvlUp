@@ -65,6 +65,11 @@
         "key": "\"",
         "when": "editorTextFocus && editorLangId == silverfin-lvlup && editorHasSelection",
         "args": { "quote": "\"" }
+      },
+      {
+        "command": "silverfin-lvlup.smartSpace",
+        "key": "space",
+        "when": "editorTextFocus && editorLangId == silverfin-lvlup"
       }
     ],
     "themes": [
