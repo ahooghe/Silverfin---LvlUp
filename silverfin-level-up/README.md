@@ -23,7 +23,8 @@ Tired of wrestling with syntax errors, missing documentation, or repetitive code
   Hover for instant documentation, get context-aware suggestions, and enjoy rapid auto-completion for Silverfin’s data model and tags.
 
 - **Rapid Snippet Insertion**  
-  Build templates faster with rich snippets for everything from input fields to advanced control flow and HTML blocks.
+  Build templates faster with rich snippets for everything from input fields to advanced control flow and HTML blocks.  
+  Easily surround selections with brackets, quotes, or Liquid comment tags using intuitive keybinds.
 
 - **Effortless Navigation**  
   Jump between objects, properties, and methods with dot-notation and smart suggestions.
@@ -40,7 +41,7 @@ Tired of wrestling with syntax errors, missing documentation, or repetitive code
 - **Speed up your workflow**  
   Use handy snippets and auto-completions to write more, type less.
 - **Format your code instantly**  
-  Auto-indent your entire Silverfin/Liquid document with a single command. HTML and Liquid blocks are handled together for clean, readable code.
+  Auto-indent your entire Silverfin/Liquid document with a single command. Formatting adds a single empty line after closing tags and improves block alignment for cleaner code.
 - **Understand your code instantly**  
   Hover over tags, filters, and objects for clear, concise explanations.
 - **Customize your experience**  

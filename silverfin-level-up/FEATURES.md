@@ -21,6 +21,12 @@ Here’s everything you get with **Silverfin: Level-Up** for Visual Studio Code:
   Get smart completions for Silverfin tags, filters, and variables as you type.
 - **Dot-notation navigation:**  
   Quickly access nested properties and methods with intuitive suggestions.
+- **Surround selection with brackets or quotes:**  
+  Select code and press `"`, `'`, `[`, `{`, `(`, or `%` to instantly wrap your selection with the corresponding brackets or quotes.
+- **Quick Liquid comment wrapping:**  
+  Press `Ctrl+Shift+/` to surround the selected code with `{% comment %} ... {% endcomment %}`.
+- **Smart space insertion:**  
+  When the cursor is between `{%|%}` or `{{|}}` and you press space, two spaces are inserted and the cursor is placed between them for more comfortable Liquid editing.
 
 ---
 

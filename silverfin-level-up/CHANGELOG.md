@@ -27,3 +27,20 @@ All notable changes to this project will be documented in this file.
 - Improved Silverfin and additional highlighting.
 
 ---
+
+## [0.1.3] - 14/07/2025
+### Added
+- New feature: When code is selected, you can surround it with quotes, double quotes, square brackets, curly brackets, normal brackets, or percentage signs by pressing the corresponding key.
+- Added command: Pressing `Ctrl+Shift+/` surrounds the selected code with Liquid comment tags (`{% comment %} ... {% endcomment %}`).
+- Implemented smart space insertion: When the cursor is between `{%|%}` or `{{|}}` and you press space, two spaces are inserted and the cursor is placed between them for more comfortable Liquid editing.
+- Added automatic empty line padding after closing tags to enhance readability.
+- Added translation definition tags with optional secondary language support.
+
+### Changed
+- Formatter updated to remove all padding from Markdown lines. This emergency patch aims to resolve issues caused by padding when using the code interpreter. (Still under testing)
+- Removed 1 indentation level for `when`, `else`, and `elsif` tags to match standard Liquid formatting conventions.
+
+### Fixed
+- Add 'blank' to boolean keywords and enhance variable matching pattern.
+
+---
