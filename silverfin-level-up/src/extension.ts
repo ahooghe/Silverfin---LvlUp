@@ -159,6 +159,37 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(disposableCompletion);
 
+    // --- Surround selection with quotes (single/double) ---
+    context.subscriptions.push(
+        vscode.commands.registerCommand('silverfin-lvlup.surroundWithQuotes', async (args) => {
+            const editor = vscode.window.activeTextEditor;
+            if (!editor) return;
+            const selections = editor.selections;
+            const quote = args && args.quote ? args.quote : '"';
+            await editor.edit(editBuilder => {
+                for (const sel of selections) {
+                    const text = editor.document.getText(sel);
+                    editBuilder.replace(sel, quote + text + quote);
+                }
+            });
+        })
+    );
+
+    // --- Surround selection with Liquid comment tags ---
+    context.subscriptions.push(
+        vscode.commands.registerCommand('silverfin-lvlup.surroundWithComment', async () => {
+            const editor = vscode.window.activeTextEditor;
+            if (!editor) return;
+            const selections = editor.selections;
+            await editor.edit(editBuilder => {
+                for (const sel of selections) {
+                    const text = editor.document.getText(sel);
+                    editBuilder.replace(sel, `{% comment %}\n${text}\n{% endcomment %}`);
+                }
+            });
+        })
+    );
+
     // Set default color theme
     vscode.workspace.getConfiguration('workbench').update('colorTheme', 'Silverfin Theme - Refined Dark', vscode.ConfigurationTarget.Global);
 

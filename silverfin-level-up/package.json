@@ -48,6 +48,23 @@
         "command": "silverfinFormatter.formatDocument",
         "key": "shift+alt+f",
         "when": "editorLangId == silverfin-lvlup"
+      },
+      {
+        "command": "silverfin-lvlup.surroundWithComment",
+        "key": "ctrl+shift+/",
+        "when": "editorTextFocus && editorLangId == silverfin-lvlup && editorHasSelection"
+      },
+      {
+        "command": "silverfin-lvlup.surroundWithQuotes",
+        "key": "'",
+        "when": "editorTextFocus && editorLangId == silverfin-lvlup && editorHasSelection",
+        "args": { "quote": "'" }
+      },
+      {
+        "command": "silverfin-lvlup.surroundWithQuotes",
+        "key": "\"",
+        "when": "editorTextFocus && editorLangId == silverfin-lvlup && editorHasSelection",
+        "args": { "quote": "\"" }
       }
     ],
     "themes": [

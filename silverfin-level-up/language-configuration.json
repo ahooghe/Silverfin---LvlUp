@@ -23,8 +23,8 @@
       "close": "%}"
     },
     {
-      "open": "{{",
-      "close": "}}"
+      "open": "{",
+      "close": "}"
     },
     {
       "open": "[",
@@ -36,11 +36,13 @@
     },
     {
       "open": "\"",
-      "close": "\""
+      "close": "\"",
+      "notIn": ["string"]
     },
     {
       "open": "'",
-      "close": "'"
+      "close": "'",
+      "notIn": ["string"]
     },
     {
       "open": "<p>",
@@ -113,8 +115,8 @@
       "close": "%}"
     },
     {
-      "open": "{{",
-      "close": "}}"
+      "open": "{",
+      "close": "}"
     },
     {
       "open": "[",
