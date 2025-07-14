@@ -310,12 +310,19 @@
     ],
     "description": "Creates a multi-line info text block"
   },
+  "Translation definition tags": {
+    "prefix": "t=",
+    "body": [
+      "{% t= '${1:translation_id}' default:'${2:translation}' ${3:secondary_language}:'${4:translation}' %}"
+    ],
+    "description": "Translation definition tags for Silverfin, with optional secondary language support"
+  },
   "Translation tags": {
     "prefix": "t",
     "body": [
-      "{% t${1|= , |}${2:'translation_id'} default:'${3:translation}' ${4:secondary_language}:'${5:translation}' %}"
+      "{% t '${1:translation_id}' %}"
     ],
-    "description": "Translation tags for Silverfin, with optional secondary language support"
+    "description": "Translation tags for Silverfin"
   },
   "Capture Block": {
     "prefix": "capture",
