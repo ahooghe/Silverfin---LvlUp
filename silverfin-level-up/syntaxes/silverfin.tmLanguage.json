@@ -220,7 +220,7 @@
         },
         {
           "name": "keyword.boolean.silverfin",
-          "match": "\\b(true|false|nil)\\b"
+          "match": "\\b(true|false|nil|blank)\\b"
         },
         {
           "name": "keyword.operator.logical.silverfin",
@@ -346,7 +346,7 @@
         },
         {
           "name": "variable.other.silverfin",
-          "match": "[^\\s:\\=\\-\\*\\+/]"
+          "match": "[^\\s:\\=\\-\\*\\+/\\.,]"
         }
       ]
     }
