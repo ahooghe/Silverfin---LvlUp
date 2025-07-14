@@ -200,6 +200,15 @@ function formatLiquid(text: string, config: FormatterConfig): string {
             continue;
         }
 
+        // --- Handle secondary block tags like else, elsif, when ---
+        if (/^\s*{%\s*(else|elsif|when)\b.*%}\s*$/.test(line)) {
+            line = trimLiquidTagSpaces(line.trim());
+            indentLevel = Math.max(0, indentLevel - 1);
+            output.push('\t'.repeat(indentLevel) + line);
+            indentLevel++;
+            continue;
+        }
+
         // Handle block closing tags - decrease indent first, then add line
         if (isBlockEnd(line)) {
             // Always trim tag spaces and remove all padding
