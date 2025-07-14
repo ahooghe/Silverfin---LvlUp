@@ -2,7 +2,7 @@
   "name": "silverfin-level-up",
   "displayName": "Silverfin: Level-Up",
   "description": "Silverfin: Level-Up — Make Silverfin development a joy, not a chore.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "AnthonyHooghe",
   "engines": {
     "vscode": "^1.50.0"
