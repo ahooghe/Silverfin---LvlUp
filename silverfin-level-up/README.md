@@ -1,4 +1,5 @@
 # 🚀 Silverfin: Level-Up
+**Stop fighting with Liquid syntax. Start building beautiful Silverfin templates in seconds.**
 
 Welcome to **Silverfin: Level-Up** – your all-in-one toolkit for building, editing, and mastering Silverfin `.liquid` templates in Visual Studio Code!
 
@@ -76,11 +77,16 @@ The formatter automatically indents HTML and Liquid blocks together, making even
 
 ---
 
-## Questions? Feedback? Ideas?
+## 🚀 Ready to Level Up Your Silverfin Development?
+
+**[Install Now from VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=your-publisher.silverfin-level-up)** – Free, instant setup!
+
+**Questions? Feedback? Ideas?**
 
 We love hearing from users!  
-- [Open an issue or feature request](https://github.com/ahooghe/Silverfin---LvlUp/issues)
-- [Contribute on GitHub](https://github.com/ahooghe/Silverfin---LvlUp)
+- 🐛 [Report bugs or request features](https://github.com/ahooghe/Silverfin---LvlUp/issues)
+- 💡 [Contribute on GitHub](https://github.com/ahooghe/Silverfin---LvlUp)
+- ⭐ **Love it? Leave a review on the marketplace!**
 
 ---
 

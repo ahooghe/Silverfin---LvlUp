@@ -1,32 +1,62 @@
 # ✨ Features — Silverfin: Level-Up
 
-Welcome to your Silverfin superpower!  
-Here’s everything you get with **Silverfin: Level-Up** for Visual Studio Code:
+**Transform your VS Code into a Silverfin powerhouse!**  
+Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
+
+---
+
+## 🚀 Core Features at a Glance
+
+✅ **80+ Smart Snippets** for every Silverfin scenario  
+✅ **Intelligent Auto-completion** with hover documentation  
+✅ **One-click Formatting** for clean, readable code  
+✅ **Custom Syntax Highlighting** with Silverfin-specific theme  
+✅ **Advanced Input Types** including validation and dynamic inputs  
+✅ **Financial Templates** for adjustments and transactions  
 
 ---
 
 ## 🎨 Beautiful, Custom Syntax Highlighting
 
-- Instantly see the difference between Liquid, HTML, and Silverfin-specific tags.
-- A dark theme designed for clarity, comfort, and accessibility.
-- Makes your code easier to read, debug, and share.
+- **Custom Silverfin theme:**  
+  Instantly see the difference between Liquid, HTML, and Silverfin-specific tags.
+- **One-click formatting:**  
+  Smart auto-indentation for your entire Silverfin/Liquid document.
+- **Unified block handling:**  
+  HTML and Liquid blocks are formatted together for clean, readable code.
+
+---
+
+## 🔥 Quick Reference
+
+### Most Used Snippets
+- `input` → Basic input field
+- `assign` → Variable creation  
+- `capture` → Variable capture
+- `if` → Conditional statement
+- `for` → Loop through collections
+- `locale` → Language-specific content
+
+### Keyboard Shortcuts
+- `Shift+Alt+F` → Format document
+- `Ctrl+Shift+/` → Surround with comment
 
 ---
 
 ## ⚡ Smart Snippets & Autocomplete
 
-- **Type less, do more:**  
-  Dozens of ready-to-use code snippets for common Silverfin patterns, input fields, control flow, and HTML.
+- **80+ ready-to-use snippets:**  
+  From basic input fields to complex adjustment transactions and validation rules.
+- **Intelligent prefix system:**  
+  Type `input`, `if`, `adjustment`, `locale`,... for instant code generation.
 - **Context-aware suggestions:**  
   Get smart completions for Silverfin tags, filters, and variables as you type.
 - **Dot-notation navigation:**  
   Quickly access nested properties and methods with intuitive suggestions.
-- **Surround selection with brackets or quotes:**  
-  Select code and press `"`, `'`, `[`, `{`, `(`, or `%` to instantly wrap your selection with the corresponding brackets or quotes.
+- **Surround selection magic:**  
+  Select code and press `"`, `'`, `[`, `{`, `(`, or `%` to instantly wrap your selection.
 - **Quick Liquid comment wrapping:**  
   Press `Ctrl+Shift+/` to surround the selected code with `{% comment %} ... {% endcomment %}`.
-- **Smart space insertion:**  
-  When the cursor is between `{%|%}` or `{{|}}` and you press space, two spaces are inserted and the cursor is placed between them for more comfortable Liquid editing.
 
 ---
 
@@ -93,7 +123,7 @@ Here’s everything you get with **Silverfin: Level-Up** for Visual Studio Code:
 
 ---
 
-## 🚀 Getting Started is Easy
+## ▶️ Getting Started is Easy
 
 1. **Install** Silverfin: Level-Up from the VS Code Marketplace.
 2. **Open any `.liquid` file**—the extension activates automatically.
