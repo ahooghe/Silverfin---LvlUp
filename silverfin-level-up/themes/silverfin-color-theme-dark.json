@@ -1,8 +1,12 @@
 {
   "name": "Silverfin Theme - Refined Dark",
+  "type": "dark",
   "colors": {
-    "editor.background": "#2b2b2b",
-    "editor.foreground": "#D4D4D4",
+    "editor.background": "#1e1e1e",
+    "editor.foreground": "#d4d4d4",
+    "editorCursor.foreground": "#aeafad",
+    "editor.lineHighlightBackground": "#2c2c2c",
+    "editor.selectionBackground": "#264f78",
     "editorBracketHighlight.foreground1": "#FFD700",
     "editorBracketHighlight.foreground2": "#FFD700",
     "editorBracketHighlight.foreground3": "#FFD700",
@@ -17,7 +21,7 @@
         "punctuation.block.end.silverfin",
         "punctuation.output.start.silverfin",
         "punctuation.output.end.silverfin",
-        "keyword.operator.logical.silverfin",
+        "keyword.operator.logical.silverfin"
       ],
       "settings": {
         "foreground": "#FFD700"
@@ -67,7 +71,7 @@
     },
     {
       "scope": [
-        "keyword.operator.comparison.silverfin",
+        "keyword.operator.comparison.silverfin"
       ],
       "settings": {
         "foreground": "#D5171A"
@@ -77,7 +81,7 @@
       "scope": [
         "string.brackets.single.silverfin",
         "variable.other.silverfin",
-        "support.type.property-name.json",
+        "support.type.property-name.json"
       ],
       "settings": {
         "foreground": "#61AFEF"

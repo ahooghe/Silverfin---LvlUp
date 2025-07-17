@@ -76,7 +76,12 @@
       {
         "label": "Silverfin Theme - Refined Dark",
         "uiTheme": "vs-dark",
-        "path": "./themes/silverfin-color-theme.json"
+        "path": "./themes/silverfin-color-theme-dark.json"
+      },
+      {
+        "label": "Silverfin Theme - Refined Light",
+        "uiTheme": "vs",
+        "path": "./themes/silverfin-color-theme-light.json"
       }
     ],
     "languages": [
@@ -100,7 +105,7 @@
       }
     ],
     "configurationDefaults": {
-      "workbench.colorTheme": "Silverfin Theme"
+      "workbench.colorTheme": "Silverfin Theme - Refined Dark"
     },
     "snippets": [
       {
