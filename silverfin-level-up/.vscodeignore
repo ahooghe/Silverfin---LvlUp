@@ -6,13 +6,20 @@ node_modules
 *.test.ts
 *.spec.ts
 *.md
-*.json
 *.yml
 *.yaml
 *.log
 *.tmp
-// filepath: c:\Users\antho\Desktop\Silverfin - LvlUp\.vscodeignore
-!silverfin-color-theme.json
-!silverfin.tmLanguage.json
-!silverfin.code-snippets
-FAQ.md
+
+# Exclude all .json files except those needed for the extension
+*.json
+
+# Explicitly include required .json files
+!language-configuration.json
+!themes/silverfin-color-theme-dark.json
+!themes/silverfin-color-theme-light.json
+!syntaxes/silverfin.tmLanguage.json
+
+!snippets/silverfin.code-snippets
+!snippets/silverfin-filters.code-snippets
+!snippets/html-in-liquid.code-snippets
