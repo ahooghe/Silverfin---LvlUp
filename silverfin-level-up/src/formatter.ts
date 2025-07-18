@@ -61,14 +61,13 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
     const rawLines = text.replace(/\r\n/g, '\n').split('\n');
     const output: string[] = [];
     let indentLevel = 0;
-    let inMarkdownTable = false;
-    let inCapture = false;
-
 
     for (let i = 0; i < rawLines.length; i++) {
         const line = rawLines[i].trim();
         let completeTag: string | undefined;
         let cleanedLine: string | undefined;
+        let startsWithPipe = false
+        let inMarkdownTable = false;
 
         if (line.length === 0) {
             output.push('');
@@ -79,9 +78,32 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
             continue;
         }
         else {
-            if (line.search(/{%\sic\s%}/) !== -1) {
+            if (line.search(/{%\s*stripnewlines\s*%}/) !== -1) {
+                let originalIndex = i;
+                let currentLine = rawLines[i];
+                let stripnewlinesBlock = '';
+                while (currentLine.search(/{%\s*endstripnewlines\s*%}/) === -1 && i < rawLines.length - 1) {
+                    if (currentLine.trim().indexOf('|') === 0)
+                        startsWithPipe = true;
+                    if (startsWithPipe && currentLine.search(/{%\s*newline\s*%}/) !== -1) {
+                        inMarkdownTable = true;
+                        break;
+                    }
+                    i++;
+                    stripnewlinesBlock += currentLine + '\n';
+                    currentLine = rawLines[i];
+                }
+                if (inMarkdownTable) {
+                    stripnewlinesBlock += currentLine;
+                    output.push(stripnewlinesBlock);
+                    continue;                    
+                } else {
+                    i = originalIndex;
+                }
+            }
+            else if (line.search(/{%\s*ic\s*%}/) !== -1) {
                 completeTag = line;
-                while (completeTag?.search(/{%\sendic\s%}/) === -1 && i < rawLines.length - 1) {
+                while (completeTag?.search(/{%\s*endic\s*%}/) === -1 && i < rawLines.length - 1) {
                     i++;
                     const nextLine = rawLines[i].trim();
                     if (nextLine.length === 0) {
@@ -180,7 +202,6 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
                     tag += cleanedLine.substring(0, cleanedLine.search('}') + 1);
                     cleanedLine = cleanedLine.substring(cleanedLine.search('}') + 1).trim();
                 }
-                // The tagId is the first word after the opening tag
                 const tagId = tag.split(' ')[1] || '';
                 if (tag.startsWith('{{') || config.singleLineLogicTags.includes(tagId)) {
                     output.push(setIndent(tag, indentLevel, config));
@@ -228,6 +249,4 @@ function setIndent(line: string, level: number, config: FormatterConfig): string
     return indent + line;
 }
 
-
-// To do: Implement single line logic for ic and nic tags. If open/close is on the same line, it should be formatted as a single line.
 // To do: Implement logic for preserving markdown tables.
