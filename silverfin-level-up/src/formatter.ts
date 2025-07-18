@@ -82,13 +82,12 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
             if (line.search(/{%\sic\s%}/) !== -1) {
                 completeTag = line;
                 while (completeTag?.search(/{%\sendic\s%}/) === -1 && i < rawLines.length - 1) {
-                    console.log(`  Continuing ic tag at line ${i}`);
                     i++;
                     const nextLine = rawLines[i].trim();
                     if (nextLine.length === 0) {
                         continue;
                     }
-                    completeTag += ' ' + nextLine;
+                    completeTag += nextLine;
                 }
             }
             else if (line.search(/(%}|}}|>)/) === -1) {
@@ -114,14 +113,28 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
             if (cleanedLine.search('<') === 0) {
                 let htmlTag = cleanedLine.substring(1, cleanedLine.search('>'));
                 if (config.htmlSingleTags.includes(htmlTag)) {
-                    output.push(setIndent(cleanedLine.substring(0, cleanedLine.search('>') + 1), indentLevel, config));
+                    let fullHTMLTag = cleanedLine.substring(0, cleanedLine.search('>') + 1);
                     cleanedLine = cleanedLine.substring(cleanedLine.search('>') + 1).trim();
+                    if ((cleanedLine.indexOf('warningtext') === 3 || 
+                            cleanedLine.indexOf('infotext') === 3) && cleanedLine.search('}') !== -1) {
+                            console.log(`Found inline HTML tag with warning or info text: ${fullHTMLTag}`);
+                            fullHTMLTag += cleanedLine.substring(0, cleanedLine.search('}') + 1);
+                            cleanedLine = cleanedLine.substring(cleanedLine.search('}') + 1).trim();
+                        }
+                    output.push(setIndent(fullHTMLTag, indentLevel, config));
                 } else if (config.htmlInlineTags.includes(htmlTag)) {
                     const closingTagPattern = new RegExp(`</${htmlTag}>`, 'i');
                     const closingTagIndex: number = cleanedLine.search(closingTagPattern);
                     if (closingTagIndex !== -1) {
-                        output.push(setIndent(cleanedLine.substring(0, closingTagIndex + `</${htmlTag}>`.length), indentLevel, config));
+                        let closingTag = cleanedLine.substring(0, closingTagIndex + `</${htmlTag}>`.length)
                         cleanedLine = cleanedLine.substring(closingTagIndex + `</${htmlTag}>`.length).trim();
+                        if ((cleanedLine.indexOf('warningtext') === 3 || 
+                            cleanedLine.indexOf('infotext') === 3) && cleanedLine.search('}') !== -1) {
+                            console.log(`Found inline HTML tag with warning or info text: ${closingTag}`);
+                            closingTag += cleanedLine.substring(0, cleanedLine.search('}') + 1);
+                            cleanedLine = cleanedLine.substring(cleanedLine.search('}') + 1).trim();
+                        }
+                        output.push(setIndent(closingTag, indentLevel, config));
                     } else {
                         output.push(setIndent(cleanedLine, indentLevel, config));
                         cleanedLine = '';
@@ -129,6 +142,12 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
                 } else {
                     let fullHTMLTag = cleanedLine.substring(0, cleanedLine.search('>') + 1);
                     cleanedLine = cleanedLine.substring(cleanedLine.search('>') + 1).trim();
+                    if ((cleanedLine.indexOf('warningtext') === 3 || 
+                        cleanedLine.indexOf('infotext') === 3) && cleanedLine.search('}') !== -1) {
+                        console.log(`Found inline HTML tag with warning or info text: ${fullHTMLTag}`);
+                        fullHTMLTag += cleanedLine.substring(0, cleanedLine.search('}') + 1);
+                        cleanedLine = cleanedLine.substring(cleanedLine.search('}') + 1).trim();
+                    }
                     if (fullHTMLTag.indexOf('</') !== -1) {
                         indentLevel--;
                         if (indentLevel < 0) {
@@ -142,25 +161,25 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
                 }
 
             }
-            else if (cleanedLine.indexOf('{% ic') === 0) {
-                // If the next tag in the ic tags is a {::warningtext} or {::infotext} tag, we should ensure that this tag is attached to the line right before it, as well as its closing tag {:/warningtext} or {:/infotext}. Apart from this, the rest inside the ic tag should be in line with the code already written.
-                output.push(setIndent(cleanedLine, indentLevel, config));
-                cleanedLine = '';
-
-            }
             else if (cleanedLine.search(/({%|{{|<)/) === -1) {
                 output.push(setIndent(cleanedLine, indentLevel, config));
                 cleanedLine = '';
             }
             else if (cleanedLine.search(/({%|{{|<)/) > 0) {
-                const contentBeforeTag = cleanedLine.slice(0, cleanedLine.search(/({%|{{|<)/));
+                let contentBeforeTag = cleanedLine.slice(0, cleanedLine.search(/({%|{{|<)/));
                 if (contentBeforeTag.trim().length > 0) {
                     output.push(setIndent(contentBeforeTag, indentLevel, config));
                 }
                 cleanedLine = cleanedLine.slice(cleanedLine.search(/({%|{{|<)/)).trim();
             } else {
-                const tag = cleanedLine.slice(0, cleanedLine.search(/(%}|}})/) + 2);
+                let tag = cleanedLine.slice(0, cleanedLine.search(/(%}|}})/) + 2);
                 cleanedLine = cleanedLine.slice(cleanedLine.search(/(%}|}})/) + 2).trim();
+                if ((cleanedLine.indexOf('warningtext') === 3 || 
+                    cleanedLine.indexOf('infotext') === 3) && cleanedLine.search('}') !== -1) {
+                    console.log(`Found inline tag with warning or info text: ${tag}`);
+                    tag += cleanedLine.substring(0, cleanedLine.search('}') + 1);
+                    cleanedLine = cleanedLine.substring(cleanedLine.search('}') + 1).trim();
+                }
                 // The tagId is the first word after the opening tag
                 const tagId = tag.split(' ')[1] || '';
                 if (tag.startsWith('{{') || config.singleLineLogicTags.includes(tagId)) {
@@ -212,4 +231,3 @@ function setIndent(line: string, level: number, config: FormatterConfig): string
 
 // To do: Implement single line logic for ic and nic tags. If open/close is on the same line, it should be formatted as a single line.
 // To do: Implement logic for preserving markdown tables.
-// To do: Implement logic for preserving info and warning text tags in markdown.
