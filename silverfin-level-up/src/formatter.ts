@@ -73,7 +73,7 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
             output.push('');
             continue;
         }
-        else if (line.search(/({%|{{|<)/) === -1) {
+        else if (line.search(/({%|{{|{:|<)/) === -1) {
             output.push(setIndent(line, indentLevel, config));
             continue;
         }
@@ -132,8 +132,14 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
         }
 
         while (cleanedLine !== '') {
+            cleanedLine = cleanedLine.trim();
             if (cleanedLine.search('<') === 0) {
-                let htmlTag = cleanedLine.substring(1, cleanedLine.search('>'));
+                let htmlTag : string = '';
+                if (cleanedLine.indexOf('/') !== 1) {
+                    htmlTag = cleanedLine.substring(1, cleanedLine.search('>'));
+                } else {
+                    htmlTag = cleanedLine.substring(2, cleanedLine.search('>'));
+                }
                 if (config.htmlSingleTags.includes(htmlTag)) {
                     let fullHTMLTag = cleanedLine.substring(0, cleanedLine.search('>') + 1);
                     cleanedLine = cleanedLine.substring(cleanedLine.search('>') + 1).trim();
@@ -165,9 +171,9 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
                 }
 
             }
-            else if (cleanedLine.search(/{:/) === 0 && cleanedLine.search('}') !== -1) {
-                let markdownTag = cleanedLine.substring(0, cleanedLine.search('}'));
-                output.push(markdownTag);
+            else if (cleanedLine.search('{:') === 0 && cleanedLine.search('}') !== -1) {
+                let markdownTag = cleanedLine.substring(0, cleanedLine.search('}') + 1);
+                output.push(markdownTag.trim());
                 cleanedLine = cleanedLine.substring(cleanedLine.search('}') + 1).trim();
             }
             else if (cleanedLine.search(/({%|{{|<)/) === -1) {
