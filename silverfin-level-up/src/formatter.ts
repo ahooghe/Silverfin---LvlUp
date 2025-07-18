@@ -231,7 +231,9 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
 }
 
 function cleanHtml(line: string): string {
-    return line.replace(/^\s*(<.*?>)\s*$/, '$1').replace(/<\s+/g, '<').replace(/\s+>/g, '>').replace(/\s+/g, ' ').replace(/\s*(class|colspan)\s*=\s*/g, ' $1=').replace(/(<\/)\s+/g, '$1');
+    return line.replace(/<[^>]*>/g, tag =>
+        tag.replace(/<\s+/g, '<').replace(/\s+>/g, '>').replace(/\s*(class|colspan)\s*=\s*/g, ' $1=')
+    );
 }
 
 function cleanLiquid(line: string): string {
