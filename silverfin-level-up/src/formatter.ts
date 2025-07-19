@@ -221,8 +221,21 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
                 }
                 cleanedLine = cleanedLine.slice(cleanedLine.search(/({%|{{|<)/)).trim();
             } else {
-                let tag = cleanedLine.slice(0, cleanedLine.search(/(%}|}})/) + 2);
-                cleanedLine = cleanedLine.slice(cleanedLine.search(/(%}|}})/) + 2).trim();
+                // The opening symbol should match the closing one ({% with %}, {{ with }})
+                let tag = '';
+                switch (cleanedLine.substring(0, 2)) {
+                    case '{{':
+                        tag = cleanedLine.substring(0, cleanedLine.search('}}') + 2);
+                        cleanedLine = cleanedLine.substring(cleanedLine.search('}}') + 2).trim();
+                        break;
+                    case '{%':
+                        tag = cleanedLine.substring(0, cleanedLine.search('%}') + 2);
+                        cleanedLine = cleanedLine.substring(cleanedLine.search('%}') + 2).trim();
+                        break;
+                    default:
+                        tag = '';
+                        break;
+                }
                 const tagId = tag.split(' ')[1] || '';
                 if (tag.startsWith('{{') || config.singleLineLogicTags.includes(tagId)) {
                     output.push(setIndent(tag, indentLevel, config));
