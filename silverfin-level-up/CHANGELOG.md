@@ -44,3 +44,14 @@ All notable changes to this project will be documented in this file.
 - Add 'blank' to boolean keywords and enhance variable matching pattern.
 
 ---
+
+## [0.1.4] - 19/07/2025
+### Added
+
+### Changed
+- Complete rewrite of formatting logic to increase formatting speed
+
+### Fixed
+- Markdown handling in formatter
+
+---
