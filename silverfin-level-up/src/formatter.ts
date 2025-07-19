@@ -8,6 +8,7 @@ interface FormatterConfig {
     singleLineLogicTags: string[];
     htmlSingleTags: string[];
     htmlInlineTags: string[];
+    htmlBlockTags: string[];
     padWithTabs: boolean;
     tabSize: number;
 }
@@ -19,6 +20,7 @@ const defaultConfig: FormatterConfig = {
     singleLineLogicTags: ['assign', 'input', 'result', 'push', 'pop', 'newpage', 'include', 'changeorientation', 't', 't=', 'unreconciled'],
     htmlSingleTags: ['br', 'hr'],
     htmlInlineTags: ['b', 'i', 'em', 'u', 'sub', 'sup', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a'],
+    htmlBlockTags: ['table', 'thead', 'tbody', 'tr'],
     padWithTabs: true,
     tabSize: 4,
 };
@@ -47,6 +49,7 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
     const rawLines = text.replace(/\r\n/g, '\n').split('\n');
     const output: string[] = [];
     let indentLevel = 0;
+    let captureLevel = 0;
 
     for (let i = 0; i < rawLines.length; i++) {
         const line = rawLines[i].trim();
@@ -82,7 +85,7 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
                 if (inMarkdownTable) {
                     stripnewlinesBlock += currentLine;
                     output.push(stripnewlinesBlock);
-                    continue;                    
+                    continue;
                 } else {
                     i = originalIndex;
                 }
@@ -119,8 +122,53 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
 
         while (cleanedLine !== '') {
             cleanedLine = cleanedLine.trim();
-            if (cleanedLine.search('<') === 0) {
-                let htmlTag : string = '';
+            if (captureLevel > 0) {
+                let matches = cleanedLine.match(/{%\s*capture\s*%}/g);
+                let countOpen = matches ? matches.length : 0;
+
+                matches = cleanedLine.match(/{%\s*endcapture\s*%}/g);
+                let countClose = matches ? matches.length : 0;
+                captureLevel += countOpen - countClose;
+
+                if (captureLevel === 0) {
+                    let lastIndex = -1;
+                    const regex = /{%\s*endcapture\s*%}/g;
+                    let match;
+                    while ((match = regex.exec(cleanedLine)) !== null) {
+                        lastIndex = match.index;
+                    }
+                    if (lastIndex === -1 || cleanedLine.substring(0, lastIndex).trim() !== '') {
+                        output.push(setIndent(cleanedLine.substring(0, lastIndex), indentLevel, config));
+                    }
+                    indentLevel--;
+                    if (indentLevel < 0) {
+                        indentLevel = 0;
+                    }
+                    output.push(setIndent('{% endcapture %}', indentLevel, config));
+                    cleanedLine = cleanedLine.substring(lastIndex + '{% endcapture %}'.length).trim();
+                } else {
+                    let regexOpeningTags = new RegExp(`({%\\s*(${config.liquidBlocks.join('|')})|{{\\s*(${config.logicBlocks.join('|')})|<\\s*(${config.htmlBlockTags.join('|')}))`, 'g');
+                    let regexClosingTags = new RegExp(`({%\\s*end(${config.liquidBlocks.join('|')})|{{\\s*end(${config.logicBlocks.join('|')})|</\\s*(${config.htmlBlockTags.join('|')}))`, 'g');
+                    let openingTagMatch = cleanedLine.match(regexOpeningTags);
+                    let closingTagMatch = cleanedLine.match(regexClosingTags);
+                    let totalMatches = (openingTagMatch ? openingTagMatch.length : 0) - (closingTagMatch ? closingTagMatch.length : 0);
+
+                    if (totalMatches > 0) {
+                        output.push(setIndent(cleanedLine, indentLevel, config));
+                        indentLevel++;
+                    } else if (totalMatches < 0) {
+                        indentLevel--;
+                        if (indentLevel < 0) {
+                            indentLevel = 0;
+                        }
+                        output.push(setIndent(cleanedLine, indentLevel, config));
+                    } else if (cleanedLine.trim() !== '') {
+                        output.push(setIndent(cleanedLine, indentLevel, config));
+                    }
+                    cleanedLine = '';
+                }
+            } else if (cleanedLine.search('<') === 0) {
+                let htmlTag: string = '';
                 if (cleanedLine.indexOf('/') !== 1) {
                     htmlTag = cleanedLine.substring(1, cleanedLine.search('>'));
                 } else {
@@ -178,6 +226,32 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
                 const tagId = tag.split(' ')[1] || '';
                 if (tag.startsWith('{{') || config.singleLineLogicTags.includes(tagId)) {
                     output.push(setIndent(tag, indentLevel, config));
+                } else if (tagId === 'capture') {
+                    captureLevel++;
+                    output.push(setIndent(tag, indentLevel, config));
+                    indentLevel++;
+
+                    let openMatches = cleanedLine.match(/{%\s*capture\s*%}/g);
+                    let countOpen = openMatches ? openMatches.length : 0;
+                    let closeMatches = cleanedLine.match(/{%\s*endcapture\s*%}/g);
+                    let countClose = closeMatches ? closeMatches.length : 0;
+                    captureLevel += countOpen - countClose;
+
+                    if (captureLevel === 0) {
+                        let lastIndex = -1;
+                        const regex = /{%\s*endcapture\s*%}/g;
+                        let match;
+                        while ((match = regex.exec(cleanedLine)) !== null) {
+                            lastIndex = match.index;
+                        }
+                        output.push(setIndent(cleanedLine.substring(0, lastIndex), indentLevel, config));
+                        indentLevel--;
+                        if (indentLevel < 0) {
+                            indentLevel = 0;
+                        }
+                        output.push(setIndent('{% endcapture %}', indentLevel, config));
+                        cleanedLine = cleanedLine.substring(lastIndex + '{% endcapture %}'.length).trim();
+                    }
                 } else if (config.logicBlocks.includes(tagId) || config.liquidBlocks.includes(tagId)) {
                     output.push(setIndent(tag, indentLevel, config));
                     indentLevel++;
@@ -206,7 +280,6 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
             }
         }
     }
-    console.log(`Finished formatting`);
     return output.join('\n');
 }
 
