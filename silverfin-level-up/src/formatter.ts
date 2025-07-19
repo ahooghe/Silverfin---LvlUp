@@ -1,6 +1,9 @@
 import * as vscode from 'vscode';
 
-// Configurable formatter behavior
+/**
+ * Configuration interface for the Silverfin formatter
+ * Defines which tags require indentation and formatting rules
+ */
 interface FormatterConfig {
     logicBlocks: string[];
     logicSubBlocks: string[];
@@ -13,6 +16,10 @@ interface FormatterConfig {
     tabSize: number;
 }
 
+/**
+ * Default configuration for the Silverfin formatter
+ * Defines the standard tags and formatting rules for Silverfin templates
+ */
 const defaultConfig: FormatterConfig = {
     logicBlocks: ['if', 'for', 'fori', 'ifi', 'unless', 'case', 'stripnewlines'],
     logicSubBlocks: ['else', 'elsif', 'elsifi', 'when'],
@@ -25,15 +32,21 @@ const defaultConfig: FormatterConfig = {
     tabSize: 4,
 };
 
+/**
+ * Activates the Silverfin document formatter
+ * Registers the formatter with VS Code for 'silverfin-lvlup' language
+ */
 export function activateFormatter(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.languages.registerDocumentFormattingEditProvider('silverfin-lvlup', {
             provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] {
+                // Merge default config with editor preferences
                 const config = { ...defaultConfig };
                 const editorConfig = vscode.workspace.getConfiguration('editor', document.uri);
                 config.tabSize = editorConfig.get('tabSize') as number;
                 config.padWithTabs = !editorConfig.get('insertSpaces') as boolean;
 
+                // Format the document and return edit to replace entire content
                 const formatted = formatSilverfin(document.getText(), config);
                 const fullRange = new vscode.Range(
                     document.positionAt(0),
@@ -45,6 +58,10 @@ export function activateFormatter(context: vscode.ExtensionContext) {
     );
 }
 
+/**
+ * Main formatting function for Silverfin templates
+ * Processes each line and handles different tag types with proper indentation
+ */
 function formatSilverfin(text: string, config: FormatterConfig): string {
     const rawLines = text.replace(/\r\n/g, '\n').split('\n');
     const output: string[] = [];
@@ -55,8 +72,6 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
         const line = rawLines[i].trim();
         let completeTag: string | undefined;
         let cleanedLine: string | undefined;
-        let startsWithPipe = false
-        let inMarkdownTable = false;
 
         if (line.length === 0) {
             output.push('');
@@ -67,6 +82,7 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
             continue;
         }
         else {
+            // Handle special cases that span multiple lines
             const stripnewlinesResult = handleStripnewlines(rawLines, i);
             if (stripnewlinesResult.handled) {
                 if (stripnewlinesResult.isMarkdownTable) {
@@ -91,6 +107,7 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
             }
         }
 
+        // Clean HTML, Liquid, and Markdown from the tag
         if (completeTag !== undefined) {
             cleanedLine = cleanMarkdown(cleanLiquid(cleanHtml(completeTag))).trim();
         } else {
@@ -104,6 +121,10 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
     return output.join('\n');
 }
 
+/**
+ * Handles stripnewlines blocks, which may contain markdown tables
+ * Returns information about whether the block was handled and content
+ */
 function handleStripnewlines(rawLines: string[], currentIndex: number): { handled: boolean; isMarkdownTable: boolean; content: string; nextIndex: number } {
     const line = rawLines[currentIndex];
     if (line.search(/{%\s*stripnewlines\s*%}/) === -1) {
@@ -118,6 +139,7 @@ function handleStripnewlines(rawLines: string[], currentIndex: number): { handle
     let inMarkdownTable = false;
 
     while (currentLine.search(/{%\s*endstripnewlines\s*%}/) === -1 && i < rawLines.length - 1) {
+        // Check if this is a markdown table (starts with pipe and has newline tags)
         if (currentLine.trim().indexOf('|') === 0)
             startsWithPipe = true;
         if (startsWithPipe && currentLine.search(/{%\s*newline\s*%}/) !== -1) {
@@ -137,6 +159,10 @@ function handleStripnewlines(rawLines: string[], currentIndex: number): { handle
     }
 }
 
+/**
+ * Handles IC (Internal Control) blocks by combining all lines into a single tag
+ * Returns the complete IC block content and updated index
+ */
 function handleIcBlock(rawLines: string[], currentIndex: number): { handled: boolean; content: string; nextIndex: number } {
     const line = rawLines[currentIndex];
     if (line.search(/{%\s*ic\s*%}/) === -1) {
@@ -157,6 +183,10 @@ function handleIcBlock(rawLines: string[], currentIndex: number): { handled: boo
     return { handled: true, content: completeTag, nextIndex: i };
 }
 
+/**
+ * Handles incomplete tags that span multiple lines
+ * Combines lines until the tag is complete (has proper closing)
+ */
 function handleIncompleteTag(rawLines: string[], currentIndex: number): { handled: boolean; content: string; nextIndex: number } {
     const line = rawLines[currentIndex];
     if (line.search(/(%}|}}|>)/) !== -1) {
@@ -177,14 +207,20 @@ function handleIncompleteTag(rawLines: string[], currentIndex: number): { handle
     return { handled: true, content: completeTag, nextIndex: i };
 }
 
+/**
+ * Processes a cleaned line by handling all tags within it
+ * Continues processing until the entire line is consumed
+ */
 function processCleanedLine(cleanedLine: string, captureLevel: number, indentLevel: number, config: FormatterConfig, output: string[], rawLines: string[], currentIndex: number): { indentLevel: number; captureLevel: number } {
     let currentIndentLevel = indentLevel;
     let currentCaptureLevel = captureLevel;
     let remainingLine = cleanedLine;
 
+    // Process all tags in the line until nothing remains
     while (remainingLine !== '') {
         remainingLine = remainingLine.trim();
         
+        // Handle capture mode differently than normal mode
         if (currentCaptureLevel > 0) {
             const captureResult = processCaptureMode(remainingLine, currentCaptureLevel, currentIndentLevel, config, output);
             currentCaptureLevel = captureResult.captureLevel;
@@ -201,10 +237,15 @@ function processCleanedLine(cleanedLine: string, captureLevel: number, indentLev
     return { indentLevel: currentIndentLevel, captureLevel: currentCaptureLevel };
 }
 
+/**
+ * Processes content when inside a capture block
+ * Capture blocks require special handling for nested tags and proper closure
+ */
 function processCaptureMode(cleanedLine: string, captureLevel: number, indentLevel: number, config: FormatterConfig, output: string[]): { captureLevel: number; indentLevel: number; remainingLine: string } {
     let currentCaptureLevel = captureLevel;
     let currentIndentLevel = indentLevel;
 
+    // Count opening and closing capture tags to track nesting
     let matches = cleanedLine.match(/{%\s*capture\s*%}/g);
     let countOpen = matches ? matches.length : 0;
 
@@ -212,6 +253,7 @@ function processCaptureMode(cleanedLine: string, captureLevel: number, indentLev
     let countClose = matches ? matches.length : 0;
     currentCaptureLevel += countOpen - countClose;
 
+    // If we've closed all capture blocks, handle the endcapture
     if (currentCaptureLevel === 0) {
         let lastIndex = -1;
         const regex = /{%\s*endcapture\s*%}/g;
@@ -229,6 +271,7 @@ function processCaptureMode(cleanedLine: string, captureLevel: number, indentLev
         output.push(setIndent('{% endcapture %}', currentIndentLevel, config));
         return { captureLevel: currentCaptureLevel, indentLevel: currentIndentLevel, remainingLine: cleanedLine.substring(lastIndex + '{% endcapture %}'.length).trim() };
     } else {
+        // Handle nested tags within capture blocks
         let regexOpeningTags = new RegExp(`({%\\s*(${config.liquidBlocks.join('|')})|{{\\s*(${config.logicBlocks.join('|')})|<\\s*(${config.htmlBlockTags.join('|')}))`, 'g');
         let regexClosingTags = new RegExp(`({%\\s*end(${config.liquidBlocks.join('|')})|{{\\s*end(${config.logicBlocks.join('|')})|</\\s*(${config.htmlBlockTags.join('|')}))`, 'g');
         let openingTagMatch = cleanedLine.match(regexOpeningTags);
@@ -251,10 +294,15 @@ function processCaptureMode(cleanedLine: string, captureLevel: number, indentLev
     }
 }
 
+/**
+ * Processes content in normal mode (not inside capture blocks)
+ * Routes to specific handlers based on tag type
+ */
 function processNormalMode(cleanedLine: string, indentLevel: number, captureLevel: number, config: FormatterConfig, output: string[], rawLines: string[], currentIndex: number): { indentLevel: number; captureLevel: number; remainingLine: string } {
     let currentIndentLevel = indentLevel;
     let currentCaptureLevel = captureLevel;
 
+    // Route to appropriate handler based on tag type
     if (cleanedLine.search('<') === 0) {
         return processHtmlTag(cleanedLine, currentIndentLevel, config, output);
     }
@@ -273,15 +321,21 @@ function processNormalMode(cleanedLine: string, indentLevel: number, captureLeve
     }
 }
 
+/**
+ * Processes HTML tags and determines indentation behavior
+ * Handles single tags, inline tags, and block tags differently
+ */
 function processHtmlTag(cleanedLine: string, indentLevel: number, config: FormatterConfig, output: string[]): { indentLevel: number; captureLevel: number; remainingLine: string } {
     let currentIndentLevel = indentLevel;
     let htmlTag: string = '';
+    // Extract tag name (handle both opening and closing tags)
     if (cleanedLine.indexOf('/') !== 1) {
         htmlTag = cleanedLine.substring(1, cleanedLine.search('>'));
     } else {
         htmlTag = cleanedLine.substring(2, cleanedLine.search('>'));
     }
 
+    // Handle different types of HTML tags
     if (config.htmlSingleTags.includes(htmlTag)) {
         let fullHTMLTag = cleanedLine.substring(0, cleanedLine.search('>') + 1);
         let remainingLine = cleanedLine.substring(cleanedLine.search('>') + 1).trim();
@@ -316,6 +370,9 @@ function processHtmlTag(cleanedLine: string, indentLevel: number, config: Format
     }
 }
 
+/**
+ * Processes markdown-style tags that start with {:
+ */
 function processMarkdownTag(cleanedLine: string, output: string[]): { captureLevel: number; remainingLine: string } {
     let markdownTag = cleanedLine.substring(0, cleanedLine.search('}') + 1);
     output.push(markdownTag.trim());
@@ -323,6 +380,10 @@ function processMarkdownTag(cleanedLine: string, output: string[]): { captureLev
     return { captureLevel: 0, remainingLine };
 }
 
+/**
+ * Processes content that appears before tags on a line
+ * Splits content from tags for separate handling
+ */
 function processContentBeforeTag(cleanedLine: string, indentLevel: number, config: FormatterConfig, output: string[]): { indentLevel: number; captureLevel: number; remainingLine: string } {
     let contentBeforeTag = cleanedLine.slice(0, cleanedLine.search(/({%|{{|<)/));
     if (contentBeforeTag.trim().length > 0) {
@@ -332,11 +393,14 @@ function processContentBeforeTag(cleanedLine: string, indentLevel: number, confi
     return { indentLevel, captureLevel: 0, remainingLine };
 }
 
+/**
+ * Processes Liquid tags ({% %} and {{ }})
+ * Handles logic blocks, capture blocks, and single-line tags with appropriate indentation
+ */
 function processLiquidTag(cleanedLine: string, indentLevel: number, captureLevel: number, config: FormatterConfig, output: string[], rawLines: string[], currentIndex: number): { indentLevel: number; captureLevel: number; remainingLine: string } {
     let currentIndentLevel = indentLevel;
     let currentCaptureLevel = captureLevel;
 
-    // The opening symbol should match the closing one ({% with %}, {{ with }})
     let tag = '';
     switch (cleanedLine.substring(0, 2)) {
         case '{{':
@@ -353,6 +417,7 @@ function processLiquidTag(cleanedLine: string, indentLevel: number, captureLevel
     }
     const tagId = tag.split(' ')[1] || '';
     
+    // Handle different types of Liquid tags
     if (tag.startsWith('{{') || config.singleLineLogicTags.includes(tagId)) {
         output.push(setIndent(tag, currentIndentLevel, config));
     } else if (tagId === 'capture') {
@@ -409,22 +474,32 @@ function processLiquidTag(cleanedLine: string, indentLevel: number, captureLevel
     return { indentLevel: currentIndentLevel, captureLevel: currentCaptureLevel, remainingLine: cleanedLine };
 }
 
+/**
+ * Cleans HTML tags by normalizing whitespace and attribute formatting
+ */
 function cleanHtml(line: string): string {
     return line.replace(/<[^>]*>/g, tag =>
         tag.replace(/<\s+/g, '<').replace(/\s+>/g, '>').replace(/\s*(class|colspan)\s*=\s*/g, ' $1=')
     );
 }
 
+/**
+ * Cleans Liquid tags by removing extra whitespace
+ */
 function cleanLiquid(line: string): string {
-    // Remove leading and trailing whitespace from Liquid tags
     return line.replace(/^\s*({{.*?}}|{%-.*?-%})\s*$/, '$1');
 }
 
+/**
+ * Cleans markdown formatting by removing extra whitespace
+ */
 function cleanMarkdown(line: string): string {
-    // Remove leading and trailing whitespace from Markdown tags
     return line.replace(/^\s*(\*\*.*?\*\*|\*.*?\*|__.*?__|_.*?_)\s*$/, '$1');
 }
 
+/**
+ * Adds proper indentation to a line based on the current level and configuration
+ */
 function setIndent(line: string, level: number, config: FormatterConfig): string {
     const indent = config.padWithTabs ? '\t'.repeat(level) : ' '.repeat(config.tabSize * level);
     return indent + line;
