@@ -7,16 +7,9 @@ interface FormatterConfig {
     liquidBlocks: string[];
     singleLineLogicTags: string[];
     htmlSingleTags: string[];
-    htmlBlockTags: string[];
     htmlInlineTags: string[];
-    markdownFlushTags: string[];
-    markdownClosingTags: string[];
-    markdownStyleTags: string[];
     padWithTabs: boolean;
     tabSize: number;
-    addBlankLineAfterLogicBlock: boolean;
-    enforceBlockFormatting: boolean;
-    preserveMarkdownTables: boolean;
 }
 
 const defaultConfig: FormatterConfig = {
@@ -25,16 +18,9 @@ const defaultConfig: FormatterConfig = {
     liquidBlocks: ['capture', 'locale', 'linkto', 'radiogroup', 'currencyconfiguration', 'adjustmentbutton', 'ic', 'nic', 'comment'],
     singleLineLogicTags: ['assign', 'input', 'result', 'push', 'pop', 'newpage', 'include', 'changeorientation', 't', 't=', 'unreconciled'],
     htmlSingleTags: ['br', 'hr'],
-    htmlBlockTags: ['table', 'thead', 'tbody', 'tr', 'td', 'th', 'p'],
     htmlInlineTags: ['b', 'i', 'em', 'u', 'sub', 'sup', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a'],
-    markdownFlushTags: ['infotext', 'warningtext'],
-    markdownClosingTags: ['infotext', 'warningtext'],
-    markdownStyleTags: ['target', 'font', 'indent'],
     padWithTabs: true,
     tabSize: 4,
-    addBlankLineAfterLogicBlock: true,
-    enforceBlockFormatting: false,
-    preserveMarkdownTables: true,
 };
 
 export function activateFormatter(context: vscode.ExtensionContext) {
@@ -193,6 +179,13 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
                 if (tag.startsWith('{{') || config.singleLineLogicTags.includes(tagId)) {
                     output.push(setIndent(tag, indentLevel, config));
                 } else if (config.logicBlocks.includes(tagId) || config.liquidBlocks.includes(tagId)) {
+                    output.push(setIndent(tag, indentLevel, config));
+                    indentLevel++;
+                } else if (config.logicSubBlocks.includes(tagId)) {
+                    indentLevel--;
+                    if (indentLevel < 0) {
+                        indentLevel = 0;
+                    }
                     output.push(setIndent(tag, indentLevel, config));
                     indentLevel++;
                 } else {
