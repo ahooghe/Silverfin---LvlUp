@@ -144,7 +144,6 @@ function handleStripnewlines(rawLines: string[], currentIndex: number): { handle
             startsWithPipe = true;
         if (startsWithPipe && currentLine.search(/{%\s*newline\s*%}/) !== -1) {
             inMarkdownTable = true;
-            break;
         }
         i++;
         stripnewlinesBlock += currentLine + '\n';
