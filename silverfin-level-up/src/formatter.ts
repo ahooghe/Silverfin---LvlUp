@@ -16,8 +16,8 @@ interface FormatterConfig {
 const defaultConfig: FormatterConfig = {
     logicBlocks: ['if', 'for', 'fori', 'ifi', 'unless', 'case', 'stripnewlines'],
     logicSubBlocks: ['else', 'elsif', 'elsifi', 'when'],
-    liquidBlocks: ['capture', 'locale', 'linkto', 'radiogroup', 'currencyconfiguration', 'adjustmentbutton', 'ic', 'nic', 'comment'],
-    singleLineLogicTags: ['assign', 'input', 'result', 'push', 'pop', 'newpage', 'include', 'changeorientation', 't', 't=', 'unreconciled'],
+    liquidBlocks: ['capture', 'locale', 'linkto', 'radiogroup', 'currencyconfiguration', 'adjustmentbutton', 'ic', 'nic', 'comment', 'addnewinputs'],
+    singleLineLogicTags: ['assign', 'input', 'result', 'push', 'pop', 'newpage', 'include', 'changeorientation', 't', 't=', 'unreconciled', 'newline', 'linkto', 'signmarker', 'rollforward', 'adjustmenttransaction', 'radioinput', 'input_validation'],
     htmlSingleTags: ['br', 'hr'],
     htmlInlineTags: ['b', 'i', 'em', 'u', 'sub', 'sup', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a'],
     htmlBlockTags: ['table', 'thead', 'tbody', 'tr'],
