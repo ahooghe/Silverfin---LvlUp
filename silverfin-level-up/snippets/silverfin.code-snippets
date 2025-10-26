@@ -429,7 +429,7 @@
     "prefix": "addnewinputs",
     "body": [
       "{% addnewinputs %}",
-      "\t{% assign ${1:variable_name} = custom.${2:namespace}.${3:field} | sort:\"${4:attribute}\" %}",
+      "\t{% assign ${1:variable_name} = custom.${2:namespace}.${3:field} | sort:'${4:attribute}' %}",
       "{% endaddnewinputs %}"
     ],
     "description": "Allows the creation of fori input drops with a possible applied modification"
@@ -437,7 +437,7 @@
   "Locale Block": {
     "prefix": "locale",
     "body": [
-      "{% locale \"${1:language}\" %}",
+      "{% locale '${1:language}' %}",
       "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
       "{% endlocale %}"
     ],
