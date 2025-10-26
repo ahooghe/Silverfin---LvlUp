@@ -2,10 +2,18 @@ import * as vscode from 'vscode';
 import { silverfinDictionary } from './dictionary';
 import { silverfinDbModel } from './silverfinDbModel';
 import { activateFormatter } from './formatter';
+import { activateActivityBar } from './activityBar';
 
 export function activate(context: vscode.ExtensionContext) {
+    console.log('Silverfin extension activating...');
+    
     // Initialize formatter functionality
     activateFormatter(context);
+
+    // Initialize activity bar
+    console.log('Activating activity bar...');
+    activateActivityBar(context);
+    console.log('Activity bar activation completed');
 
     // Register semantic tokens provider for syntax highlighting
     const disposableTokens = vscode.languages.registerDocumentSemanticTokensProvider(

@@ -2,14 +2,16 @@
   "name": "silverfin-level-up",
   "displayName": "Silverfin: Level-Up",
   "description": "Silverfin: Level-Up — Make Silverfin development a joy, not a chore.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "publisher": "AnthonyHooghe",
   "engines": {
     "vscode": "^1.50.0"
   },
   "activationEvents": [
     "onLanguage:silverfin-lvlup",
-    "onCommand:silverfinFormatter.formatDocument"
+    "onCommand:silverfinFormatter.formatDocument",
+    "onView:silverfin-activity",
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "icon": "icon.png",
@@ -41,8 +43,122 @@
       {
         "command": "silverfinFormatter.formatDocument",
         "title": "Format Silverfin Liquid Document"
+      },
+      {
+        "command": "silverfin-lvlup.refreshTemplateInfo",
+        "title": "Refresh Template Information",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "silverfin-lvlup.openConfigFile",
+        "title": "Open Config File",
+        "icon": "$(file)"
+      },
+      {
+        "command": "silverfin-lvlup.placeholder1",
+        "title": "Development Action 1",
+        "icon": "$(play)"
+      },
+      {
+        "command": "silverfin-lvlup.placeholder2",
+        "title": "Development Action 2",
+        "icon": "$(play)"
+      },
+      {
+        "command": "silverfin-lvlup.buildTemplate",
+        "title": "Build Template",
+        "icon": "$(package)"
+      },
+      {
+        "command": "silverfin-lvlup.testTemplate",
+        "title": "Test Template",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "silverfin-lvlup.toggleConfigValue",
+        "title": "Toggle Config Value",
+        "icon": "$(check)"
+      },
+      {
+        "command": "silverfin-lvlup.changeReconciliationType",
+        "title": "Change Reconciliation Type",
+        "icon": "$(list-selection)"
+      },
+      {
+        "command": "silverfin-lvlup.editConfigValue",
+        "title": "Edit Config Value",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "silverfin-lvlup.syncTemplate",
+        "title": "Sync Template",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "silverfin-lvlup.updateAllReconciliations",
+        "title": "Update All Reconciliations",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "silverfin-lvlup.addSharedPartsToTemplate",
+        "title": "Add Shared Parts to Template",
+        "icon": "$(add)"
+      },
+      {
+        "command": "silverfin-lvlup.addTextPartsToConfig",
+        "title": "Add Text Parts to Config",
+        "icon": "$(add)"
       }
     ],
+    "views": {
+      "silverfin-activity": [
+        {
+          "id": "silverfin-template",
+          "name": "Template",
+          "size": 50
+        },
+        {
+          "id": "silverfin-development",
+          "name": "Development",
+          "size": 25
+        },
+        {
+          "id": "silverfin-cli-info",
+          "name": "CLI Information",
+          "size": 25
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "silverfin-activity",
+          "title": "Silverfin",
+          "icon": "$(symbol-property)"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "silverfin-lvlup.refreshTemplateInfo",
+          "when": "view == silverfin-template",
+          "group": "navigation"
+        },
+        {
+          "command": "silverfin-lvlup.openConfigFile",
+          "when": "view == silverfin-template",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "silverfin-lvlup.openConfigFile",
+          "when": "view == silverfin-template && viewItem == configFile",
+          "group": "inline"
+        }
+      ]
+    },
     "keybindings": [
       {
         "command": "silverfinFormatter.formatDocument",
@@ -58,13 +174,17 @@
         "command": "silverfin-lvlup.surroundWithQuotes",
         "key": "'",
         "when": "editorTextFocus && editorLangId == silverfin-lvlup && editorHasSelection",
-        "args": { "quote": "'" }
+        "args": {
+          "quote": "'"
+        }
       },
       {
         "command": "silverfin-lvlup.surroundWithQuotes",
         "key": "\"",
         "when": "editorTextFocus && editorLangId == silverfin-lvlup && editorHasSelection",
-        "args": { "quote": "\"" }
+        "args": {
+          "quote": "\""
+        }
       },
       {
         "command": "silverfin-lvlup.smartSpace",
@@ -128,8 +248,9 @@
     "watch": "tsc -watch -p ./"
   },
   "devDependencies": {
-    "typescript": "^4.0.0",
+    "@types/node": "^24.9.1",
     "@types/vscode": "^1.50.0",
+    "typescript": "^4.0.0",
     "vscode-languageclient": "^7.0.0"
   }
 }
