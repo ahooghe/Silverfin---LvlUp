@@ -11,12 +11,13 @@ Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
 ✅ **Intelligent Auto-completion** with hover documentation  
 ✅ **One-click Formatting** for clean, readable code  
 ✅ **Custom Syntax Highlighting** with Silverfin-specific theme  
-✅ **Advanced Input Types** including validation and dynamic inputs  
-✅ **Financial Templates** for adjustments and transactions  
+✅ **Complete Activity Bar Interface** with template management  
+✅ **CLI Integration** with background command execution  
+✅ **Advanced Input Types** including validation and dynamic inputs 
 
 ---
 
-## 🎨 Beautiful, Custom Syntax Highlighting
+##  Beautiful, Custom Syntax Highlighting
 
 - **Custom Silverfin theme:**  
   Instantly see the difference between Liquid, HTML, and Silverfin-specific tags.
@@ -75,6 +76,31 @@ Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
   Get suggestions for objects, properties, and methods—no more guessing or searching docs.
 - **Jump between related fields:**  
   Navigate complex templates with ease.
+
+---
+
+## � Activity Bar — Your Silverfin Command Center
+
+**Smart template detection and management right in your sidebar!**
+
+### 📊 Template Information View
+- **Auto-detection:** Instantly recognizes reconciliation templates and shared parts
+- **Configuration display:** Shows template handle, names (multilingual), virtual account numbers
+- **Template type indicator:** Clear visual distinction between reconciliation templates and shared parts
+- **File structure:** Overview of main files and text parts
+
+### ⚡ Development Actions View
+- **Context-aware buttons:** Different actions based on template type
+- **Sync Template:** One-click synchronization with Silverfin CLI
+- **Update All Reconciliations:** Bulk update functionality
+- **Add Shared Parts:** Automatically detect and add shared parts to your template
+- **Background execution:** All CLI commands run in the background with real-time output
+
+### 🔧 Interactive Configuration Management
+- **Toggle settings:** Click to enable/disable boolean configuration options
+- **Edit values:** Modify reconciliation types, auto-hide formulas, and other settings
+- **Text parts automation:** Scan template files and automatically add text parts to config.json
+- **Real-time updates:** Changes are immediately reflected in your files
 
 ---
 
