@@ -1,5 +1,5 @@
 # 🚀 Silverfin: Level-Up
-**Stop fighting with Liquid syntax. Start building beautiful Silverfin templates in seconds.**
+**Stop fighting with Liquid syntax. Start building beautiful Silverfin templates with your intelligent development companion.**
 
 Welcome to **Silverfin: Level-Up** – your all-in-one toolkit for building, editing, and mastering Silverfin `.liquid` templates in Visual Studio Code!
 
@@ -12,12 +12,15 @@ _Screenshots coming soon!_
 
 ---
 
-## Why Silverfin: Level-Up?
+## 🎯 Why Silverfin: Level-Up?
 
-Tired of wrestling with syntax errors, missing documentation, or repetitive code in your Silverfin templates?  
-**Level-Up** transforms your VS Code experience into a powerful, intelligent Silverfin development environment.
+Tired of wrestling with syntax errors, manual CLI commands, or repetitive template management tasks?  
+**Level-Up** transforms your VS Code experience into a powerful, intelligent Silverfin development environment with a comprehensive activity bar interface.
 
-- **Instant Syntax Highlighting**  
+- **🎛️ Complete Activity Bar Interface**  
+  Smart template detection, interactive configuration management, and one-click CLI integration right in your sidebar.
+
+- **⚡ Instant Syntax Highlighting**  
   See your code come alive with a custom Silverfin theme and advanced highlighting for Liquid, HTML, and Silverfin-specific tags.
 
 - **Smarter Coding, Less Guesswork**  
@@ -35,17 +38,21 @@ Tired of wrestling with syntax errors, missing documentation, or repetitive code
 
 ---
 
-## What Can You Do With Level-Up?
+## 🎯 What Can You Do With Level-Up?
 
-- **Write Silverfin templates with confidence**  
+- **🏗️ Manage templates with ease**  
+  The activity bar automatically detects your template type and provides relevant tools and information.
+- **⚡ Write Silverfin templates with confidence**  
   No more hunting for docs or second-guessing syntax.
-- **Speed up your workflow**  
-  Use handy snippets and auto-completions to write more, type less.
-- **Format your code instantly**  
+- **🚀 Speed up your workflow**  
+  Use handy snippets, auto-completions, and one-click actions to write more, type less.
+- **✨ Format your code instantly**  
   Auto-indent your entire Silverfin/Liquid document with a single command. Formatting adds a single empty line after closing tags and improves block alignment for cleaner code.
-- **Understand your code instantly**  
+- **📚 Understand your code instantly**  
   Hover over tags, filters, and objects for clear, concise explanations.
-- **Customize your experience**  
+- **🔧 Sync and deploy seamlessly**  
+  Integrated CLI commands run in the background with real-time output logging.
+- **⚙️ Customize your experience**  
   Built for Silverfin, but flexible for your style.
 
 <!--
