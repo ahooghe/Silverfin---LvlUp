@@ -37,14 +37,14 @@
     "Replace": {
         "prefix": "replace",
         "body": [
-            "| replace:'$1', '$2'"
+            "| replace:\"$1\", \"$2\""
         ],
         "description": "Replaces a substring in a string"
     },
     "Remove": {
         "prefix": "remove",
         "body": [
-            "| remove:'$1'"
+            "| remove:\"$1\""
         ],
         "description": "Removes a section from the string"
     },
@@ -366,7 +366,7 @@
     "Where": {
         "prefix": "where",
         "body": [
-            "| where:'$1','$2'"
+            "| where:\"$1\",\"$2\""
         ],
         "description": "Filters a collection by a condition."
     },
@@ -492,14 +492,14 @@
     "Today": {
         "prefix": "today",
         "body": [
-            "{{ 'today' | date:'${1:%d/%m/%Y}' }}"
+            "{{ \"today\" | date:\"${1:%d/%m/%Y}\" }}"
         ],
-        "description": "Displays today's date with a default format of %d/%m/%Y."
+        "description": "Displays today\"s date with a default format of %d/%m/%Y."
     },
     "Now": {
         "prefix": "now",
         "body": [
-            "{{ 'now' | date:'${1:%d/%m/%Y}' }}"
+            "{{ \"now\" | date:\"${1:%d/%m/%Y}\" }}"
         ],
         "description": "Displays the current date and time with a default format of %d/%m/%Y."
     }

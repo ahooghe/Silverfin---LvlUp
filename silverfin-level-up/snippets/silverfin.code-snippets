@@ -23,7 +23,7 @@
   "Select input": {
     "prefix": "selectinput",
     "body": [
-      "{% input custom.${1:namespace}.${2:value} as:select options:${3:'options|split|with|pipes'} option_values:${4 :'values|split|with|pipes'} %}"
+      "{% input custom.${1:namespace}.${2:value} as:select options:${3:\"options|split|with|pipes\"} option_values:${4 :\"values|split|with|pipes\"} %}"
     ],
     "description": "Creates a select input field"
   },
@@ -53,7 +53,7 @@
   "Contains Check": {
     "prefix": "contains",
     "body": [
-      "{% if ${1:collection} contains '${2:value}' %}",
+      "{% if ${1:collection} contains \"${2:value}\" %}",
       "\t${3:{% comment %\\} Enter code here {% endcomment%\\}}",
       "{% endif %}"
     ],
@@ -211,7 +211,7 @@
   "Include File": {
     "prefix": "include",
     "body": [
-      "{% include '${1|shared,parts|}/${2:filename}' %}"
+      "{% include \"${1|shared,parts|}/${2:filename}\" %}"
     ],
     "description": "Includes a file from the specified directory"
   },
@@ -313,14 +313,14 @@
   "Translation definition tags": {
     "prefix": "t=",
     "body": [
-      "{% t= '${1:translation_id}' default:'${2:translation}' ${3:secondary_language}:'${4:translation}' %}"
+      "{% t= \"${1:translation_id}\" default:\"${2:translation}\" ${3:secondary_language}:\"${4:translation}\" %}"
     ],
     "description": "Translation definition tags for Silverfin, with optional secondary language support"
   },
   "Translation tags": {
     "prefix": "t",
     "body": [
-      "{% t '${1:translation_id}' %}"
+      "{% t \"${1:translation_id}\" %}"
     ],
     "description": "Translation tags for Silverfin"
   },
@@ -343,7 +343,7 @@
   "Result": {
     "prefix": "result",
     "body": [
-      "{% result '${1:Result name}' ${2:Variable containing result} %}"
+      "{% result \"${1:Result name}\" ${2:Variable containing result} %}"
     ],
     "description": "Creates a result value in Silverfin for easy access later"
   },
@@ -357,7 +357,7 @@
   "Currencyconfiguration": {
     "prefix": "currencyconfiguration",
     "body": [
-      "{% currencyconfiguration negative_format:'${1:-xxx}' zero_format:'${2:0}' precision:${3:2} delimiter:'${4:.}' separator:'${5:,}' %}",
+      "{% currencyconfiguration negative_format:\"${1:-xxx}\" zero_format:\"${2:0}\" precision:${3:2} delimiter:\"${4:.}\" separator:\"${5:,}\" %}",
       "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
       "{% endcurrencyconfiguration %}"
     ],
@@ -366,23 +366,23 @@
   "Target": {
     "prefix": "target",
     "body": [
-      "{::target id='${1:target_id}'}$2{:/target}"
+      "{::target id=\"${1:target_id}\"}$2{:/target}"
     ],
     "description": "Target block for linking to specific sections within a document"
   },
   "Adjustment Transaction": {
     "prefix": "adjustmenttransaction",
     "body": [
-      "{% adjustmenttransaction account_number:'${1:100000}' description:'${2:Some description}' value:${3:1000.23} %}"
+      "{% adjustmenttransaction account_number:\"${1:100000}\" description:\"${2:Some description}\" value:${3:1000.23} %}"
     ],
     "description": "Creates a single adjustment transaction"
   },
   "Adjustment Button": {
     "prefix": "adjustmentbutton",
     "body": [
-      "{% adjustmentbutton text:'${1:create new adjustment}' category:'${2:internal}' %}",
-      "\t{% adjustmenttransaction account_number:'${3:100000}' description:'${4:Some description}' value:${5:1000.23} %}",
-      "\t{% adjustmenttransaction account_number:'${6:120000}' description:'${7:Some other description}' value:${8:-1000.23} %}",
+      "{% adjustmentbutton text:\"${1:create new adjustment}\" category:\"${2:internal}\" %}",
+      "\t{% adjustmenttransaction account_number:\"${3:100000}\" description:\"${4:Some description}\" value:${5:1000.23} %}",
+      "\t{% adjustmenttransaction account_number:\"${6:120000}\" description:\"${7:Some other description}\" value:${8:-1000.23} %}",
       "{% endadjustmentbutton %}"
     ],
     "description": "Creates an adjustment button with multiple transactions"
@@ -390,7 +390,7 @@
   "Change Orientation": {
     "prefix": "changeorientation",
     "body": [
-      "{% changeorientation '${1|landscape,portrait|}' %}"
+      "{% changeorientation \"${1|landscape,portrait|}\" %}"
     ],
     "description": "Changes the orientation between landscape and portrait"
   },
@@ -404,9 +404,9 @@
   "Radiogroup": {
     "prefix": "radiogroup",
     "body": [
-      "{% radiogroup custom.${1:namespace}.${2:key} default:'${3:default value}' %}",
-      "\t{% radioinput label:'${4:Label}' value:'${5:value}' %}",
-      "\t{% radioinput label:'${6:Label}' value:'${7:value}' %}",
+      "{% radiogroup custom.${1:namespace}.${2:key} default:\"${3:default value}\" %}",
+      "\t{% radioinput label:\"${4:Label}\" value:\"${5:value}\" %}",
+      "\t{% radioinput label:\"${6:Label}\" value:\"${7:value}\" %}",
       "{% endradiogroup %}"
     ],
     "description": "Creates a radiogroup with two radioinputs"
@@ -414,14 +414,14 @@
   "Numeric Validation with Range": {
     "prefix": "numeric_validation",
     "body": [
-      "{% input_validation '${1:validation_name}' as:numeric max:${2:10} %}"
+      "{% input_validation \"${1:validation_name}\" as:numeric max:${2:10} %}"
     ],
     "description": "Creates a numeric input validation with a specified range"
   },
   "Date Validation with Range": {
     "prefix": "date_validation",
     "body": [
-      "{% input_validation '${1:validation_name}' start_date:'${2:2022-01-01}' end_date:'${3:2022-12-31}' %}"
+      "{% input_validation \"${1:validation_name}\" start_date:\"${2:2022-01-01}\" end_date:\"${3:2022-12-31}\" %}"
     ],
     "description": "Creates a date input validation with a specified start and end date"
   },
@@ -429,7 +429,7 @@
     "prefix": "addnewinputs",
     "body": [
       "{% addnewinputs %}",
-      "\t{% assign ${1:variable_name} = custom.${2:namespace}.${3:field} | sort:'${4:attribute}' %}",
+      "\t{% assign ${1:variable_name} = custom.${2:namespace}.${3:field} | sort:\"${4:attribute}\" %}",
       "{% endaddnewinputs %}"
     ],
     "description": "Allows the creation of fori input drops with a possible applied modification"
@@ -437,7 +437,7 @@
   "Locale Block": {
     "prefix": "locale",
     "body": [
-      "{% locale '${1:language}' %}",
+      "{% locale \"${1:language}\" %}",
       "\t${2:{% comment %\\} Enter code here {% endcomment%\\}}",
       "{% endlocale %}"
     ],
@@ -446,14 +446,14 @@
   "Input Validation": {
     "prefix": "inputvalidation",
     "body": [
-      "{% input_validation '${1:validation_name}' as:${2|numeric,date|} ${3:min:0} ${4:max:100} %}"
+      "{% input_validation \"${1:validation_name}\" as:${2|numeric,date|} ${3:min:0} ${4:max:100} %}"
     ],
     "description": "Adds validation rules to input fields."
   },
   "Date Input Validation": {
     "prefix": "datevalidation",
     "body": [
-      "{% input_validation '${1:validation_name}' as:date start_date:'${2:2022-01-01}' end_date:'${3:2022-12-31}' %}"
+      "{% input_validation \"${1:validation_name}\" as:date start_date:\"${2:2022-01-01}\" end_date:\"${3:2022-12-31}\" %}"
     ],
     "description": "Validates date inputs with a specified range."
   },
