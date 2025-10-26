@@ -1,7 +1,7 @@
 # Silverfin: Level-Up — VS Code Extension
 
 Welcome to the **Silverfin: Level-Up** repository!  
-This project powers the [Silverfin: Level-Up](https://marketplace.visualstudio.com/items?itemName=AnthonyHooghe.silverfin-level-up) extension for Visual Studio Code, designed to make Silverfin `.liquid` template development faster, smarter, and more enjoyable.
+This project powers the [Silverfin: Level-Up](https://marketplace.visualstudio.com/items?itemName=AnthonyHooghe.silverfin-level-up) extension for Visual Studio Code, designed to make Silverfin `.liquid` template development faster, smarter, and more productive with a comprehensive activity bar interface.
 
 ---
 
@@ -94,18 +94,12 @@ Silverfin: Level-Up is just getting started! Here’s what’s on the horizon:
   Inline error highlighting and diagnostics for Liquid/Silverfin code.
 - **Linting and quick fixes:**  
   Detect common mistakes and offer automatic corrections.
-- **Automatic pipelines:**  
-  Tools for updating and deploying Silverfin templates automatically.
 - **Settings page:**  
   Easily configure extension options right from VS Code.
-- **Light mode theme:**  
-  A beautiful light theme to complement the dark mode.
 - **Expanded functionality:**  
   More snippets, smarter formatting, and deeper integration with Silverfin’s platform.
 - **High-level Intellisense:**  
   Even smarter completions, suggestions, and code actions.
-- **Template diffing and version history:**  
-  Easily compare and highlight changes between template versions.
 - **In-editor documentation browser:**  
   Browse Silverfin documentation directly inside VS Code.
 - **And much more!**  
