@@ -55,26 +55,6 @@
         "icon": "$(file)"
       },
       {
-        "command": "silverfin-lvlup.placeholder1",
-        "title": "Development Action 1",
-        "icon": "$(play)"
-      },
-      {
-        "command": "silverfin-lvlup.placeholder2",
-        "title": "Development Action 2",
-        "icon": "$(play)"
-      },
-      {
-        "command": "silverfin-lvlup.buildTemplate",
-        "title": "Build Template",
-        "icon": "$(package)"
-      },
-      {
-        "command": "silverfin-lvlup.testTemplate",
-        "title": "Test Template",
-        "icon": "$(beaker)"
-      },
-      {
         "command": "silverfin-lvlup.toggleConfigValue",
         "title": "Toggle Config Value",
         "icon": "$(check)"
