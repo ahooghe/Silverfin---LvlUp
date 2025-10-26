@@ -4,6 +4,53 @@ All notable changes to this project will be documented in this file.
 
 > **Note:** Changes prior to version 0.1.2 were not tracked in this changelog.
 
+## [0.1.5] - 26/10/2025
+### Added
+- Complete activity bar interface with three main views: Template Information, Development Actions, and CLI Integration.
+- Smart template detection for reconciliation templates and shared parts with appropriate tooling for each type.
+- Interactive configuration management: toggle boolean settings, edit values, and change reconciliation types directly from sidebar.
+- Automated shared parts management: one-click addition of shared parts found in template files to Silverfin project.
+- Text parts automation: automatically scan and add text part includes to config.json file.
+- Background CLI command execution with real-time output logging in dedicated output channel.
+
+### Changed
+- Updated all code snippets to use double quotes instead of single quotes for improved usability and consistency.
+- Major code cleanup and refactoring of activity bar code with comprehensive JSDoc documentation and improved organization.
+- Enhanced code structure following project coding style guidelines for better maintainability.
+
+### Fixed
+- Capture block formatting issues that were causing unwanted content modifications during code formatting.
+
+---
+
+## [0.1.4] - 19/07/2025
+### Added
+
+### Changed
+- Complete rewrite of formatting logic to increase formatting speed
+
+### Fixed
+- Markdown handling in formatter
+
+---
+
+## [0.1.3] - 14/07/2025
+### Added
+- New feature: When code is selected, you can surround it with quotes, double quotes, square brackets, curly brackets, normal brackets, or percentage signs by pressing the corresponding key.
+- Added command: Pressing `Ctrl+Shift+/` surrounds the selected code with Liquid comment tags (`{% comment %} ... {% endcomment %}`).
+- Implemented smart space insertion: When the cursor is between `{%|%}` or `{{|}}` and you press space, two spaces are inserted and the cursor is placed between them for more comfortable Liquid editing.
+- Added automatic empty line padding after closing tags to enhance readability.
+- Added translation definition tags with optional secondary language support.
+
+### Changed
+- Formatter updated to remove all padding from Markdown lines. This emergency patch aims to resolve issues caused by padding when using the code interpreter. (Still under testing)
+- Removed 1 indentation level for `when`, `else`, and `elsif` tags to match standard Liquid formatting conventions.
+
+### Fixed
+- Add 'blank' to boolean keywords and enhance variable matching pattern.
+
+---
+
 ## [0.1.2] - 08/07/2025
 ### Added
 - Initial `CHANGELOG.md` and `FAQ.md` files.
@@ -25,33 +72,5 @@ All notable changes to this project will be documented in this file.
 - Enhanced Silverfin syntax patterns for better matching and escape character handling.
 - Fixed highlighting for `endnic` and curly braces within opening/closing tags.
 - Improved Silverfin and additional highlighting.
-
----
-
-## [0.1.3] - 14/07/2025
-### Added
-- New feature: When code is selected, you can surround it with quotes, double quotes, square brackets, curly brackets, normal brackets, or percentage signs by pressing the corresponding key.
-- Added command: Pressing `Ctrl+Shift+/` surrounds the selected code with Liquid comment tags (`{% comment %} ... {% endcomment %}`).
-- Implemented smart space insertion: When the cursor is between `{%|%}` or `{{|}}` and you press space, two spaces are inserted and the cursor is placed between them for more comfortable Liquid editing.
-- Added automatic empty line padding after closing tags to enhance readability.
-- Added translation definition tags with optional secondary language support.
-
-### Changed
-- Formatter updated to remove all padding from Markdown lines. This emergency patch aims to resolve issues caused by padding when using the code interpreter. (Still under testing)
-- Removed 1 indentation level for `when`, `else`, and `elsif` tags to match standard Liquid formatting conventions.
-
-### Fixed
-- Add 'blank' to boolean keywords and enhance variable matching pattern.
-
----
-
-## [0.1.4] - 19/07/2025
-### Added
-
-### Changed
-- Complete rewrite of formatting logic to increase formatting speed
-
-### Fixed
-- Markdown handling in formatter
 
 ---
