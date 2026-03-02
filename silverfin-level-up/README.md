@@ -18,17 +18,20 @@ Tired of wrestling with syntax errors, manual CLI commands, or repetitive templa
 **Level-Up** transforms your VS Code experience into a powerful, intelligent Silverfin development environment with a comprehensive activity bar interface.
 
 - **🎛️ Complete Activity Bar Interface**  
-  Smart template detection, interactive configuration management, and one-click CLI integration right in your sidebar.
+  Smart template detection, interactive configuration management, environment switching, and one-click CLI integration right in your sidebar.
 
 - **⚡ Instant Syntax Highlighting**  
   See your code come alive with a custom Silverfin theme and advanced highlighting for Liquid, HTML, and Silverfin-specific tags.
 
 - **Smarter Coding, Less Guesswork**  
-  Hover for instant documentation, get context-aware suggestions, and enjoy rapid auto-completion for Silverfin’s data model and tags.
+  Hover for instant documentation, get context-aware suggestions, and enjoy rapid auto-completion for Silverfin's data model and tags.
 
 - **Rapid Snippet Insertion**  
-  Build templates faster with rich snippets for everything from input fields to advanced control flow and HTML blocks.  
+  Build templates faster with 90+ rich snippets for everything from input fields to advanced control flow, validation rules, and HTML blocks.  
   Easily surround selections with brackets, quotes, or Liquid comment tags using intuitive keybinds.
+
+- **🌐 Environment & CLI Management**  
+  Manage multiple Silverfin environments, detect CLI versions, auto-update, and protect production environments with a built-in production guard.
 
 - **Effortless Navigation**  
   Jump between objects, properties, and methods with dot-notation and smart suggestions.
@@ -52,6 +55,8 @@ Tired of wrestling with syntax errors, manual CLI commands, or repetitive templa
   Hover over tags, filters, and objects for clear, concise explanations.
 - **🔧 Sync and deploy seamlessly**  
   Integrated CLI commands run in the background with real-time output logging.
+- **🌐 Manage environments**  
+  Add, switch, and protect multiple Silverfin environments with production guards.
 - **⚙️ Customize your experience**  
   Built for Silverfin, but flexible for your style.
 

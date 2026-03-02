@@ -11,7 +11,11 @@ export const silverfinDictionary: {
             "default": "Sets a default value for the input field.",
             "placeholder": "Changes the placeholder text displayed in the input field.",
             "required": "Makes the input field mandatory.",
-            "validation": "Guides the user to create the correct data type (e.g., only positive values)."
+            "validation": "Guides the user to create the correct data type (e.g., only positive values).",
+            "assign": "Creates a local variable containing the value (or default if blank). Example: `assign:my_var`.",
+            "assign_option": "For `as:select` inputs: creates a variable returning the displayed option label instead of the stored `option_value`. Example: `assign_option:chosen_label`.",
+            "import_title": "Overrides the field name shown in the \"Import reconciliation data\" screen. Only works inside fori loops.",
+            "invert": "For `as:currency`: stores the value with the opposite sign of what was entered."
         }
     },
 
@@ -42,7 +46,11 @@ export const silverfinDictionary: {
     "as:file": {
         "description": "The `file` type specifies a paperclip to attach one or multiple files.",
         "attributes": {
-            "max_size": "Limits the size of attachments in MB."
+            "max_size": "Limits the size of attachments in MB.",
+            "show_label": "When `true`, adds a label ('Attach' when empty, 'Manage' when files exist).",
+            "document": "Access the name of the first attached document: `{{ custom.ns.key.document }}`.",
+            "documents": "Access all attached document names as a collection: `{{ custom.ns.key.documents }}`.",
+            "external_links": "Access external links attached to the file input. Each link has `name`, `id`, and `url` properties. Example: `{% for link in custom.ns.key.external_links %}{{ link.url }}{% endfor %}`."
         }
     },
     "as:integer": {
@@ -434,9 +442,18 @@ export const silverfinDictionary: {
         "description": "Creates and iterates over a custom collection, often for dynamic inputs. Close with `{% endfori %}`.",
         "attributes": {
             "import_title": "Title for distinguishing multiple `fori` collections when importing.",
+            "manual": "When set to `true`, replaces the default empty last iteration with a `+` button. Use with `{% add_new_row_button %}` inside the loop (typically in a `forloop.last` check) to let users add rows on demand.",
             "limit": "Limits the number of iterations.",
             "offset": "Starts at a specific index.",
             "reversed": "Reverses the order."
+        }
+    },
+    "add_new_row_button": {
+        "description": "Used inside a `manual:true` fori loop to display a button that adds a new row to the collection. Can also be placed outside the fori with a `target` attribute.",
+        "example": `{% fori car in custom.fleet manual:true %}\n  {% input car.name %}\n  {% if forloop.last %}\n    {% add_new_row_button text:'Add car' %}\n  {% endif %}\n{% endfori %}`,
+        "attributes": {
+            "text": "The label displayed on the add button.",
+            "target": "References a collection when the button is placed outside the fori loop. Example: `{% add_new_row_button text:'Add car' target:custom.fleet %}`."
         }
     },
     "for": {
@@ -579,6 +596,26 @@ export const silverfinDictionary: {
         }
     },
 
+    // Info, caution, and warning text blocks
+    "infotext": {
+        "description": "The `infotext` tag displays informational text in a styled block. Available as inline, block, or hover element. Must be wrapped in `{% ic %}{% endic %}` tags.",
+        "example": `{% ic %}{::infotext}Inline infotext{:/infotext}{% endic %}\n\n{% ic %}{::infotext}\nStandard block infotext\n{:/infotext}{% endic %}\n\n{% ic %}{::infotext as="hover"}Hover infotext{:/infotext}{% endic %}`,
+        "attributes": {
+            "as": "Presentation mode. Options:\n- **(default)**: Inline for limited space (e.g., inside tables) or block for standard use.\n- **\"hover\"**: Displays on hover, useful for space constraints or file-dependent text."
+        }
+    },
+    "cautiontext": {
+        "description": "The `cautiontext` tag displays cautionary text in a styled block. Available as inline, block, or hover element. Must be wrapped in `{% ic %}{% endic %}` tags.",
+        "example": `{% ic %}{::cautiontext}Inline cautiontext{:/cautiontext}{% endic %}\n\n{% ic %}{::cautiontext}\nStandard block cautiontext\n{:/cautiontext}{% endic %}\n\n{% ic %}{::cautiontext as="hover"}Hover cautiontext{:/cautiontext}{% endic %}`,
+        "attributes": {
+            "as": "Presentation mode. Options:\n- **(default)**: Inline for limited space (e.g., inside tables) or block for standard use.\n- **\"hover\"**: Displays on hover, useful for space constraints or file-dependent text."
+        }
+    },
+    "warningtext": {
+        "description": "The `warningtext` tag displays warning text in a styled block. Available as inline or block element (no hover variant). Must be wrapped in `{% ic %}{% endic %}` tags.",
+        "example": `{% ic %}{::warningtext}Inline warningtext{:/warningtext}{% endic %}\n\n{% ic %}{::warningtext}\nStandard block warningtext\n{:/warningtext}{% endic %}`,
+    },
+
     // Content organization and layout
     "::group": {
         "description": "The `group` tag is used to group certain parts of the text in the Silverfin templating language, ensuring that they remain on the same page in export view.",
@@ -669,14 +706,20 @@ export const silverfinDictionary: {
         }
     },
     "input_validation": {
-        "description": "The `input_validation` tag allows you to validate data entered into inputs, ensuring it meets specific criteria without requiring additional checks.",
-        "example": `{% input_validation 'validation_positive_values' as:numeric min:0 %}`,
+        "description": "The `input_validation` tag allows you to validate data entered into inputs, ensuring it meets specific criteria without requiring additional checks. Validation happens live before the value is stored. If invalid data is entered, the template becomes unreconciled.",
+        "example": `{% input_validation 'validation_positive_values' min:0 %}\n{% input custom.depreciation.value as:currency validation:validation_positive_values %}`,
         "attributes": {
-            "as": "Specifies the type of validation. Options include:\n- **numeric**: For numeric inputs (e.g., integers, currency).\n- **date**: For date inputs.",
-            "min": "Defines the minimum value for numeric inputs.",
-            "max": "Defines the maximum value for numeric inputs.",
-            "start_date": "Specifies the earliest allowed date for date inputs.",
-            "end_date": "Specifies the latest allowed date for date inputs."
+            "min": "Defines the minimum allowed value (inclusive) for numeric inputs.",
+            "max": "Defines the maximum allowed value (inclusive) for numeric inputs.",
+            "min_exclusive": "Defines the minimum value (exclusive) for numeric inputs. The boundary value itself is rejected. Useful for excluding zero.",
+            "max_exclusive": "Defines the maximum value (exclusive) for numeric inputs. The boundary value itself is rejected.",
+            "start_date": "Specifies the earliest allowed date for date inputs. Format: `\"YYYY-MM-DD\"`.",
+            "end_date": "Specifies the latest allowed date for date inputs. Format: `\"YYYY-MM-DD\"`.",
+            "min_length": "Defines the minimum allowed string length for text inputs.",
+            "max_length": "Defines the maximum allowed string length for text inputs.",
+            "pattern": "A regex pattern the string input must match. Enclose in `^...$` to match the entire input. Example: `pattern:\"^\\d{2}-\\d{2}-\\d{2}$\"`.",
+            "pattern_flags": "Optional regex flags to modify pattern matching. Example: `\"i\"` for case-insensitive, `\"s\"` to allow `.` to match newlines. Combine multiple flags: `\"is\"`.",
+            "validation_text": "A custom warning message shown when regex pattern validation fails. Required when using `pattern`."
         }
     },
     "validation": {
@@ -695,6 +738,24 @@ export const silverfinDictionary: {
             "`<thead>` only": "usr-repeated-header, usr-hide-samepage-header",
             "`<th>, <td>` only": "usr-align-(left,center,right,justify), usr-valign-(top,center,bottom), usr-width-1 ... usr-width-100, usr-line-(top,bottom,left,right), usr-double-line-(top,bottom,left,right), usr-border-color-<hex>, usr-background-color-<hex>, usr-indent-1 ... usr-indent-10, usr-grayed-out-background-input, usr-grayed-out-line-bottom-input"
         }
+    },
+    "colspan": {
+        "description": "HTML attribute on `<td>` or `<th>` that merges cells horizontally across multiple columns. Note: `usr-width` classes cannot be used on rows with `colspan`.",
+        "example": `<th colspan="2">Merged header</th>`
+    },
+    "rowspan": {
+        "description": "HTML attribute on `<td>` or `<th>` that merges cells vertically across multiple rows. When using `rowspan=\"N\"` on a cell in row R, omit the corresponding cell in rows R+1 through R+N-1.",
+        "example": `<td rowspan="3"><b>Merged cell spanning 3 rows</b></td>`
+    },
+
+    // Markdown styling tags
+    "::font": {
+        "description": "The markdown `font` tag adjusts text size. Available sizes: `xxs`, `xs`, `s`, `m`, `l`, `xl`. Preferred over HTML `<font>` tags in templates.",
+        "example": `{::font size="xl"}Large text{:/font}\n{::font size="xs"}Small text{:/font}`
+    },
+    "::indent": {
+        "description": "The markdown `indent` tag adds indentation to content on a page. Levels range from 1 to 10.",
+        "example": `{::indent level="6"}\nThis text is indented\n{:/indent}`
     },
 
     // Text formatting and whitespace control

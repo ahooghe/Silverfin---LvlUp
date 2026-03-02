@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { dirname, join, basename } from 'path';
 import { spawn } from 'child_process';
+import { homedir } from 'os';
 
 // ================================================================================================
 // INTERFACES AND TYPES
@@ -11,6 +12,18 @@ type TemplateType = 'reconciliation' | 'shared_part' | null;
 
 interface TextParts {
     [key: string]: string;
+}
+
+interface SilverfinEnvironment {
+    firmId: string;
+    firmName: string;
+    isProd: boolean;
+}
+
+interface CLIVersionInfo {
+    currentVersion: string;
+    latestVersion: string | null;
+    updateAvailable: boolean;
 }
 
 // ================================================================================================
@@ -112,7 +125,6 @@ export class TemplateProvider implements vscode.TreeDataProvider<TemplateItem> {
             return Promise.resolve(items);
         }
 
-        // Template type indicator
         const typeIcon = this.templateType === 'shared_part' ? '🔵' : '🟠';
         const typeLabel = this.templateType === 'shared_part' ? 'Shared Part' : 'Reconciliation Template';
         items.push(new TemplateItem(`${typeIcon} Type: ${typeLabel}`, vscode.TreeItemCollapsibleState.None, 'info'));
@@ -254,86 +266,259 @@ export class TemplateProvider implements vscode.TreeDataProvider<TemplateItem> {
 }
 
 /**
- * Tree data provider for the Development view
- * Provides context-aware development actions
+ * Webview provider for the Development panel
  */
-export class DevelopmentProvider implements vscode.TreeDataProvider<DevelopmentItem> {
-    private _onDidChangeTreeData: vscode.EventEmitter<DevelopmentItem | undefined | null | void> = new vscode.EventEmitter<DevelopmentItem | undefined | null | void>();
-    readonly onDidChangeTreeData: vscode.Event<DevelopmentItem | undefined | null | void> = this._onDidChangeTreeData.event;
+export class DevelopmentWebviewProvider implements vscode.WebviewViewProvider {
+    private _view?: vscode.WebviewView;
 
     constructor(private templateProvider: TemplateProvider) {}
 
     refresh(): void {
-        this._onDidChangeTreeData.fire();
-    }
-
-    getTreeItem(element: DevelopmentItem): vscode.TreeItem {
-        return element;
-    }
-
-    getChildren(element?: DevelopmentItem): Thenable<DevelopmentItem[]> {
-        if (element) return Promise.resolve([]);
-
-        const templateType = this.templateProvider.getTemplateType();
-        const buttons = this.createDevelopmentButtons(templateType);
-        
-        return Promise.resolve(buttons);
-    }
-
-    private createDevelopmentButtons(templateType: TemplateType): DevelopmentItem[] {
-        let syncButtonText = '🔄 Sync Template';
-        
-        if (templateType === 'shared_part') {
-            syncButtonText = '🔄 Sync Shared Part';
-        } else if (templateType === 'reconciliation') {
-            syncButtonText = '🔄 Sync Reconciliation Template';
+        if (this._view) {
+            this._view.webview.html = this.getHtml();
         }
+    }
 
-        const buttons = [
-            new DevelopmentItem(syncButtonText, 'silverfin-lvlup.syncTemplate'),
-            new DevelopmentItem('🔄 Update All Reconciliations', 'silverfin-lvlup.updateAllReconciliations')
+    resolveWebviewView(webviewView: vscode.WebviewView) {
+        this._view = webviewView;
+        webviewView.webview.options = { enableScripts: true };
+        webviewView.webview.html = this.getHtml();
+
+        webviewView.webview.onDidReceiveMessage(msg => {
+            if (msg.command) {
+                vscode.commands.executeCommand(msg.command);
+            }
+        });
+    }
+
+    private getHtml(): string {
+        const templateType = this.templateProvider.getTemplateType();
+        let syncLabel = 'Sync Template';
+        let syncIcon = 'refresh';
+        if (templateType === 'shared_part') { syncLabel = 'Sync Shared Part'; syncIcon = 'refresh'; }
+        else if (templateType === 'reconciliation') { syncLabel = 'Sync Reconciliation'; syncIcon = 'refresh'; }
+
+        const templateActions: { label: string; cmd: string; icon: string; style: string }[] = [
+            { label: syncLabel, cmd: 'silverfin-lvlup.syncTemplate', icon: syncIcon, style: 'primary' },
+            { label: 'Create Reconciliation', cmd: 'silverfin-lvlup.createReconciliation', icon: 'plus', style: 'secondary' },
+            { label: 'Create Shared Part', cmd: 'silverfin-lvlup.createSharedPart', icon: 'plus', style: 'secondary' },
         ];
 
         if (templateType === 'reconciliation') {
-            buttons.push(new DevelopmentItem('➕ Add Shared Parts to Template', 'silverfin-lvlup.addSharedPartsToTemplate'));
+            templateActions.push({ label: 'Add Shared Parts', cmd: 'silverfin-lvlup.addSharedPartsToTemplate', icon: 'link', style: 'secondary' });
         }
 
-        return buttons;
+        const templateButtons = templateActions.map(a =>
+            `<button class="action-btn ${a.style}" onclick="send('${a.cmd}')">
+                <span class="btn-icon">${getIconSvg(a.icon)}</span>${a.label}
+            </button>`
+        ).join('');
+
+        return `<!DOCTYPE html>
+<html><head><style>${getSharedCSS()}
+.section { margin-bottom: 16px; }
+.section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--vscode-descriptionForeground); margin-bottom: 8px; padding: 0 2px; }
+.action-btn { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-family: var(--vscode-font-family); margin-bottom: 4px; transition: all 0.15s ease; }
+.action-btn:hover { filter: brightness(1.2); }
+.action-btn.primary { background: var(--vscode-button-background); color: var(--vscode-button-foreground); }
+.action-btn.secondary { background: var(--vscode-button-secondaryBackground); color: var(--vscode-button-secondaryForeground); }
+.action-btn.danger { background: var(--vscode-button-secondaryBackground); color: var(--vscode-button-secondaryForeground); border: 1px solid var(--vscode-editorWarning-foreground); }
+.action-btn.danger:hover { background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 20%, var(--vscode-button-secondaryBackground)); }
+.btn-icon { display: flex; align-items: center; }
+.btn-icon svg { width: 14px; height: 14px; }
+.separator { height: 1px; background: var(--vscode-widget-border); margin: 14px 0; opacity: 0.4; }
+</style></head><body>
+<div class="section">
+    <div class="section-title">Template Actions</div>
+    ${templateButtons}
+</div>
+<div class="separator"></div>
+<div class="section">
+    <div class="section-title">Bulk Actions</div>
+    <button class="action-btn danger" onclick="send('silverfin-lvlup.updateAllReconciliations')">
+        <span class="btn-icon">${getIconSvg('alert')}</span>Update All Reconciliations
+    </button>
+</div>
+<script>const vscode = acquireVsCodeApi(); function send(cmd) { vscode.postMessage({ command: cmd }); }</script>
+</body></html>`;
     }
 }
 
 /**
- * Tree data provider for the CLI Information view
- * Displays CLI status and information (placeholder for future implementation)
+ * Webview provider for the CLI Information panel
  */
-export class CLIInfoProvider implements vscode.TreeDataProvider<CLIInfoItem> {
-    private _onDidChangeTreeData: vscode.EventEmitter<CLIInfoItem | undefined | null | void> = new vscode.EventEmitter<CLIInfoItem | undefined | null | void>();
-    readonly onDidChangeTreeData: vscode.Event<CLIInfoItem | undefined | null | void> = this._onDidChangeTreeData.event;
+export class CLIInfoWebviewProvider implements vscode.WebviewViewProvider {
+    private _view?: vscode.WebviewView;
+    private versionInfo: CLIVersionInfo | null = null;
+    private loading = true;
 
-    private cliInfo: string[] = [
-        'CLI integration pending...',
-        'Will extract data from Silverfin CLI'
-    ];
+    constructor() {
+        this.loadCLIInfo();
+    }
 
     refresh(): void {
-        this._onDidChangeTreeData.fire();
+        this.loadCLIInfo();
     }
 
-    getTreeItem(element: CLIInfoItem): vscode.TreeItem {
-        return element;
+    resolveWebviewView(webviewView: vscode.WebviewView) {
+        this._view = webviewView;
+        webviewView.webview.options = { enableScripts: true };
+        webviewView.webview.html = this.getHtml();
+
+        webviewView.webview.onDidReceiveMessage(msg => {
+            if (msg.command) {
+                vscode.commands.executeCommand(msg.command, msg.arg);
+            }
+        });
     }
 
-    getChildren(element?: CLIInfoItem): Thenable<CLIInfoItem[]> {
-        if (element) return Promise.resolve([]);
-        
-        return Promise.resolve(
-            this.cliInfo.map(info => new CLIInfoItem(info, vscode.TreeItemCollapsibleState.None))
-        );
+    private updateView(): void {
+        if (this._view) {
+            this._view.webview.html = this.getHtml();
+        }
     }
 
-    updateCLIInfo(newInfo: string[]): void {
-        this.cliInfo = newInfo;
-        this.refresh();
+    private loadCLIInfo(): void {
+        this.loading = true;
+        this.updateView();
+
+        detectCLIVersion().then(info => {
+            this.versionInfo = info;
+            this.loading = false;
+            seedEnvironmentsFromConfig();
+            this.updateView();
+        }).catch(() => {
+            this.versionInfo = null;
+            this.loading = false;
+            seedEnvironmentsFromConfig();
+            this.updateView();
+        });
+    }
+
+    private getHtml(): string {
+        const versionHtml = this.getVersionHtml();
+        const envHtml = this.getEnvironmentHtml();
+
+        return `<!DOCTYPE html>
+<html><head><style>${getSharedCSS()}
+.version-banner { display: flex; align-items: center; justify-content: space-between; background: var(--vscode-editor-background); border: 1px solid var(--vscode-widget-border); border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; }
+.version-left { display: flex; align-items: center; gap: 8px; }
+.version-label { font-size: 12px; color: var(--vscode-descriptionForeground); }
+.version-number { font-size: 13px; font-weight: 600; color: var(--vscode-foreground); font-family: var(--vscode-editor-font-family); }
+.version-dot { width: 8px; height: 8px; border-radius: 50%; }
+.version-dot.ok { background: #38a169; }
+.version-dot.update { background: #dd6b20; animation: pulse 2s infinite; }
+.version-dot.error { background: #c53030; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+.update-btn { padding: 4px 10px; font-size: 11px; border: none; border-radius: 4px; cursor: pointer; background: #dd6b20; color: #fff; font-family: var(--vscode-font-family); transition: background 0.15s; }
+.update-btn:hover { background: #ed8936; }
+.section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--vscode-descriptionForeground); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+.env-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; margin-bottom: 4px; cursor: pointer; border: 1px solid transparent; transition: all 0.15s ease; }
+.env-row:hover { background: var(--vscode-list-hoverBackground); border-color: var(--vscode-widget-border); }
+.env-row.active { background: color-mix(in srgb, var(--vscode-button-background) 15%, transparent); border-color: var(--vscode-button-background); }
+.env-info { flex: 1; min-width: 0; }
+.env-name { font-size: 12px; font-weight: 500; color: var(--vscode-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.env-id { font-size: 10px; color: var(--vscode-descriptionForeground); font-family: var(--vscode-editor-font-family); }
+.badge { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; vertical-align: middle; margin-right: 4px; }
+.badge.prod { background: #c53030; color: #fff; }
+.badge.active { background: #38a169; color: #fff; }
+.badge.warn { background: #dd6b20; color: #fff; }
+.badge.default { background: #3182ce; color: #fff; }
+.env-actions { display: flex; gap: 2px; opacity: 0; transition: opacity 0.15s; }
+.env-row:hover .env-actions { opacity: 1; }
+.icon-btn { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border: none; border-radius: 4px; cursor: pointer; background: transparent; color: var(--vscode-descriptionForeground); transition: all 0.15s; }
+.icon-btn:hover { background: var(--vscode-toolbar-hoverBackground); color: var(--vscode-foreground); }
+.icon-btn svg { width: 14px; height: 14px; }
+.add-row { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px; border-radius: 6px; margin-top: 4px; cursor: pointer; border: 1px dashed var(--vscode-widget-border); color: var(--vscode-descriptionForeground); font-size: 11px; transition: all 0.15s; }
+.add-row:hover { border-color: var(--vscode-button-background); color: var(--vscode-button-background); background: color-mix(in srgb, var(--vscode-button-background) 8%, transparent); }
+.add-row svg { width: 12px; height: 12px; }
+</style></head><body>
+${versionHtml}
+${envHtml}
+<script>
+const vscode = acquireVsCodeApi();
+function send(cmd, arg) { vscode.postMessage({ command: cmd, arg: arg }); }
+</script>
+</body></html>`;
+    }
+
+    private getVersionHtml(): string {
+        if (this.loading) {
+            return `<div class="version-banner">
+                <div class="version-left"><span class="version-label">Loading CLI info...</span></div>
+            </div>`;
+        }
+
+        if (!this.versionInfo) {
+            return `<div class="version-banner">
+                <div class="version-left">
+                    <span class="version-dot error"></span>
+                    <span class="version-label">CLI not detected</span>
+                </div>
+            </div>`;
+        }
+
+        if (this.versionInfo.updateAvailable && this.versionInfo.latestVersion) {
+            return `<div class="version-banner">
+                <div class="version-left">
+                    <span class="version-dot update"></span>
+                    <span class="version-number">v${this.versionInfo.currentVersion}</span>
+                    <span class="version-label">&rarr; v${this.versionInfo.latestVersion}</span>
+                </div>
+                <button class="update-btn" onclick="send('silverfin-lvlup.updateCLI')">Update</button>
+            </div>`;
+        }
+
+        return `<div class="version-banner">
+            <div class="version-left">
+                <span class="version-dot ok"></span>
+                <span class="version-number">v${this.versionInfo.currentVersion}</span>
+                <span class="version-label">Up to date</span>
+            </div>
+        </div>`;
+    }
+
+    private getEnvironmentHtml(): string {
+        const config = vscode.workspace.getConfiguration('silverfinLvlUp');
+        const environments: SilverfinEnvironment[] = config.get('environments', []);
+        const activeEnvId = config.get<string>('activeEnvironment', '');
+        const cliConfig = readCLIConfig();
+        const cliDefaultFirmId = getCLIDefaultFirmId(cliConfig);
+
+        const envRows = environments.map(env => {
+            const isActive = env.firmId === activeEnvId;
+            const isAuthorized = cliConfig !== null && env.firmId in cliConfig;
+            const isCLIDefault = env.firmId === cliDefaultFirmId;
+
+            let badges = '';
+            if (env.isProd) { badges += '<span class="badge prod">PROD</span>'; }
+            if (isActive) { badges += '<span class="badge active">Active</span>'; }
+            if (isCLIDefault && !isActive) { badges += '<span class="badge default">CLI Default</span>'; }
+            if (!isAuthorized) { badges += '<span class="badge warn">Unauth</span>'; }
+
+            const activeClass = isActive ? ' active' : '';
+
+            return `<div class="env-row${activeClass}" onclick="send('silverfin-lvlup.setActiveEnvironment', '${env.firmId}')" title="Click to ${isActive ? 'deactivate' : 'set as active'}">
+                <div class="env-info">
+                    <div class="env-name">${badges}${escapeHtml(env.firmName)}</div>
+                    <div class="env-id">${env.firmId}</div>
+                </div>
+                <div class="env-actions">
+                    <button class="icon-btn" onclick="event.stopPropagation(); send('silverfin-lvlup.toggleProdEnvironment', '${env.firmId}')" title="${env.isProd ? 'Unmark production' : 'Mark as production'}">
+                        ${getIconSvg('shield')}
+                    </button>
+                    <button class="icon-btn" onclick="event.stopPropagation(); send('silverfin-lvlup.removeEnvironment', '${env.firmId}')" title="Remove environment">
+                        ${getIconSvg('trash')}
+                    </button>
+                </div>
+            </div>`;
+        }).join('');
+
+        return `<div class="section-title">Environments</div>
+${envRows}
+<div class="add-row" onclick="send('silverfin-lvlup.addEnvironment')">
+    ${getIconSvg('plus')} Add environment
+</div>`;
     }
 }
 
@@ -386,46 +571,31 @@ class TemplateItem extends vscode.TreeItem {
     }
 }
 
-/**
- * Development tree item with appropriate icons
- */
-class DevelopmentItem extends vscode.TreeItem {
-    constructor(
-        public readonly label: string,
-        public readonly commandId: string
-    ) {
-        super(label, vscode.TreeItemCollapsibleState.None);
-        this.tooltip = this.label;
-        this.iconPath = this.getIconForCommand(commandId);
-        this.command = {
-            command: commandId,
-            title: this.label
-        };
-    }
+// ================================================================================================
+// WEBVIEW HELPERS
+// ================================================================================================
 
-    private getIconForCommand(commandId: string): vscode.ThemeIcon {
-        if (commandId.includes('sync') || commandId.includes('update')) {
-            return new vscode.ThemeIcon('sync');
-        }
-        if (commandId.includes('add')) {
-            return new vscode.ThemeIcon('add');
-        }
-        return new vscode.ThemeIcon('play');
-    }
+function escapeHtml(text: string): string {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-/**
- * CLI Information tree item
- */
-class CLIInfoItem extends vscode.TreeItem {
-    constructor(
-        public readonly label: string,
-        public readonly collapsibleState: vscode.TreeItemCollapsibleState
-    ) {
-        super(label, collapsibleState);
-        this.tooltip = this.label;
-        this.iconPath = new vscode.ThemeIcon('terminal');
-    }
+function getSharedCSS(): string {
+    return `
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { padding: 12px; font-family: var(--vscode-font-family); font-size: 12px; color: var(--vscode-foreground); background: transparent; }
+    `;
+}
+
+function getIconSvg(name: string): string {
+    const icons: Record<string, string> = {
+        refresh: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.45 5.22A6 6 0 1 0 14 8h-1.5a4.5 4.5 0 1 1-.72-2.45L10 7h5V2l-1.55 3.22z"/></svg>',
+        plus: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+        link: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.8 11.2a3.5 3.5 0 0 1 0-4.95l.7-.7a3.5 3.5 0 0 1 4.95 4.95l-.35.35m-2.3-2.3a3.5 3.5 0 0 1-4.95 0l-.7-.7a3.5 3.5 0 0 1 4.95-4.95l.35.35" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>',
+        alert: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1L1 14h14L8 1zm0 4v4m0 2v1" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        shield: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5l-5.5 2v4c0 3.5 2.3 6.2 5.5 7.5 3.2-1.3 5.5-4 5.5-7.5v-4L8 1.5z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>',
+        trash: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M5.5 2h5M3 4h10m-1 0l-.5 8.5a1 1 0 0 1-1 .5h-5a1 1 0 0 1-1-.5L4 4" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>',
+    };
+    return icons[name] || '';
 }
 
 // ================================================================================================
@@ -439,9 +609,31 @@ class CLIInfoItem extends vscode.TreeItem {
 export function activateActivityBar(context: vscode.ExtensionContext) {
     console.log('Activating Silverfin activity bar...');
     
-    const { providers, outputChannel } = createProviders();
-    registerTreeDataProviders(providers);
-    setupContextAndListeners(providers);
+    const outputChannel = vscode.window.createOutputChannel('Silverfin CLI');
+    const templateProvider = new TemplateProvider();
+    const developmentProvider = new DevelopmentWebviewProvider(templateProvider);
+    const cliInfoProvider = new CLIInfoWebviewProvider();
+
+    vscode.window.registerTreeDataProvider('silverfin-template', templateProvider);
+    context.subscriptions.push(
+        vscode.window.registerWebviewViewProvider('silverfin-development', developmentProvider),
+        vscode.window.registerWebviewViewProvider('silverfin-cli-info', cliInfoProvider)
+    );
+
+    vscode.commands.executeCommand('setContext', 'silverfin-lvlup.active', true);
+
+    vscode.window.onDidChangeActiveTextEditor(() => {
+        templateProvider.refresh();
+        developmentProvider.refresh();
+    });
+
+    vscode.workspace.onDidChangeConfiguration(e => {
+        if (e.affectsConfiguration('silverfinLvlUp')) {
+            cliInfoProvider.refresh();
+        }
+    });
+
+    const providers = { templateProvider, developmentProvider, cliInfoProvider };
     registerAllCommands(context, providers, outputChannel);
     
     console.log('Silverfin activity bar activated successfully');
@@ -449,71 +641,44 @@ export function activateActivityBar(context: vscode.ExtensionContext) {
 }
 
 /**
- * Creates and returns all tree data providers and output channel
- */
-function createProviders() {
-    const outputChannel = vscode.window.createOutputChannel('Silverfin CLI');
-    const templateProvider = new TemplateProvider();
-    const developmentProvider = new DevelopmentProvider(templateProvider);
-    const cliInfoProvider = new CLIInfoProvider();
-
-    return {
-        providers: { templateProvider, developmentProvider, cliInfoProvider },
-        outputChannel
-    };
-}
-
-/**
- * Registers all tree data providers with VS Code
- */
-function registerTreeDataProviders(providers: { templateProvider: TemplateProvider; developmentProvider: DevelopmentProvider; cliInfoProvider: CLIInfoProvider }) {
-    vscode.window.registerTreeDataProvider('silverfin-template', providers.templateProvider);
-    vscode.window.registerTreeDataProvider('silverfin-development', providers.developmentProvider);
-    vscode.window.registerTreeDataProvider('silverfin-cli-info', providers.cliInfoProvider);
-    console.log('Registered tree data providers');
-}
-
-/**
- * Sets up context and event listeners
- */
-function setupContextAndListeners(providers: { templateProvider: TemplateProvider; developmentProvider: DevelopmentProvider; cliInfoProvider: CLIInfoProvider }) {
-    vscode.commands.executeCommand('setContext', 'silverfin-lvlup.active', true);
-
-    vscode.window.onDidChangeActiveTextEditor(() => {
-        providers.templateProvider.refresh();
-        providers.developmentProvider.refresh();
-    });
-}
-
-/**
  * Registers all VS Code commands for the activity bar
  */
 function registerAllCommands(
     context: vscode.ExtensionContext,
-    providers: { templateProvider: TemplateProvider; developmentProvider: DevelopmentProvider; cliInfoProvider: CLIInfoProvider },
+    providers: { templateProvider: TemplateProvider; developmentProvider: DevelopmentWebviewProvider; cliInfoProvider: CLIInfoWebviewProvider },
     outputChannel: vscode.OutputChannel
 ) {
     context.subscriptions.push(outputChannel);
 
-    const commands = [
+    const commands: [string, (...args: any[]) => any][] = [
         // Template commands
         ['silverfin-lvlup.refreshTemplateInfo', () => providers.templateProvider.refresh()],
         ['silverfin-lvlup.openConfigFile', () => openConfigFile(providers.templateProvider)],
         ['silverfin-lvlup.toggleConfigValue', (fieldName: string, currentValue: boolean) => toggleConfigValue(providers.templateProvider, fieldName, currentValue)],
         ['silverfin-lvlup.changeReconciliationType', (fieldName: string, currentValue: string) => changeReconciliationType(providers.templateProvider, fieldName, currentValue)],
         ['silverfin-lvlup.editConfigValue', (fieldName: string, currentValue: any) => editConfigValue(providers.templateProvider, fieldName, currentValue)],
-        
+
         // Development commands
         ['silverfin-lvlup.syncTemplate', () => syncTemplate(providers.templateProvider, outputChannel)],
         ['silverfin-lvlup.updateAllReconciliations', () => updateAllReconciliations(outputChannel)],
         ['silverfin-lvlup.addSharedPartsToTemplate', () => addSharedPartsToTemplate(providers.templateProvider, outputChannel)],
         ['silverfin-lvlup.addTextPartsToConfig', () => addTextPartsToConfig(providers.templateProvider)],
-        
-        // Placeholder commands
-        ['silverfin-lvlup.placeholder1', () => vscode.window.showInformationMessage('Development Action 1 triggered')],
-        ['silverfin-lvlup.placeholder2', () => vscode.window.showInformationMessage('Development Action 2 triggered')],
-        ['silverfin-lvlup.buildTemplate', () => vscode.window.showInformationMessage('Build Template triggered')],
-        ['silverfin-lvlup.testTemplate', () => vscode.window.showInformationMessage('Test Template triggered')]
+        ['silverfin-lvlup.createReconciliation', () => createReconciliation(outputChannel)],
+        ['silverfin-lvlup.createSharedPart', () => createSharedPart(outputChannel)],
+
+        // CLI Info commands
+        ['silverfin-lvlup.refreshCLIInfo', () => providers.cliInfoProvider.refresh()],
+        ['silverfin-lvlup.updateCLI', () => updateCLI(outputChannel, providers.cliInfoProvider)],
+        ['silverfin-lvlup.addEnvironment', () => addEnvironment(providers.cliInfoProvider)],
+        ['silverfin-lvlup.removeEnvironment', (firmId: string) => {
+            if (firmId) { removeEnvironment(firmId, providers.cliInfoProvider); }
+        }],
+        ['silverfin-lvlup.toggleProdEnvironment', (firmId: string) => {
+            if (firmId) { toggleProdEnvironment(firmId, providers.cliInfoProvider); }
+        }],
+        ['silverfin-lvlup.setActiveEnvironment', (firmId: string) => {
+            if (firmId) { setActiveEnvironment(firmId, providers.cliInfoProvider, outputChannel); }
+        }],
     ];
 
     commands.forEach(([commandId, handler]) => {
@@ -619,6 +784,8 @@ async function editConfigValue(templateProvider: TemplateProvider, fieldName: st
  * Syncs the current template with Silverfin CLI
  */
 async function syncTemplate(templateProvider: TemplateProvider, outputChannel: vscode.OutputChannel): Promise<void> {
+    if (!await checkProdGuard()) return;
+
     const handle = templateProvider.getTemplateHandle();
     const templateType = templateProvider.getTemplateType();
     
@@ -644,12 +811,21 @@ async function syncTemplate(templateProvider: TemplateProvider, outputChannel: v
  * Updates all reconciliations via Silverfin CLI
  */
 async function updateAllReconciliations(outputChannel: vscode.OutputChannel): Promise<void> {
+    const confirm = await vscode.window.showWarningMessage(
+        'Are you sure you want to update ALL reconciliations? This will push all local changes to the platform.',
+        { modal: true },
+        'Yes, update all'
+    );
+    if (confirm !== 'Yes, update all') return;
+
+    if (!await checkProdGuard()) return;
+
     try {
         vscode.window.showInformationMessage('Updating all reconciliations...');
         await runSilverfinCommand('silverfin', ['update-reconciliation', '--all', '--yes'], outputChannel);
-        vscode.window.showInformationMessage('✅ Successfully updated all reconciliations');
+        vscode.window.showInformationMessage('Successfully updated all reconciliations');
     } catch (error) {
-        vscode.window.showErrorMessage(`❌ Failed to update reconciliations: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        vscode.window.showErrorMessage(`Failed to update reconciliations: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
 }
 
@@ -657,6 +833,8 @@ async function updateAllReconciliations(outputChannel: vscode.OutputChannel): Pr
  * Adds shared parts to the current template via Silverfin CLI
  */
 async function addSharedPartsToTemplate(templateProvider: TemplateProvider, outputChannel: vscode.OutputChannel): Promise<void> {
+    if (!await checkProdGuard()) return;
+
     const templateHandle = templateProvider.getTemplateHandle();
     const templateType = templateProvider.getTemplateType();
     
@@ -864,4 +1042,312 @@ function getFilesToParse(configData: any, templateDir: string): string[] {
     }
     
     return filesToParse;
+}
+
+// ================================================================================================
+// NEW COMMAND IMPLEMENTATIONS
+// ================================================================================================
+
+async function createReconciliation(outputChannel: vscode.OutputChannel): Promise<void> {
+    if (!await checkProdGuard()) return;
+
+    const handle = await vscode.window.showInputBox({
+        prompt: 'Enter the handle for the new reconciliation',
+        placeHolder: 'e.g., my_reconciliation'
+    });
+    if (!handle) return;
+
+    const setupType = await vscode.window.showQuickPick(
+        ['Simple setup', 'Full wizard'],
+        { placeHolder: 'Choose setup type' }
+    );
+    if (!setupType) return;
+
+    try {
+        if (setupType === 'Simple setup') {
+            await runSilverfinCommand('silverfin', ['create-reconciliation', '--handle', handle, '--yes'], outputChannel);
+        } else {
+            const nameEn = await vscode.window.showInputBox({
+                prompt: 'Enter English name (leave empty to skip)',
+                placeHolder: 'English template name'
+            });
+
+            const nameNl = await vscode.window.showInputBox({
+                prompt: 'Enter Dutch name (leave empty to skip)',
+                placeHolder: 'Dutch template name'
+            });
+
+            const nameFr = await vscode.window.showInputBox({
+                prompt: 'Enter French name (leave empty to skip)',
+                placeHolder: 'French template name'
+            });
+
+            const reconciliationType = await vscode.window.showQuickPick(
+                ['reconciliation_not_necessary', 'can_be_reconciled_without_data', 'only_reconciled_with_data'],
+                { placeHolder: 'Select reconciliation type' }
+            );
+
+            const args = ['create-reconciliation', '--handle', handle];
+            if (nameEn) { args.push('--name-en', nameEn); }
+            if (nameNl) { args.push('--name-nl', nameNl); }
+            if (nameFr) { args.push('--name-fr', nameFr); }
+            if (reconciliationType) { args.push('--reconciliation-type', reconciliationType); }
+            args.push('--yes');
+
+            await runSilverfinCommand('silverfin', args, outputChannel);
+        }
+        vscode.window.showInformationMessage(`Successfully created reconciliation: ${handle}`);
+    } catch (error) {
+        vscode.window.showErrorMessage(`Failed to create reconciliation: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+}
+
+async function createSharedPart(outputChannel: vscode.OutputChannel): Promise<void> {
+    if (!await checkProdGuard()) return;
+
+    const name = await vscode.window.showInputBox({
+        prompt: 'Enter the name for the new shared part',
+        placeHolder: 'e.g., my_shared_part'
+    });
+    if (!name) return;
+
+    try {
+        await runSilverfinCommand('silverfin', ['create-shared-part', '--shared-part', name, '--yes'], outputChannel);
+        vscode.window.showInformationMessage(`Successfully created shared part: ${name}`);
+    } catch (error) {
+        vscode.window.showErrorMessage(`Failed to create shared part: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+}
+
+async function updateCLI(outputChannel: vscode.OutputChannel, cliInfoProvider: CLIInfoWebviewProvider): Promise<void> {
+    try {
+        vscode.window.showInformationMessage('Updating Silverfin CLI...');
+        await runSilverfinCommand('silverfin', ['update'], outputChannel);
+        vscode.window.showInformationMessage('Silverfin CLI updated successfully');
+        cliInfoProvider.refresh();
+    } catch (error) {
+        vscode.window.showErrorMessage(`Failed to update CLI: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+}
+
+async function addEnvironment(cliInfoProvider: CLIInfoWebviewProvider): Promise<void> {
+    const firmId = await vscode.window.showInputBox({
+        prompt: 'Enter the Firm ID (environment ID)',
+        placeHolder: 'e.g., 1111'
+    });
+    if (!firmId) return;
+
+    const firmName = await vscode.window.showInputBox({
+        prompt: 'Enter a name for this environment',
+        placeHolder: 'Silverfin Environment Name'
+    });
+    if (!firmName) return;
+
+    const config = vscode.workspace.getConfiguration('silverfinLvlUp');
+    const environments: SilverfinEnvironment[] = [...config.get('environments', [])];
+
+    if (environments.some(e => e.firmId === firmId)) {
+        vscode.window.showWarningMessage(`Environment with ID ${firmId} already exists.`);
+        return;
+    }
+
+    environments.push({ firmId, firmName, isProd: false });
+    await config.update('environments', environments, vscode.ConfigurationTarget.Global);
+
+    const cliConfig = readCLIConfig();
+    if (!cliConfig || !(firmId in cliConfig)) {
+        vscode.window.showWarningMessage(
+            `Environment "${firmName}" (${firmId}) added but not yet authorized in the Silverfin CLI. Run 'silverfin authorize' in the terminal to authorize it.`
+        );
+    } else {
+        vscode.window.showInformationMessage(`Environment added: ${firmName} (${firmId})`);
+    }
+
+    cliInfoProvider.refresh();
+}
+
+async function removeEnvironment(firmId: string, cliInfoProvider: CLIInfoWebviewProvider): Promise<void> {
+    const config = vscode.workspace.getConfiguration('silverfinLvlUp');
+    const environments: SilverfinEnvironment[] = [...config.get('environments', [])];
+    const env = environments.find(e => e.firmId === firmId);
+    if (!env) return;
+
+    const confirm = await vscode.window.showWarningMessage(
+        `Remove environment "${env.firmName}" (${firmId})?`,
+        'Yes', 'No'
+    );
+    if (confirm !== 'Yes') return;
+
+    const filtered = environments.filter(e => e.firmId !== firmId);
+    await config.update('environments', filtered, vscode.ConfigurationTarget.Global);
+
+    const activeEnvId = config.get<string>('activeEnvironment', '');
+    if (activeEnvId === firmId) {
+        await config.update('activeEnvironment', '', vscode.ConfigurationTarget.Global);
+    }
+
+    cliInfoProvider.refresh();
+    vscode.window.showInformationMessage(`Removed environment: ${env.firmName}`);
+}
+
+async function toggleProdEnvironment(firmId: string, cliInfoProvider: CLIInfoWebviewProvider): Promise<void> {
+    const config = vscode.workspace.getConfiguration('silverfinLvlUp');
+    const environments: SilverfinEnvironment[] = [...config.get('environments', [])];
+    const env = environments.find(e => e.firmId === firmId);
+    if (!env) return;
+
+    env.isProd = !env.isProd;
+    await config.update('environments', environments, vscode.ConfigurationTarget.Global);
+
+    cliInfoProvider.refresh();
+    vscode.window.showInformationMessage(`${env.firmName} ${env.isProd ? 'marked as PRODUCTION' : 'unmarked from production'}`);
+}
+
+async function setActiveEnvironment(firmId: string, cliInfoProvider: CLIInfoWebviewProvider, outputChannel: vscode.OutputChannel): Promise<void> {
+    const extensionConfig = vscode.workspace.getConfiguration('silverfinLvlUp');
+    const environments: SilverfinEnvironment[] = extensionConfig.get('environments', []);
+    const env = environments.find(e => e.firmId === firmId);
+    if (!env) return;
+
+    const currentActive = extensionConfig.get<string>('activeEnvironment', '');
+
+    if (currentActive === firmId) {
+        await extensionConfig.update('activeEnvironment', '', vscode.ConfigurationTarget.Global);
+        vscode.window.showInformationMessage(`Deactivated environment: ${env.firmName}`);
+    } else {
+        try {
+            await runSilverfinCommand('silverfin', ['config', '-s', firmId], outputChannel);
+            await extensionConfig.update('activeEnvironment', firmId, vscode.ConfigurationTarget.Global);
+            vscode.window.showInformationMessage(`Active environment set to: ${env.firmName} (${firmId})`);
+        } catch (error) {
+            vscode.window.showErrorMessage(`Failed to set active environment: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+    }
+
+    cliInfoProvider.refresh();
+}
+
+// ================================================================================================
+// CLI UTILITY FUNCTIONS
+// ================================================================================================
+
+function runCommandCapture(command: string, args: string[]): Promise<string> {
+    return new Promise((resolve, reject) => {
+        let output = '';
+        const proc = spawn(command, args, { shell: true });
+
+        proc.stdout?.on('data', (data: Buffer) => { output += data.toString(); });
+        proc.stderr?.on('data', (data: Buffer) => { output += data.toString(); });
+
+        proc.on('close', () => resolve(output));
+        proc.on('error', reject);
+
+        setTimeout(() => {
+            proc.kill();
+            resolve(output);
+        }, 10000);
+    });
+}
+
+async function detectCLIVersion(): Promise<CLIVersionInfo | null> {
+    try {
+        const helpOutput = await runCommandCapture('silverfin', ['--help']);
+
+        const updateMatch = helpOutput.match(/\((\d+\.\d+\.\d+)\s*->\s*(\d+\.\d+\.\d+)\)/);
+        if (updateMatch) {
+            return {
+                currentVersion: updateMatch[1],
+                latestVersion: updateMatch[2],
+                updateAvailable: true
+            };
+        }
+
+        const versionOutput = await runCommandCapture('silverfin', ['-V']);
+        const versionMatch = versionOutput.match(/(\d+\.\d+\.\d+)/);
+
+        if (versionMatch) {
+            return {
+                currentVersion: versionMatch[1],
+                latestVersion: null,
+                updateAvailable: false
+            };
+        }
+
+        return null;
+    } catch {
+        return null;
+    }
+}
+
+function getCLIConfigPath(): string {
+    const customPath = vscode.workspace.getConfiguration('silverfinLvlUp').get<string>('cliConfigPath', '');
+    if (customPath) return customPath;
+    return join(homedir(), '.silverfin', 'config.json');
+}
+
+function getCLIDefaultFirmId(cliConfig: Record<string, any> | null): string | null {
+    if (!cliConfig?.defaultFirmIDs) return null;
+    const workspaceName = vscode.workspace.workspaceFolders?.[0]?.name;
+    if (workspaceName && cliConfig.defaultFirmIDs[workspaceName]) {
+        return cliConfig.defaultFirmIDs[workspaceName];
+    }
+    const values = Object.values(cliConfig.defaultFirmIDs) as string[];
+    return values.length > 0 ? values[0] : null;
+}
+
+function readCLIConfig(): Record<string, any> | null {
+    try {
+        const configPath = getCLIConfigPath();
+        if (existsSync(configPath)) {
+            return JSON.parse(readFileSync(configPath, 'utf8'));
+        }
+    } catch (error) {
+        console.error('Error reading CLI config:', error);
+    }
+    return null;
+}
+
+async function seedEnvironmentsFromConfig(): Promise<void> {
+    const cliConfig = readCLIConfig();
+    if (!cliConfig) return;
+
+    const config = vscode.workspace.getConfiguration('silverfinLvlUp');
+    const environments: SilverfinEnvironment[] = [...config.get('environments', [])];
+    const existingIds = new Set(environments.map(e => e.firmId));
+
+    let added = false;
+    for (const [key, value] of Object.entries(cliConfig)) {
+        if (key === 'defaultFirmIDs' || key === 'host') continue;
+        if (existingIds.has(key) || !/^\d+$/.test(key)) continue;
+
+        const firmData = value as any;
+        environments.push({
+            firmId: key,
+            firmName: firmData.firmName || `Firm ${key}`,
+            isProd: false
+        });
+        added = true;
+    }
+
+    if (added) {
+        await config.update('environments', environments, vscode.ConfigurationTarget.Global);
+    }
+}
+
+async function checkProdGuard(): Promise<boolean> {
+    const config = vscode.workspace.getConfiguration('silverfinLvlUp');
+    const activeEnvId = config.get<string>('activeEnvironment', '');
+    if (!activeEnvId) return true;
+
+    const environments: SilverfinEnvironment[] = config.get('environments', []);
+    const activeEnv = environments.find(e => e.firmId === activeEnvId);
+    if (!activeEnv?.isProd) return true;
+
+    const result = await vscode.window.showWarningMessage(
+        `You are about to push to a PRODUCTION environment: ${activeEnv.firmName} (${activeEnv.firmId}). Are you sure you want to continue?`,
+        { modal: true },
+        'Yes, proceed'
+    );
+
+    return result === 'Yes, proceed';
 }

@@ -2,7 +2,7 @@
   "name": "silverfin-level-up",
   "displayName": "Silverfin: Level-Up",
   "description": "Silverfin: Level-Up — Make Silverfin development a joy, not a chore.",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "publisher": "AnthonyHooghe",
   "engines": {
     "vscode": "^1.50.0"
@@ -88,6 +88,46 @@
         "command": "silverfin-lvlup.addTextPartsToConfig",
         "title": "Add Text Parts to Config",
         "icon": "$(add)"
+      },
+      {
+        "command": "silverfin-lvlup.createReconciliation",
+        "title": "Create Reconciliation",
+        "icon": "$(add)"
+      },
+      {
+        "command": "silverfin-lvlup.createSharedPart",
+        "title": "Create Shared Part",
+        "icon": "$(add)"
+      },
+      {
+        "command": "silverfin-lvlup.refreshCLIInfo",
+        "title": "Refresh CLI Information",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "silverfin-lvlup.updateCLI",
+        "title": "Update Silverfin CLI",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "silverfin-lvlup.addEnvironment",
+        "title": "Add Environment",
+        "icon": "$(add)"
+      },
+      {
+        "command": "silverfin-lvlup.removeEnvironment",
+        "title": "Remove Environment",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "silverfin-lvlup.toggleProdEnvironment",
+        "title": "Toggle Production Environment",
+        "icon": "$(shield)"
+      },
+      {
+        "command": "silverfin-lvlup.setActiveEnvironment",
+        "title": "Set Active Environment",
+        "icon": "$(plug)"
       }
     ],
     "views": {
@@ -95,17 +135,19 @@
         {
           "id": "silverfin-template",
           "name": "Template",
-          "size": 50
+          "size": 55
         },
         {
           "id": "silverfin-development",
           "name": "Development",
-          "size": 25
+          "type": "webview",
+          "size": 15
         },
         {
           "id": "silverfin-cli-info",
           "name": "CLI Information",
-          "size": 25
+          "type": "webview",
+          "size": 30
         }
       ]
     },
@@ -128,6 +170,11 @@
         {
           "command": "silverfin-lvlup.openConfigFile",
           "when": "view == silverfin-template",
+          "group": "navigation"
+        },
+        {
+          "command": "silverfin-lvlup.refreshCLIInfo",
+          "when": "view == silverfin-cli-info",
           "group": "navigation"
         }
       ],
@@ -204,6 +251,34 @@
         "path": "./syntaxes/silverfin.tmLanguage.json"
       }
     ],
+    "configuration": {
+      "title": "Silverfin Level-Up",
+      "properties": {
+        "silverfinLvlUp.cliConfigPath": {
+          "type": "string",
+          "default": "",
+          "description": "Custom path to the Silverfin CLI config.json file. Leave empty for default (~/.silverfin/config.json)."
+        },
+        "silverfinLvlUp.environments": {
+          "type": "array",
+          "default": [],
+          "description": "List of Silverfin environments.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "firmId": { "type": "string" },
+              "firmName": { "type": "string" },
+              "isProd": { "type": "boolean", "default": false }
+            }
+          }
+        },
+        "silverfinLvlUp.activeEnvironment": {
+          "type": "string",
+          "default": "",
+          "description": "The currently active Silverfin environment firm ID."
+        }
+      }
+    },
     "configurationDefaults": {
       "workbench.colorTheme": "Silverfin Theme - Refined Dark"
     },

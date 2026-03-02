@@ -4,6 +4,53 @@ All notable changes to this project will be documented in this file.
 
 > **Note:** Changes prior to version 0.1.2 were not tracked in this changelog.
 
+## [0.2.0] - 02/03/2026
+### Added
+
+#### Activity Bar & CLI Integration
+- Upgraded Development and CLI Information panels from tree views to rich webview UIs with styled buttons and layout.
+- CLI version detection with automatic update-available notifications and one-click update.
+- Environment management: add, remove, toggle production flag, and set active environment from the sidebar.
+- Auto-seeding of environments from the Silverfin CLI configuration file.
+- Production guard: confirmation prompt when performing CLI operations against production environments.
+- Create Reconciliation command with simple setup and full wizard modes.
+- Create Shared Part command via the activity bar.
+- Extension settings: `cliConfigPath` for custom CLI config location, `environments` list, and `activeEnvironment` selection.
+
+#### Snippets
+- New snippet: `forimanual` — manual fori loop with add row button.
+- New snippet: `addnewrowbutton` — add new row button for manual fori loops.
+- New snippet: `infotexthover` — hover-style infotext block.
+- New snippets: `cautiontext`, `cautiontextblock`, `cautiontexthover` — cautiontext blocks in all variants.
+- New snippet: `font` — markdown font size tag with size options (xxs–xl).
+- New snippet: `indent` — markdown indent tag with level parameter.
+- New snippet: `inputvalidationexclusive` — input validation with exclusive bounds.
+- New snippet: `stringvalidation` — string length validation (min/max length).
+- New snippet: `patternvalidation` — regex pattern validation with custom error message.
+
+#### Hover Documentation (Dictionary)
+- Added input attributes: `assign`, `assign_option`, `import_title`, `invert`.
+- Added file input attributes: `show_label`, `document`, `documents`, `external_links`.
+- Added `manual` attribute documentation for `fori` loops.
+- Added `add_new_row_button` tag with `text` and `target` attributes.
+- Added hover docs for `infotext`, `cautiontext`, and `warningtext` markdown-style tags.
+- Added hover docs for `colspan` and `rowspan` HTML attributes.
+- Added hover docs for `::font` and `::indent` markdown styling tags.
+- Expanded `input_validation` documentation with `min_exclusive`, `max_exclusive`, `min_length`, `max_length`, `pattern`, `pattern_flags`, and `validation_text` attributes.
+
+### Changed
+- Updated `inputvalidation` snippet: removed deprecated `as:` parameter, split into inclusive and exclusive variants.
+- Updated `datevalidation` snippet: removed unnecessary `as:date` prefix.
+- Removed deprecated `as` attribute from `input_validation` hover documentation.
+- Confirmation dialog now required before updating all reconciliations.
+
+### Fixed
+- Capture block formatting: content is now preserved exactly as-is with only leading indentation adjusted.
+- Single-line capture blocks (`{% capture %}...{% endcapture %}` on one line) are now handled correctly by the formatter.
+- `add_new_row_button` is now recognized as a single-line tag by the formatter (no longer causes indentation issues).
+
+---
+
 ## [0.1.5] - 26/10/2025
 ### Added
 - Complete activity bar interface with three main views: Template Information, Development Actions, and CLI Integration.

@@ -24,7 +24,7 @@ const defaultConfig: FormatterConfig = {
     logicBlocks: ['if', 'for', 'fori', 'ifi', 'unless', 'case', 'stripnewlines'],
     logicSubBlocks: ['else', 'elsif', 'elsifi', 'when'],
     liquidBlocks: ['locale', 'linkto', 'radiogroup', 'currencyconfiguration', 'adjustmentbutton', 'ic', 'nic', 'comment', 'addnewinputs'],
-    singleLineLogicTags: ['assign', 'input', 'result', 'push', 'pop', 'newpage', 'include', 'changeorientation', 't', 't=', 'unreconciled', 'newline', 'linkto', 'signmarker', 'rollforward', 'adjustmenttransaction', 'radioinput', 'input_validation'],
+    singleLineLogicTags: ['assign', 'input', 'result', 'push', 'pop', 'newpage', 'include', 'changeorientation', 't', 't=', 'unreconciled', 'newline', 'linkto', 'signmarker', 'rollforward', 'adjustmenttransaction', 'radioinput', 'input_validation', 'add_new_row_button'],
     htmlSingleTags: ['br', 'hr'],
     htmlInlineTags: ['b', 'i', 'em', 'u', 'sub', 'sup', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a'],
     htmlBlockTags: ['table', 'thead', 'tbody', 'tr'],
@@ -92,7 +92,7 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
                     i = stripnewlinesResult.nextIndex;
                 }
             } else {
-                const captureResult = handleCaptureBlock(rawLines, i);
+                const captureResult = handleCaptureBlock(rawLines, i, indentLevel, config);
                 if (captureResult.handled) {
                     output.push(captureResult.content);
                     i = captureResult.nextIndex;
@@ -164,46 +164,74 @@ function handleStripnewlines(rawLines: string[], currentIndex: number): { handle
 }
 
 /**
- * Handles capture blocks, preserving their content exactly as-is without any formatting
+ * Handles capture blocks, preserving their content exactly as-is
+ * Only the leading indentation (forward padding) of each line is adjusted
  * Tracks nesting depth to properly handle nested capture blocks
  */
-function handleCaptureBlock(rawLines: string[], currentIndex: number): { handled: boolean; content: string; nextIndex: number } {
+function handleCaptureBlock(rawLines: string[], currentIndex: number, indentLevel: number, config: FormatterConfig): { handled: boolean; content: string; nextIndex: number; indentLevel: number } {
     const line = rawLines[currentIndex];
-    if (line.search(/{%\s*capture\s*%}/) === -1) {
-        return { handled: false, content: '', nextIndex: currentIndex };
+    if (!/{%-?\s*capture\b/.test(line)) {
+        return { handled: false, content: '', nextIndex: currentIndex, indentLevel };
     }
 
     let i = currentIndex;
-    let captureBlock = '';
+    const captureLines: string[] = [];
     let captureDepth = 0;
-    let currentLine = rawLines[i];
 
-    // Track capture depth to handle nested captures
     while (i < rawLines.length) {
-        const openMatches = currentLine.match(/{%\s*capture\s*%}/g);
-        const closeMatches = currentLine.match(/{%\s*endcapture\s*%}/g);
-        
+        const currentLine = rawLines[i];
+        const openMatches = currentLine.match(/{%-?\s*capture\b/g);
+        const closeMatches = currentLine.match(/{%-?\s*endcapture\s*-?%}/g);
+
         captureDepth += (openMatches ? openMatches.length : 0);
         captureDepth -= (closeMatches ? closeMatches.length : 0);
-        
-        captureBlock += currentLine;
-        
-        // If we've closed all capture blocks, we're done
-        if (captureDepth === 0) {
+
+        captureLines.push(currentLine);
+
+        if (captureDepth <= 0) {
             break;
         }
-        
-        // Move to next line if not done
+
         if (i < rawLines.length - 1) {
-            captureBlock += '\n';
             i++;
-            currentLine = rawLines[i];
         } else {
             break;
         }
     }
 
-    return { handled: true, content: captureBlock, nextIndex: i };
+    // Re-indent: first line ({% capture %}) and last line ({% endcapture %})
+    // get the current indent level. Inner content lines have their base
+    // indentation replaced while preserving relative indentation between them.
+    const innerLines = captureLines.slice(1, captureLines.length - 1);
+    let minIndent = Infinity;
+    for (const il of innerLines) {
+        if (il.trim().length === 0) continue;
+        const leadingSpaces = il.match(/^(\s*)/)?.[0].length ?? 0;
+        if (leadingSpaces < minIndent) minIndent = leadingSpaces;
+    }
+    if (minIndent === Infinity) minIndent = 0;
+
+    const baseIndent = config.padWithTabs
+        ? '\t'.repeat(indentLevel + 1)
+        : ' '.repeat(config.tabSize * (indentLevel + 1));
+
+    const result: string[] = [];
+    result.push(setIndent(captureLines[0].trimStart(), indentLevel, config));
+
+    for (const il of innerLines) {
+        if (il.trim().length === 0) {
+            result.push('');
+        } else {
+            const stripped = il.substring(minIndent);
+            result.push(baseIndent + stripped);
+        }
+    }
+
+    if (captureLines.length > 1) {
+        result.push(setIndent(captureLines[captureLines.length - 1].trimStart(), indentLevel, config));
+    }
+
+    return { handled: true, content: result.join('\n'), nextIndex: i, indentLevel };
 }
 
 /**
@@ -394,7 +422,19 @@ function processLiquidTag(cleanedLine: string, indentLevel: number, config: Form
             break;
     }
     const tagId = tag.split(' ')[1] || '';
-    
+
+    // Single-line capture: keep everything from {% capture %} to {% endcapture %} on one line
+    if (tagId === 'capture') {
+        const endIdx = cleanedLine.search(/{%-?\s*endcapture\s*-?%}/);
+        if (endIdx !== -1) {
+            const endTagClose = cleanedLine.indexOf('%}', endIdx) + 2;
+            const fullCapture = tag + cleanedLine.substring(0, endTagClose);
+            const remaining = cleanedLine.substring(endTagClose).trim();
+            output.push(setIndent(fullCapture, currentIndentLevel, config));
+            return { indentLevel: currentIndentLevel, remainingLine: remaining };
+        }
+    }
+
     // Handle different types of Liquid tags
     if (tag.startsWith('{{') || config.singleLineLogicTags.includes(tagId)) {
         output.push(setIndent(tag, currentIndentLevel, config));

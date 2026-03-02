@@ -120,6 +120,25 @@
     ],
     "description": "Creates a fori loop"
   },
+  "Manual Fori Loop": {
+    "prefix": "forimanual",
+    "body": [
+      "{% fori ${1:item} in custom.${2:namespace} manual:true %}",
+      "\t{% input ${1:item}.${3:key} %}",
+      "\t{% if forloop.last %}",
+      "\t\t{% add_new_row_button text:'${4:Add row}' %}",
+      "\t{% endif %}",
+      "{% endfori %}"
+    ],
+    "description": "Creates a manual fori loop with an add row button"
+  },
+  "Add New Row Button": {
+    "prefix": "addnewrowbutton",
+    "body": [
+      "{% add_new_row_button text:'${1:Add row}' %}"
+    ],
+    "description": "Creates a button to add new rows in a manual fori loop"
+  },
   "Break Loop": {
     "prefix": "break",
     "body": [
@@ -310,6 +329,36 @@
     ],
     "description": "Creates a multi-line info text block"
   },
+  "Hover infotext code": {
+    "prefix": "infotexthover",
+    "body": [
+      "{% ic %}{::infotext as=\"hover\"}$1{:/infotext}{% endic %}"
+    ],
+    "description": "Creates a hover info text block"
+  },
+  "Single line cautiontext code": {
+    "prefix": "cautiontext",
+    "body": [
+      "{% ic %}{::cautiontext}$1{:/cautiontext}{% endic %}"
+    ],
+    "description": "Creates a single-line caution text block"
+  },
+  "Block cautiontext code": {
+    "prefix": "cautiontextblock",
+    "body": [
+      "{% ic %}{::cautiontext}",
+      "$1",
+      "{:/cautiontext}{% endic %}"
+    ],
+    "description": "Creates a multi-line caution text block"
+  },
+  "Hover cautiontext code": {
+    "prefix": "cautiontexthover",
+    "body": [
+      "{% ic %}{::cautiontext as=\"hover\"}$1{:/cautiontext}{% endic %}"
+    ],
+    "description": "Creates a hover caution text block"
+  },
   "Translation definition tags": {
     "prefix": "t=",
     "body": [
@@ -362,6 +411,22 @@
       "{% endcurrencyconfiguration %}"
     ],
     "description": "Creates a currency configuration block with specified formats and precision"
+  },
+  "Font Size (markdown)": {
+    "prefix": "font",
+    "body": [
+      "{::font size=\"${1|xl,l,m,s,xs,xxs|}\"}$2{:/font}"
+    ],
+    "description": "Changes font size using markdown syntax. Sizes: xxs, xs, s, m, l, xl"
+  },
+  "Indent (markdown)": {
+    "prefix": "indent",
+    "body": [
+      "{::indent level=\"${1:6}\"}",
+      "$2",
+      "{:/indent}"
+    ],
+    "description": "Adds indentation to content. Levels: 1-10"
   },
   "Target": {
     "prefix": "target",
@@ -446,16 +511,37 @@
   "Input Validation": {
     "prefix": "inputvalidation",
     "body": [
-      "{% input_validation \"${1:validation_name}\" as:${2|numeric,date|} ${3:min:0} ${4:max:100} %}"
+      "{% input_validation \"${1:validation_name}\" ${2|min:0,max:100,min:0 max:100|} %}"
     ],
-    "description": "Adds validation rules to input fields."
+    "description": "Adds numeric validation rules to input fields."
+  },
+  "Input Validation (Exclusive Bounds)": {
+    "prefix": "inputvalidationexclusive",
+    "body": [
+      "{% input_validation \"${1:validation_name}\" ${2|min_exclusive:0,max_exclusive:100,min_exclusive:0 max_exclusive:100|} %}"
+    ],
+    "description": "Adds numeric validation with exclusive bounds (boundary values are rejected)."
   },
   "Date Input Validation": {
     "prefix": "datevalidation",
     "body": [
-      "{% input_validation \"${1:validation_name}\" as:date start_date:\"${2:2022-01-01}\" end_date:\"${3:2022-12-31}\" %}"
+      "{% input_validation \"${1:validation_name}\" start_date:\"${2:2022-01-01}\" end_date:\"${3:2022-12-31}\" %}"
     ],
     "description": "Validates date inputs with a specified range."
+  },
+  "String Length Validation": {
+    "prefix": "stringvalidation",
+    "body": [
+      "{% input_validation \"${1:validation_name}\" min_length:${2:1} max_length:${3:100} %}"
+    ],
+    "description": "Validates string length with min and max bounds."
+  },
+  "Regex Pattern Validation": {
+    "prefix": "patternvalidation",
+    "body": [
+      "{% input_validation ${1:validation_name} pattern:\"${2:^\\\\d+$}\" validation_text:\"${3:Input does not match the required format}\" %}"
+    ],
+    "description": "Validates string input against a regex pattern with a custom error message."
   },
   "End If": {
     "prefix": "endif",

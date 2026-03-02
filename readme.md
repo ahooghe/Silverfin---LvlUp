@@ -7,7 +7,7 @@ This project powers the [Silverfin: Level-Up](https://marketplace.visualstudio.c
 
 ## 🚀 What is Silverfin: Level-Up?
 
-Silverfin: Level-Up is a feature-rich VS Code extension that brings advanced syntax highlighting, snippets, hover documentation, auto-closing tags, and one-click formatting to Silverfin template developers.  
+Silverfin: Level-Up is a feature-rich VS Code extension that brings advanced syntax highlighting, snippets, hover documentation, auto-closing tags, one-click formatting, and a full CLI integration with environment management to Silverfin template developers.  
 It’s built for both beginners and experts, with a focus on productivity, readability, and maintainability.
 
 ---
@@ -18,8 +18,10 @@ It’s built for both beginners and experts, with a focus on productivity, reada
 - **Smart Snippets & Autocomplete** for Silverfin patterns, filters, and HTML
 - **Hover Documentation** for tags, filters, and objects
 - **Data Model Integration** for Silverfin’s objects and properties
-- **One-Click Formatting** for unified HTML & Liquid indentation
-- **Auto-closing tags** for HTML and Liquid
+- **One-Click Formatting** for unified HTML & Liquid indentation- **Activity Bar Interface** with template detection, development actions, and CLI integration
+- **CLI Integration** with version detection, one-click updates, and background command execution
+- **Environment Management** with add/remove, production flags, and active environment switching
+- **Production Guard** to prevent accidental pushes to live environments- **Auto-closing tags** for HTML and Liquid
 - **Config file highlighting** for JSON
 - **Beautiful, accessible theme** for Silverfin work
 
@@ -33,7 +35,9 @@ See [FEATURES.md](./FEATURES.md) for a full breakdown.
 silverfin-level-up/
 ├── src/                # Extension source code (TypeScript)
 │   ├── extension.ts    # Main extension entry point
+│   ├── activityBar.ts  # Activity bar, CLI integration & environment management
 │   ├── formatter.ts    # Liquid & HTML formatter logic
+│   ├── dictionary.ts   # Hover documentation dictionary
 │   └── ...
 ├── snippets/           # VS Code snippets for Silverfin & HTML
 ├── syntaxes/           # TextMate grammar for syntax highlighting
@@ -79,7 +83,9 @@ Whether you want to fix a bug, add a feature, improve documentation, or suggest 
 ## 📝 Development Notes
 
 - Written in TypeScript for VS Code API.
+- Activity bar and CLI integration logic is in [`src/activityBar.ts`](./src/activityBar.ts).
 - Formatting logic is in [`src/formatter.ts`](./src/formatter.ts).
+- Hover documentation dictionary is in [`src/dictionary.ts`](./src/dictionary.ts).
 - Snippets are in [`snippets/`](./snippets/).
 - Syntax highlighting is defined in [`syntaxes/silverfin.tmLanguage.json`](./syntaxes/silverfin.tmLanguage.json).
 - See [`CHANGELOG.md`](./CHANGELOG.md) for recent changes.
