@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 > **Note:** Changes prior to version 0.1.2 were not tracked in this changelog.
 
+## [0.2.1] - 03/03/2026
+### Fixed
+- **Formatter:** `{% linkto %}` blocks are now always kept on a single line.
+- **Formatter:** `{::` markdown tags inside `{% ic %}` / `{% nic %}` blocks are now preserved correctly.
+- **Formatter:** IC block line joiner no longer merges words across joined lines.
+- **Formatter:** `{::` / `{:/` markdown tags now indent to their correct nesting level.
+- **Formatter:** Multi-line markdown blocks at root level are no longer collapsed into a single line.
+- **Formatter:** Removed trailing whitespace in IC block content.
+
+---
+
 ## [0.2.0] - 02/03/2026
 ### Added
 

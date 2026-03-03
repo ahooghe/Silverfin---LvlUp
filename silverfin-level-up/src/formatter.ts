@@ -23,8 +23,8 @@ interface FormatterConfig {
 const defaultConfig: FormatterConfig = {
     logicBlocks: ['if', 'for', 'fori', 'ifi', 'unless', 'case', 'stripnewlines'],
     logicSubBlocks: ['else', 'elsif', 'elsifi', 'when'],
-    liquidBlocks: ['locale', 'linkto', 'radiogroup', 'currencyconfiguration', 'adjustmentbutton', 'ic', 'nic', 'comment', 'addnewinputs'],
-    singleLineLogicTags: ['assign', 'input', 'result', 'push', 'pop', 'newpage', 'include', 'changeorientation', 't', 't=', 'unreconciled', 'newline', 'linkto', 'signmarker', 'rollforward', 'adjustmenttransaction', 'radioinput', 'input_validation', 'add_new_row_button'],
+    liquidBlocks: ['locale', 'radiogroup', 'currencyconfiguration', 'adjustmentbutton', 'ic', 'nic', 'comment', 'addnewinputs'],
+    singleLineLogicTags: ['assign', 'input', 'result', 'push', 'pop', 'newpage', 'include', 'changeorientation', 't', 't=', 'unreconciled', 'newline', 'signmarker', 'rollforward', 'adjustmenttransaction', 'radioinput', 'input_validation', 'add_new_row_button'],
     htmlSingleTags: ['br', 'hr'],
     htmlInlineTags: ['b', 'i', 'em', 'u', 'sub', 'sup', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a'],
     htmlBlockTags: ['table', 'thead', 'tbody', 'tr'],
@@ -92,21 +92,27 @@ function formatSilverfin(text: string, config: FormatterConfig): string {
                     i = stripnewlinesResult.nextIndex;
                 }
             } else {
-                const captureResult = handleCaptureBlock(rawLines, i, indentLevel, config);
-                if (captureResult.handled) {
-                    output.push(captureResult.content);
-                    i = captureResult.nextIndex;
-                    continue;
+                const linktoResult = handleLinktoBlock(rawLines, i);
+                if (linktoResult.handled) {
+                    completeTag = linktoResult.content;
+                    i = linktoResult.nextIndex;
                 } else {
-                    const icResult = handleIcBlock(rawLines, i);
-                    if (icResult.handled) {
-                        completeTag = icResult.content;
-                        i = icResult.nextIndex;
+                    const captureResult = handleCaptureBlock(rawLines, i, indentLevel, config);
+                    if (captureResult.handled) {
+                        output.push(captureResult.content);
+                        i = captureResult.nextIndex;
+                        continue;
                     } else {
-                        const incompleteResult = handleIncompleteTag(rawLines, i);
-                        if (incompleteResult.handled) {
-                            completeTag = incompleteResult.content;
-                            i = incompleteResult.nextIndex;
+                        const icResult = handleIcBlock(rawLines, i);
+                        if (icResult.handled) {
+                            completeTag = icResult.content;
+                            i = icResult.nextIndex;
+                        } else {
+                            const incompleteResult = handleIncompleteTag(rawLines, i);
+                            if (incompleteResult.handled) {
+                                completeTag = incompleteResult.content;
+                                i = incompleteResult.nextIndex;
+                            }
                         }
                     }
                 }
@@ -235,6 +241,35 @@ function handleCaptureBlock(rawLines: string[], currentIndex: number, indentLeve
 }
 
 /**
+ * Handles linkto blocks by joining all lines between {% linkto %} and {% endlinkto %}
+ * into a single line. Newlines inside linkto break URLs in rendered output.
+ */
+function handleLinktoBlock(rawLines: string[], currentIndex: number): { handled: boolean; content: string; nextIndex: number } {
+    const line = rawLines[currentIndex].trim();
+    if (!/{%-?\s*linkto\b/.test(line)) {
+        return { handled: false, content: '', nextIndex: currentIndex };
+    }
+
+    // Check if endlinkto is already on this line
+    if (/{%-?\s*endlinkto\s*-?%}/.test(line)) {
+        return { handled: true, content: line, nextIndex: currentIndex };
+    }
+
+    // Join all lines until endlinkto into a single line
+    let i = currentIndex;
+    let joined = line;
+    while (i < rawLines.length - 1) {
+        i++;
+        const nextLine = rawLines[i].trim();
+        if (nextLine.length === 0) continue;
+        joined += nextLine;
+        if (/{%-?\s*endlinkto\s*-?%}/.test(nextLine)) break;
+    }
+
+    return { handled: true, content: joined, nextIndex: i };
+}
+
+/**
  * Handles IC (Internal Control) blocks by combining all lines into a single tag
  * Returns the complete IC block content and updated index
  */
@@ -252,7 +287,7 @@ function handleIcBlock(rawLines: string[], currentIndex: number): { handled: boo
         if (nextLine.length === 0) {
             continue;
         }
-        completeTag += nextLine;
+        completeTag += ' ' + nextLine;
     }
 
     return { handled: true, content: completeTag, nextIndex: i };
@@ -264,7 +299,7 @@ function handleIcBlock(rawLines: string[], currentIndex: number): { handled: boo
  */
 function handleIncompleteTag(rawLines: string[], currentIndex: number): { handled: boolean; content: string; nextIndex: number } {
     const line = rawLines[currentIndex];
-    if (line.search(/(%}|}}|>)/) !== -1) {
+    if (line.search(/(%}|}}|>)/) !== -1 || line.trim().search(/^{:/) !== -1) {
         return { handled: false, content: '', nextIndex: currentIndex };
     }
 
@@ -314,7 +349,7 @@ function processNormalMode(cleanedLine: string, indentLevel: number, config: For
         return processHtmlTag(cleanedLine, currentIndentLevel, config, output);
     }
     else if (cleanedLine.search('{:') === 0 && cleanedLine.search('}') !== -1) {
-        const markdownResult = processMarkdownTag(cleanedLine, output);
+        const markdownResult = processMarkdownTag(cleanedLine, currentIndentLevel, config, output);
         return { indentLevel: currentIndentLevel, remainingLine: markdownResult.remainingLine };
     }
     else if (cleanedLine.search(/({%|{{|<)/) === -1) {
@@ -379,10 +414,46 @@ function processHtmlTag(cleanedLine: string, indentLevel: number, config: Format
 
 /**
  * Processes markdown-style tags that start with {:
+ * For opening {::tagname} tags, keeps everything through {:/tagname} on one line
  */
-function processMarkdownTag(cleanedLine: string, output: string[]): { remainingLine: string } {
+function processMarkdownTag(cleanedLine: string, indentLevel: number, config: FormatterConfig, output: string[]): { remainingLine: string } {
     let markdownTag = cleanedLine.substring(0, cleanedLine.search('}') + 1);
-    output.push(markdownTag.trim());
+
+    // Structural markdown tags always sit at indent 0 (touching the wall)
+    const structuralTags = ['group', 'infotext', 'cautiontext', 'warningtext'];
+
+    // For opening markdown tags like {::infotext}, find the matching {:/infotext}
+    // and keep the entire block on one line
+    if (markdownTag.startsWith('{::')) {
+        const inner = markdownTag.substring(3, markdownTag.length - 1);
+        const tagName = inner.split(/\s/)[0];
+        const isStructural = structuralTags.includes(tagName);
+        const effectiveIndent = isStructural ? 0 : indentLevel;
+        const closingTag = '{:/' + tagName + '}';
+        const closingIdx = cleanedLine.indexOf(closingTag);
+        if (closingIdx !== -1) {
+            const contentBetween = cleanedLine.substring(markdownTag.length, closingIdx).trim();
+            const fullBlock = markdownTag + contentBetween + closingTag;
+            const remaining = cleanedLine.substring(closingIdx + closingTag.length).trim();
+            output.push(setIndent(fullBlock, effectiveIndent, config));
+            return { remainingLine: remaining };
+        }
+        output.push(setIndent(markdownTag.trim(), effectiveIndent, config));
+        let remainingLine = cleanedLine.substring(cleanedLine.search('}') + 1).trim();
+        return { remainingLine };
+    }
+
+    // Closing markdown tags {:/tagname}
+    if (markdownTag.startsWith('{:/')) {
+        const tagName = markdownTag.substring(3, markdownTag.length - 1);
+        const isStructural = structuralTags.includes(tagName);
+        const effectiveIndent = isStructural ? 0 : indentLevel;
+        output.push(setIndent(markdownTag.trim(), effectiveIndent, config));
+        let remainingLine = cleanedLine.substring(cleanedLine.search('}') + 1).trim();
+        return { remainingLine };
+    }
+
+    output.push(setIndent(markdownTag.trim(), indentLevel, config));
     let remainingLine = cleanedLine.substring(cleanedLine.search('}') + 1).trim();
     return { remainingLine };
 }
@@ -392,7 +463,7 @@ function processMarkdownTag(cleanedLine: string, output: string[]): { remainingL
  * Splits content from tags for separate handling
  */
 function processContentBeforeTag(cleanedLine: string, indentLevel: number, config: FormatterConfig, output: string[]): { indentLevel: number; remainingLine: string } {
-    let contentBeforeTag = cleanedLine.slice(0, cleanedLine.search(/({%|{{|<)/));
+    let contentBeforeTag = cleanedLine.slice(0, cleanedLine.search(/({%|{{|<)/)).trimEnd();
     if (contentBeforeTag.trim().length > 0) {
         output.push(setIndent(contentBeforeTag, indentLevel, config));
     }
@@ -433,6 +504,21 @@ function processLiquidTag(cleanedLine: string, indentLevel: number, config: Form
             output.push(setIndent(fullCapture, currentIndentLevel, config));
             return { indentLevel: currentIndentLevel, remainingLine: remaining };
         }
+    }
+
+    // Linkto must always be single-line: join everything from {% linkto %} to {% endlinkto %}
+    if (tagId === 'linkto') {
+        const endIdx = cleanedLine.search(/{%-?\s*endlinkto\s*-?%}/);
+        if (endIdx !== -1) {
+            const endTagClose = cleanedLine.indexOf('%}', endIdx) + 2;
+            const fullLinkto = tag + cleanedLine.substring(0, endTagClose);
+            const remaining = cleanedLine.substring(endTagClose).trim();
+            output.push(setIndent(fullLinkto, currentIndentLevel, config));
+            return { indentLevel: currentIndentLevel, remainingLine: remaining };
+        }
+        // endlinkto not found in remaining -- output the whole line as-is
+        output.push(setIndent(tag + cleanedLine, currentIndentLevel, config));
+        return { indentLevel: currentIndentLevel, remainingLine: '' };
     }
 
     // Handle different types of Liquid tags
