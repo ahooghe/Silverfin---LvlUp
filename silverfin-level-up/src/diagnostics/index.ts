@@ -11,9 +11,9 @@ export function activateDiagnostics(context: vscode.ExtensionContext): void {
     const diagnosticCollection = vscode.languages.createDiagnosticCollection('silverfin');
     context.subscriptions.push(diagnosticCollection);
 
-    const runDiagnostics = (document: vscode.TextDocument) => {
+    const runDiagnostics = async (document: vscode.TextDocument) => {
         if (document.languageId !== LANGUAGE_ID) { return; }
-        const diagnostics = analyzeSilverfinDocument(document);
+        const diagnostics = await analyzeSilverfinDocument(document);
         diagnosticCollection.set(document.uri, diagnostics);
     };
 
@@ -28,7 +28,7 @@ export function activateDiagnostics(context: vscode.ExtensionContext): void {
     );
 }
 
-function analyzeSilverfinDocument(document: vscode.TextDocument): vscode.Diagnostic[] {
+async function analyzeSilverfinDocument(document: vscode.TextDocument): Promise<vscode.Diagnostic[]> {
     const text = document.getText();
     const diagnostics: vscode.Diagnostic[] = [];
 
@@ -48,7 +48,7 @@ function analyzeSilverfinDocument(document: vscode.TextDocument): vscode.Diagnos
     diagnostics.push(...checkTranslationTags(text));
     diagnostics.push(...checkDanglingOperators(text));
     diagnostics.push(...checkEmptyPipeFilter(text));
-    diagnostics.push(...checkUnusedVariables(text));
+    diagnostics.push(...await checkUnusedVariables(text, document.uri));
 
     return diagnostics;
 }
