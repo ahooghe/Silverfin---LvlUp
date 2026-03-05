@@ -1,17 +1,10 @@
 import * as vscode from 'vscode';
+import { LIQUID_BLOCK_TAGS, MARKDOWN_BLOCK_TAGS, HTML_BLOCK_TAGS } from './diagnostics/helpers';
 
-const LIQUID_BLOCK_PAIRS: Record<string, string> = {
-    'if': 'endif', 'ifi': 'endifi', 'for': 'endfor', 'fori': 'endfori',
-    'unless': 'endunless', 'case': 'endcase', 'capture': 'endcapture',
-    'ic': 'endic', 'nic': 'endnic', 'comment': 'endcomment',
-    'stripnewlines': 'endstripnewlines', 'locale': 'endlocale',
-    'radiogroup': 'endradiogroup', 'currencyconfiguration': 'endcurrencyconfiguration',
-    'adjustmentbutton': 'endadjustmentbutton', 'addnewinputs': 'endaddnewinputs',
-    'linkto': 'endlinkto'
-};
-
-const MARKDOWN_BLOCK_TAGS = ['infotext', 'warningtext', 'cautiontext', 'font', 'indent', 'target', 'group'];
-const HTML_BLOCK_TAGS = ['table', 'thead', 'tbody', 'tr', 'td', 'th', 'div', 'span', 'ul', 'ol', 'li'];
+const LIQUID_BLOCK_PAIRS: Record<string, string> = {};
+for (const tag of LIQUID_BLOCK_TAGS) {
+    LIQUID_BLOCK_PAIRS[tag] = `end${tag}`;
+}
 
 export class SilverfinFoldingRangeProvider implements vscode.FoldingRangeProvider {
     provideFoldingRanges(document: vscode.TextDocument): vscode.FoldingRange[] {

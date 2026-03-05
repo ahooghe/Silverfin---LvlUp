@@ -56,7 +56,7 @@ export const LIQUID_BLOCK_TAGS = [
 // Markdown-style tags that require matching open/close pairs
 export const MARKDOWN_BLOCK_TAGS = [
     'infotext', 'warningtext', 'cautiontext',
-    'font', 'indent', 'target'
+    'font', 'indent', 'target', 'group'
 ];
 
 // HTML tags that require matching open/close pairs
@@ -75,5 +75,6 @@ export const KNOWN_TAGS = [
     'assign', 'input', 'result', 'push', 'pop', 'newpage', 'include',
     'changeorientation', 't', 't=', 'unreconciled', 'newline',
     'signmarker', 'rollforward', 'adjustmenttransaction', 'radioinput',
-    'input_validation', 'add_new_row_button'
+    'input_validation', 'add_new_row_button',
+    'break', 'continue'
 ];
