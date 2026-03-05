@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 > **Note:** Changes prior to version 0.1.2 were not tracked in this changelog.
 
+## [0.3.0] - 04/03/2026
+### Added
+- Real-time diagnostics with error/warning squiggles for Silverfin templates.
+- Block matching, tag completeness, translation validation, IC/NIC nesting checks, and more.
+
+### Changed
+- Refactored large source files into modular directory structures.
+
+### Fixed
+- Multi-line `{% ic %}` blocks no longer collapsed to one line.
+- Structural markdown tags (`{::infotext}`, `{::group}`, etc.) always format at column 0.
+
+---
+
 ## [0.2.1] - 03/03/2026
 ### Fixed
 - **Formatter:** `{% linkto %}` blocks are now always kept on a single line.

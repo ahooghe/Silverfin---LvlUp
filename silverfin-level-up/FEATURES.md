@@ -10,6 +10,7 @@ Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
 ✅ **80+ Smart Snippets** for every Silverfin scenario  
 ✅ **Intelligent Auto-completion** with hover documentation  
 ✅ **One-click Formatting** for clean, readable code  
+✅ **Real-time Diagnostics** with error and warning squiggles  
 ✅ **Custom Syntax Highlighting** with Silverfin-specific theme  
 ✅ **Complete Activity Bar Interface** with template & environment management  
 ✅ **CLI Integration** with version detection, updates, and environment switching  
@@ -120,6 +121,23 @@ Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
 - **`silverfinLvlUp.cliConfigPath`:** Custom path to the Silverfin CLI config file
 - **`silverfinLvlUp.environments`:** List of configured Silverfin environments
 - **`silverfinLvlUp.activeEnvironment`:** Currently active environment firm ID
+
+---
+
+## 🔍 Real-time Diagnostics
+
+- **Error squiggles:**
+  Catch mistakes as you type — unmatched blocks, incomplete tags, syntax issues, and more are highlighted directly in your editor.
+- **Block matching:**
+  Detects unclosed or orphan Liquid tags (`{% if %}`, `{% for %}`, `{% ic %}`, ...), markdown tags (`{::infotext}`, `{::group}`, ...), and HTML tags (`<table>`, `<tr>`, ...).
+- **Tag completeness:**
+  Flags incomplete tags like `{% assign x = %}`, `{% for in items %}`, `{% rollforward target %}`, `{% input as:select %}` without a field path, and more.
+- **Translation validation:**
+  `{% t %}` requires a key, `{% t= %}` requires a key and at least one language definition.
+- **Input type validation:**
+  Flags invalid `as:` types on `{% input %}` tags.
+- **Smart warnings:**
+  Empty block bodies, duplicate result names (scope-aware), nested IC/NIC blocks, empty comments, and dangling comparison operators.
 
 ---
 
