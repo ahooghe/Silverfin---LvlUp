@@ -14,14 +14,17 @@ It’s built for both beginners and experts, with a focus on productivity, reada
 
 ## 🛠️ Features
 
+- **Real-time Diagnostics** — error and warning squiggles for block matching, tag completeness, translation validation, and more
 - **Custom Syntax Highlighting** for Liquid, HTML, and Silverfin-specific tags
 - **Smart Snippets & Autocomplete** for Silverfin patterns, filters, and HTML
 - **Hover Documentation** for tags, filters, and objects
 - **Data Model Integration** for Silverfin’s objects and properties
-- **One-Click Formatting** for unified HTML & Liquid indentation- **Activity Bar Interface** with template detection, development actions, and CLI integration
+- **One-Click Formatting** for unified HTML & Liquid indentation
+- **Activity Bar Interface** with template detection, development actions, and CLI integration
 - **CLI Integration** with version detection, one-click updates, and background command execution
 - **Environment Management** with add/remove, production flags, and active environment switching
-- **Production Guard** to prevent accidental pushes to live environments- **Auto-closing tags** for HTML and Liquid
+- **Production Guard** to prevent accidental pushes to live environments
+- **Auto-closing tags** for HTML and Liquid
 - **Config file highlighting** for JSON
 - **Beautiful, accessible theme** for Silverfin work
 
@@ -33,21 +36,23 @@ See [FEATURES.md](./FEATURES.md) for a full breakdown.
 
 ```
 silverfin-level-up/
-├── src/                # Extension source code (TypeScript)
-│   ├── extension.ts    # Main extension entry point
-│   ├── activityBar.ts  # Activity bar, CLI integration & environment management
-│   ├── formatter.ts    # Liquid & HTML formatter logic
-│   ├── dictionary.ts   # Hover documentation dictionary
-│   └── ...
-├── snippets/           # VS Code snippets for Silverfin & HTML
-├── syntaxes/           # TextMate grammar for syntax highlighting
-├── themes/             # Custom VS Code theme
-├── CHANGELOG.md        # Release notes
-├── FEATURES.md         # Feature overview
-├── FAQ.md              # Frequently asked questions
-├── README.md           # User-facing extension README
-├── package.json        # Extension manifest
-└── ...
+├── src/
+│   ├── extension.ts         # Entry point
+│   ├── intellisense.ts      # Hover & completion providers
+│   ├── editorCommands.ts    # Editor keybinding commands
+│   ├── dictionary.ts        # Hover documentation data
+│   ├── silverfinDbModel.ts  # Data model for autocomplete
+│   ├── activityBar/         # Sidebar UI, CLI integration & environment management
+│   ├── formatter/           # Liquid & HTML formatter
+│   └── diagnostics/         # Error & warning squiggles
+├── snippets/                # VS Code snippets
+├── syntaxes/                # TextMate grammar
+├── themes/                  # Custom VS Code theme
+├── CHANGELOG.md
+├── FEATURES.md
+├── FAQ.md
+├── README.md
+└── package.json
 ```
 
 ---
@@ -83,36 +88,24 @@ Whether you want to fix a bug, add a feature, improve documentation, or suggest 
 ## 📝 Development Notes
 
 - Written in TypeScript for VS Code API.
-- Activity bar and CLI integration logic is in [`src/activityBar.ts`](./src/activityBar.ts).
-- Formatting logic is in [`src/formatter.ts`](./src/formatter.ts).
-- Hover documentation dictionary is in [`src/dictionary.ts`](./src/dictionary.ts).
-- Snippets are in [`snippets/`](./snippets/).
-- Syntax highlighting is defined in [`syntaxes/silverfin.tmLanguage.json`](./syntaxes/silverfin.tmLanguage.json).
-- See [`CHANGELOG.md`](./CHANGELOG.md) for recent changes.
+- Activity bar and CLI integration: `src/activityBar/`
+- Formatter: `src/formatter/`
+- Diagnostics: `src/diagnostics/`
+- Hover documentation: `src/dictionary.ts`
+- Snippets: `snippets/`
+- Syntax highlighting: `syntaxes/silverfin.tmLanguage.json`
+- See `CHANGELOG.md` for recent changes.
 
 ---
 
 ## 🚧 Planned Features / Roadmap
 
-Silverfin: Level-Up is just getting started! Here’s what’s on the horizon:
+- **Quick fixes:** Automatic corrections for common mistakes.
+- **Settings page:** Configure extension options from VS Code.
+- **High-level Intellisense:** Smarter completions and code actions.
+- **In-editor documentation browser:** Browse Silverfin docs inside VS Code.
 
-- **Error scribbles:**  
-  Inline error highlighting and diagnostics for Liquid/Silverfin code.
-- **Linting and quick fixes:**  
-  Detect common mistakes and offer automatic corrections.
-- **Settings page:**  
-  Easily configure extension options right from VS Code.
-- **Expanded functionality:**  
-  More snippets, smarter formatting, and deeper integration with Silverfin’s platform.
-- **High-level Intellisense:**  
-  Even smarter completions, suggestions, and code actions.
-- **In-editor documentation browser:**  
-  Browse Silverfin documentation directly inside VS Code.
-- **And much more!**  
-  The goal is to make this extension essential for every Silverfin developer.
-
-*Have a feature idea or suggestion?*  
-Open an [issue](https://github.com/ahooghe/Silverfin---LvlUp/issues) or start a discussion!
+*Have a feature idea?* Open an [issue](https://github.com/ahooghe/Silverfin---LvlUp/issues)!
 
 ---
 
