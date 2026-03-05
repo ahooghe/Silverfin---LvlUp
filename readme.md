@@ -100,10 +100,8 @@ Whether you want to fix a bug, add a feature, improve documentation, or suggest 
 
 ## 🚧 Planned Features / Roadmap
 
-- **Go to Definition:** Ctrl+click on variables to jump to their assign/capture across text parts and shared parts.
 - **Document Outline:** Show template structure (assigns, captures, results, loops) in the Outline panel.
 - **Unused variable detection:** Warn when assigned variables are never referenced (cross-file aware).
-- **Shared part navigation:** Ctrl+click on include tags to open the corresponding shared part file.
 - **Settings page:** Configure extension options from VS Code.
 - **In-editor documentation browser:** Browse Silverfin docs inside VS Code.
 

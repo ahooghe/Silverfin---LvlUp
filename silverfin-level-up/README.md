@@ -36,6 +36,12 @@ Tired of wrestling with syntax errors, manual CLI commands, or repetitive templa
 - **🌐 Environment & CLI Management**  
   Manage multiple Silverfin environments, detect CLI versions, auto-update, and protect production environments with a built-in production guard.
 
+- **🔗 Go to Definition & Include Navigation**  
+  Ctrl+click on variables to jump to their definition, or on include tags to open shared parts and text parts directly.
+
+- **📁 Custom Code Folding**  
+  Fold and unfold Liquid, markdown, and HTML blocks for cleaner navigation of large templates.
+
 - **Effortless Navigation**  
   Jump between objects, properties, and methods with dot-notation and smart suggestions.
 

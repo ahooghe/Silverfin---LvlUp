@@ -12,6 +12,9 @@ Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
 ✅ **One-click Formatting** for clean, readable code  
 ✅ **Real-time Diagnostics** with error and warning squiggles  
 ✅ **Quick Fixes** with auto-correction for typos on save  
+✅ **Go to Definition** with Ctrl+click on variables and includes  
+✅ **Custom Code Folding** for Liquid, markdown, and HTML blocks  
+✅ **Format on Save** enabled by default  
 ✅ **Custom Syntax Highlighting** with Silverfin-specific theme  
 ✅ **Complete Activity Bar Interface** with template & environment management  
 ✅ **CLI Integration** with version detection, updates, and environment switching  
@@ -143,6 +146,30 @@ Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
   Lightbulb suggestions for misspelled tags (`{% asign %}` -> `{% assign %}`) and invalid input types (`as:boolan` -> `as:boolean`), powered by Levenshtein distance matching.
 - **Auto-fix on save:**
   High-confidence typo corrections (single-character mistakes with only one possible match) are applied automatically when you save.
+
+---
+
+## 🔗 Go to Definition & Include Navigation
+
+- **Variable definitions:**
+  Ctrl+click on any variable to jump to its `{% assign %}` or `{% capture %}` definition — searches the current file, other text parts, and included shared parts.
+- **Include navigation:**
+  Ctrl+click on `{% include "shared/handle" %}` or `{% include "part/name" %}` to open the target file directly.
+- **Linear-aware:**
+  Definitions are sorted closest-first, with same-file definitions prioritized.
+
+---
+
+## 📁 Custom Code Folding
+
+- **Liquid blocks:**
+  Fold `{% if %}...{% endif %}`, `{% for %}...{% endfor %}`, `{% capture %}...{% endcapture %}`, and all other block pairs.
+- **Markdown blocks:**
+  Fold `{::infotext}...{:/infotext}`, `{::group}...{:/group}`, and other markdown-style blocks.
+- **HTML blocks:**
+  Fold `<table>...</table>`, `<tr>...</tr>`, and other HTML block tags.
+- **Comments:**
+  `{% comment %}...{% endcomment %}` blocks fold with the comment style.
 
 ---
 

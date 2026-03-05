@@ -4,12 +4,16 @@ All notable changes to this project will be documented in this file.
 
 > **Note:** Changes prior to version 0.1.2 were not tracked in this changelog.
 
-## [0.3.0] - 05/03/2026
+## [1.0.0] - 05/03/2026
 ### Added
 - Real-time diagnostics with error/warning squiggles for Silverfin templates.
 - Block matching, tag completeness, translation validation, IC/NIC nesting checks, and more.
 - Quick fixes: lightbulb suggestions for tag typos and invalid input types using Levenshtein distance matching.
 - Auto-fix on save: high-confidence typo corrections (distance 1, unambiguous) are applied automatically on save.
+- Go to Definition: Ctrl+click on variables to jump to their assign/capture definition across text parts and shared parts.
+- Include navigation: Ctrl+click on `{% include "shared/..." %}` or `{% include "part/..." %}` to open the target file.
+- Custom folding ranges for Liquid, markdown, and HTML blocks.
+- Format on save re-enabled for Silverfin files.
 
 ### Changed
 - Refactored large source files into modular directory structures.
