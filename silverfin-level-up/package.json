@@ -337,6 +337,26 @@
           {
             "scope": ["punctuation.definition.tag.silverfin"],
             "settings": { "foreground": "#777777" }
+          },
+          {
+            "scope": ["markup.info.silverfin"],
+            "settings": { "foreground": "#61AFEF" }
+          },
+          {
+            "scope": ["markup.warning.silverfin"],
+            "settings": { "foreground": "#E5C07B" }
+          },
+          {
+            "scope": ["markup.caution.silverfin"],
+            "settings": { "foreground": "#E06C75" }
+          },
+          {
+            "scope": ["markup.group.silverfin"],
+            "settings": { "foreground": "#C678DD" }
+          },
+          {
+            "scope": ["markup.font.silverfin", "markup.indent.silverfin", "markup.target.silverfin"],
+            "settings": { "foreground": "#98C379" }
           }
         ]
       },

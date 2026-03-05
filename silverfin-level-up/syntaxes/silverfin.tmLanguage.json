@@ -23,6 +23,34 @@
       ]
     },
     {
+      "name": "markup.info.silverfin",
+      "match": "\\{::infotext\\b[^}]*\\}|\\{:/infotext\\}"
+    },
+    {
+      "name": "markup.warning.silverfin",
+      "match": "\\{::warningtext\\b[^}]*\\}|\\{:/warningtext\\}"
+    },
+    {
+      "name": "markup.caution.silverfin",
+      "match": "\\{::cautiontext\\b[^}]*\\}|\\{:/cautiontext\\}"
+    },
+    {
+      "name": "markup.group.silverfin",
+      "match": "\\{::group\\b[^}]*\\}|\\{:/group\\}"
+    },
+    {
+      "name": "markup.font.silverfin",
+      "match": "\\{::font\\b[^}]*\\}|\\{:/font\\}"
+    },
+    {
+      "name": "markup.indent.silverfin",
+      "match": "\\{::indent\\b[^}]*\\}|\\{:/indent\\}"
+    },
+    {
+      "name": "markup.target.silverfin",
+      "match": "\\{::target\\b[^}]*\\}|\\{:/target\\}"
+    },
+    {
       "name": "meta.html.silverfin",
       "begin": "(</?)([a-zA-Z][a-zA-Z0-9]*)",
       "beginCaptures": {
