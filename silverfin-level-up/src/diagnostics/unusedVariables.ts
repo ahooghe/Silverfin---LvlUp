@@ -23,12 +23,18 @@ function isInSharedPart(filePath: string): boolean {
     return getSharedPartHandle(filePath) !== null;
 }
 
+const externalTextCache = new Map<string, { texts: string[]; timestamp: number }>();
+const CACHE_TTL = 30_000; // 30 seconds
+
 async function getExternalTexts(uri: vscode.Uri): Promise<string[]> {
-    const filePath = uri.fsPath;
-    const handle = getSharedPartHandle(filePath);
+    const handle = getSharedPartHandle(uri.fsPath);
     if (!handle) { return []; }
 
-    // Find all templates that include this shared part
+    const cached = externalTextCache.get(handle);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+        return cached.texts;
+    }
+
     const allFiles = await vscode.workspace.findFiles('**/*.liquid', '**/node_modules/**', 500);
     const includeRegex = new RegExp(`\\{%-?\\s*include\\s+["']shared/${handle}["']`);
     const texts: string[] = [];
@@ -43,6 +49,8 @@ async function getExternalTexts(uri: vscode.Uri): Promise<string[]> {
             }
         } catch { /* skip */ }
     }
+
+    externalTextCache.set(handle, { texts, timestamp: Date.now() });
     return texts;
 }
 

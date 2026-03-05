@@ -11,10 +11,17 @@ export function activateDiagnostics(context: vscode.ExtensionContext): void {
     const diagnosticCollection = vscode.languages.createDiagnosticCollection('silverfin');
     context.subscriptions.push(diagnosticCollection);
 
+    let debounceTimer: ReturnType<typeof setTimeout> | undefined;
+
     const runDiagnostics = async (document: vscode.TextDocument) => {
         if (document.languageId !== LANGUAGE_ID) { return; }
         const diagnostics = await analyzeSilverfinDocument(document);
         diagnosticCollection.set(document.uri, diagnostics);
+    };
+
+    const debouncedRun = (document: vscode.TextDocument) => {
+        if (debounceTimer) { clearTimeout(debounceTimer); }
+        debounceTimer = setTimeout(() => runDiagnostics(document), 500);
     };
 
     if (vscode.window.activeTextEditor) {
@@ -23,7 +30,7 @@ export function activateDiagnostics(context: vscode.ExtensionContext): void {
 
     context.subscriptions.push(
         vscode.window.onDidChangeActiveTextEditor(editor => { if (editor) { runDiagnostics(editor.document); } }),
-        vscode.workspace.onDidChangeTextDocument(event => { runDiagnostics(event.document); }),
+        vscode.workspace.onDidChangeTextDocument(event => { debouncedRun(event.document); }),
         vscode.workspace.onDidCloseTextDocument(document => { diagnosticCollection.delete(document.uri); })
     );
 }
