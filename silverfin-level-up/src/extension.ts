@@ -24,8 +24,6 @@ export function activate(context: vscode.ExtensionContext) {
         )
     );
 
-    vscode.workspace.getConfiguration('workbench').update('colorTheme', 'Silverfin Theme - Refined Dark', vscode.ConfigurationTarget.Global);
-
     console.log('Silverfin: Level-Up extension is now active!');
 }
 
