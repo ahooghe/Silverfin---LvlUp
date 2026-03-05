@@ -3,6 +3,7 @@ import { checkLiquidBlockMatching, checkMarkdownBlockMatching, checkGroupTagPair
 import { checkUnclosedLiquidTags, checkOrphanClosingDelimiters, checkEmptyTags } from './tagSyntax';
 import { checkEmptyBlockBodies } from './emptyBlocks';
 import { checkTagCompleteness, checkInputAsType, checkDuplicateResults, checkTranslationTags, checkDanglingOperators, checkEmptyPipeFilter } from './tagCompleteness';
+import { checkUnusedVariables } from './unusedVariables';
 
 const LANGUAGE_ID = 'silverfin-lvlup';
 
@@ -47,6 +48,7 @@ function analyzeSilverfinDocument(document: vscode.TextDocument): vscode.Diagnos
     diagnostics.push(...checkTranslationTags(text));
     diagnostics.push(...checkDanglingOperators(text));
     diagnostics.push(...checkEmptyPipeFilter(text));
+    diagnostics.push(...checkUnusedVariables(text));
 
     return diagnostics;
 }
