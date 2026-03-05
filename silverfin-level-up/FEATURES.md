@@ -7,7 +7,7 @@ Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
 
 ## 🚀 Core Features at a Glance
 
-✅ **80+ Smart Snippets** for every Silverfin scenario  
+✅ **100+ Smart Snippets** for every Silverfin scenario  
 ✅ **Intelligent Auto-completion** with hover documentation  
 ✅ **One-click Formatting** for clean, readable code  
 ✅ **Real-time Diagnostics** with error and warning squiggles  
@@ -52,7 +52,7 @@ Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
 
 ## ⚡ Smart Snippets & Autocomplete
 
-- **90+ ready-to-use snippets:**  
+- **100+ ready-to-use snippets:**  
   From basic input fields to complex adjustment transactions, validation rules, cautiontext/infotext blocks, and markdown styling.
 - **Intelligent prefix system:**  
   Type `input`, `if`, `adjustment`, `locale`,... for instant code generation.

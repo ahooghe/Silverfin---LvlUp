@@ -30,7 +30,7 @@ Tired of wrestling with syntax errors, manual CLI commands, or repetitive templa
   Hover for instant documentation, get context-aware suggestions, and enjoy rapid auto-completion for Silverfin's data model and tags.
 
 - **Rapid Snippet Insertion**  
-  Build templates faster with 90+ rich snippets for everything from input fields to advanced control flow, validation rules, and HTML blocks.  
+  Build templates faster with 100+ rich snippets for everything from input fields to advanced control flow, validation rules, and HTML blocks.  
   Easily surround selections with brackets, quotes, or Liquid comment tags using intuitive keybinds.
 
 - **🌐 Environment & CLI Management**  
