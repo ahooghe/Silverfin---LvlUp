@@ -10,6 +10,7 @@ import { SilverfinDefinitionProvider } from './definitionProvider';
 import { SilverfinDocumentSymbolProvider } from './symbolProvider';
 import { SilverfinReferenceProvider } from './referenceProvider';
 import { SilverfinRenameProvider } from './renameProvider';
+import { SilverfinSignatureHelpProvider } from './signatureProvider';
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('Silverfin extension activating...');
@@ -61,6 +62,14 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.languages.registerDocumentSymbolProvider(
             { language: 'silverfin-lvlup' },
             new SilverfinDocumentSymbolProvider()
+        )
+    );
+
+    context.subscriptions.push(
+        vscode.languages.registerSignatureHelpProvider(
+            { language: 'silverfin-lvlup' },
+            new SilverfinSignatureHelpProvider(),
+            ' ', ':'
         )
     );
 
