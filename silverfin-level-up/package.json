@@ -357,6 +357,10 @@
           {
             "scope": ["markup.font.silverfin", "markup.indent.silverfin", "markup.target.silverfin"],
             "settings": { "foreground": "#98C379" }
+          },
+          {
+            "scope": ["constant.numeric.silverfin"],
+            "settings": { "foreground": "#D19A66" }
           }
         ]
       },

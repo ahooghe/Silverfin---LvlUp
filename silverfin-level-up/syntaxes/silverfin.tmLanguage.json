@@ -259,8 +259,12 @@
           "match": "(==|!=|<=|>=|<|>)"
         },
         {
+          "name": "constant.numeric.silverfin",
+          "match": "\\b\\d+([.,]\\d+)?\\b"
+        },
+        {
           "name": "variable.other.silverfin",
-          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*|\\d+[.,]?\\d*)\\b"
+          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
         },
         {
           "name": "keyword.function.silverfin",
@@ -369,8 +373,12 @@
           "match": "\\|\\s*([a-zA-Z_][a-zA-Z0-9_]*):"
         },
         {
+          "name": "constant.numeric.silverfin",
+          "match": "\\b\\d+([.,]\\d+)?\\b"
+        },
+        {
           "name": "variable.other.silverfin",
-          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*|\\d+[.,]?\\d*)\\b"
+          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
         },
         {
           "name": "variable.other.silverfin",
