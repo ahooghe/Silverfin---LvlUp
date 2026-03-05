@@ -46,7 +46,8 @@ export function checkMarkdownBlockMatching(text: string): vscode.Diagnostic[] {
     const openRegex = /\{::(\w+)(?:\s[^}]*)?\}/g;
     const closeRegex = /\{:\/(\w+)\}/g;
     const openStacks: Map<string, TagInstance[]> = new Map();
-    for (const tag of MARKDOWN_BLOCK_TAGS) { openStacks.set(tag, []); }
+    const pairedTags = MARKDOWN_BLOCK_TAGS.filter(t => t !== 'group');
+    for (const tag of pairedTags) { openStacks.set(tag, []); }
 
     for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
         const line = lines[lineIndex];
@@ -55,7 +56,7 @@ export function checkMarkdownBlockMatching(text: string): vscode.Diagnostic[] {
         openRegex.lastIndex = 0;
         while ((match = openRegex.exec(line)) !== null) {
             const tagName = match[1].toLowerCase();
-            if (!MARKDOWN_BLOCK_TAGS.includes(tagName)) { continue; }
+            if (!pairedTags.includes(tagName)) { continue; }
             const closingPattern = new RegExp(`\\{:/${tagName}\\}`);
             if (closingPattern.test(line.substring(match.index + match[0].length)) ||
                 closingPattern.test(line.substring(0, match.index))) { continue; }
@@ -65,7 +66,7 @@ export function checkMarkdownBlockMatching(text: string): vscode.Diagnostic[] {
         closeRegex.lastIndex = 0;
         while ((match = closeRegex.exec(line)) !== null) {
             const tagName = match[1].toLowerCase();
-            if (!MARKDOWN_BLOCK_TAGS.includes(tagName)) { continue; }
+            if (!pairedTags.includes(tagName)) { continue; }
             const openPattern = new RegExp(`\\{::${tagName}(?:\\s[^}]*)?\\}`);
             if (openPattern.test(line.substring(0, match.index))) { continue; }
             const stack = openStacks.get(tagName);
