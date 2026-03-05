@@ -128,6 +128,18 @@
         "command": "silverfin-lvlup.setActiveEnvironment",
         "title": "Set Active Environment",
         "icon": "$(plug)"
+      },
+      {
+        "command": "silverfin-lvlup.surroundWithComment",
+        "title": "Surround with Liquid Comment"
+      },
+      {
+        "command": "silverfin-lvlup.surroundWithQuotes",
+        "title": "Surround with Quotes"
+      },
+      {
+        "command": "silverfin-lvlup.smartSpace",
+        "title": "Smart Space Insert"
       }
     ],
     "views": {
