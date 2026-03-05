@@ -238,12 +238,17 @@ export function checkTranslationTags(text: string): vscode.Diagnostic[] {
             const end = match.index + match[0].length;
 
             const isDeclaration = match[1] === '=';
-            const hasKey = /^["']/.test(content);
+            const hasQuotedKey = /^["']/.test(content);
+            const hasKey = content.length > 0;
             const hasLanguage = /\b\w+:["']/.test(content);
 
-            if (!hasKey) {
+            if (isDeclaration && !hasQuotedKey) {
                 diagnostics.push(createDiagnostic(lineIndex, start, lineIndex, end,
-                    `{% ${tagKeyword} %} is missing a translation key \u2014 e.g. {% ${tagKeyword} "my_key"${isDeclaration ? ' default:"Text"' : ''} %}.`,
+                    `{% t= %} is missing a translation key \u2014 e.g. {% t= "my_key" default:"Text" %}.`,
+                    vscode.DiagnosticSeverity.Error));
+            } else if (!isDeclaration && !hasKey) {
+                diagnostics.push(createDiagnostic(lineIndex, start, lineIndex, end,
+                    `{% t %} is missing a translation key \u2014 e.g. {% t "my_key" %} or {% t variable_name %}.`,
                     vscode.DiagnosticSeverity.Error));
             } else if (isDeclaration && !hasLanguage) {
                 diagnostics.push(createDiagnostic(lineIndex, start, lineIndex, end,
