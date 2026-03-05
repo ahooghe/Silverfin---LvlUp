@@ -4,13 +4,16 @@ All notable changes to this project will be documented in this file.
 
 > **Note:** Changes prior to version 0.1.2 were not tracked in this changelog.
 
-## [0.3.0] - 04/03/2026
+## [0.3.0] - 05/03/2026
 ### Added
 - Real-time diagnostics with error/warning squiggles for Silverfin templates.
 - Block matching, tag completeness, translation validation, IC/NIC nesting checks, and more.
+- Quick fixes: lightbulb suggestions for tag typos and invalid input types using Levenshtein distance matching.
+- Auto-fix on save: high-confidence typo corrections (distance 1, unambiguous) are applied automatically on save.
 
 ### Changed
 - Refactored large source files into modular directory structures.
+- Theme no longer forced on activation; Silverfin token colors are injected as scoped defaults, working on any theme.
 
 ### Fixed
 - Multi-line `{% ic %}` blocks no longer collapsed to one line.

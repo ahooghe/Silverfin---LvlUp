@@ -17,14 +17,14 @@ _Screenshots coming soon!_
 Tired of wrestling with syntax errors, manual CLI commands, or repetitive template management tasks?  
 **Level-Up** transforms your VS Code experience into a powerful, intelligent Silverfin development environment with a comprehensive activity bar interface.
 
-- **🔍 Real-time Diagnostics**  
-  Catch errors as you type — unmatched blocks, incomplete tags, invalid input types, translation issues, and more are flagged with squiggles directly in your editor.
+- **🔍 Real-time Diagnostics & Quick Fixes**  
+  Catch errors as you type — unmatched blocks, incomplete tags, invalid input types, and more get squiggles. Typos like `{% asign %}` get lightbulb suggestions and auto-correct on save.
 
 - **🎛️ Complete Activity Bar Interface**  
   Smart template detection, interactive configuration management, environment switching, and one-click CLI integration right in your sidebar.
 
 - **⚡ Instant Syntax Highlighting**  
-  See your code come alive with a custom Silverfin theme and advanced highlighting for Liquid, HTML, and Silverfin-specific tags.
+  See your code come alive with advanced highlighting for Liquid, HTML, and Silverfin-specific tags.
 
 - **Smarter Coding, Less Guesswork**  
   Hover for instant documentation, get context-aware suggestions, and enjoy rapid auto-completion for Silverfin's data model and tags.

@@ -4,6 +4,8 @@ import { activateActivityBar } from './activityBar/index';
 import { activateDiagnostics } from './diagnostics/index';
 import { activateHoverProvider, activateCompletionProvider } from './intellisense';
 import { activateEditorCommands } from './editorCommands';
+import { SilverfinQuickFixProvider } from './diagnostics/quickFixes';
+import { SilverfinFoldingRangeProvider } from './foldingProvider';
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('Silverfin extension activating...');
@@ -14,6 +16,21 @@ export function activate(context: vscode.ExtensionContext) {
     activateHoverProvider(context);
     activateCompletionProvider(context);
     activateEditorCommands(context);
+
+    context.subscriptions.push(
+        vscode.languages.registerCodeActionsProvider(
+            { language: 'silverfin-lvlup' },
+            new SilverfinQuickFixProvider(),
+            { providedCodeActionKinds: SilverfinQuickFixProvider.providedCodeActionKinds }
+        )
+    );
+
+    context.subscriptions.push(
+        vscode.languages.registerFoldingRangeProvider(
+            { language: 'silverfin-lvlup' },
+            new SilverfinFoldingRangeProvider()
+        )
+    );
 
     // Semantic tokens provider (placeholder for future syntax highlighting)
     context.subscriptions.push(

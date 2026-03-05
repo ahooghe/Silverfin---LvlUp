@@ -11,6 +11,7 @@ Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
 ✅ **Intelligent Auto-completion** with hover documentation  
 ✅ **One-click Formatting** for clean, readable code  
 ✅ **Real-time Diagnostics** with error and warning squiggles  
+✅ **Quick Fixes** with auto-correction for typos on save  
 ✅ **Custom Syntax Highlighting** with Silverfin-specific theme  
 ✅ **Complete Activity Bar Interface** with template & environment management  
 ✅ **CLI Integration** with version detection, updates, and environment switching  
@@ -138,6 +139,19 @@ Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
   Flags invalid `as:` types on `{% input %}` tags.
 - **Smart warnings:**
   Empty block bodies, duplicate result names (scope-aware), nested IC/NIC blocks, empty comments, and dangling comparison operators.
+- **Quick fixes:**
+  Lightbulb suggestions for misspelled tags (`{% asign %}` -> `{% assign %}`) and invalid input types (`as:boolan` -> `as:boolean`), powered by Levenshtein distance matching.
+- **Auto-fix on save:**
+  High-confidence typo corrections (single-character mistakes with only one possible match) are applied automatically when you save.
+
+---
+
+## 🎨 Theme-Friendly Syntax Highlighting
+
+- **Works with any theme:**
+  Silverfin-specific token colors are injected as scoped defaults — your preferred VS Code theme stays untouched.
+- **Optional custom theme:**
+  The bundled Silverfin dark and light themes are still available if you prefer a fully tailored look.
 
 ---
 

@@ -327,6 +327,12 @@
             "settings": { "foreground": "#777777" }
           }
         ]
+      },
+      "[silverfin-lvlup]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": "explicit"
+        }
       }
     },
     "snippets": [
