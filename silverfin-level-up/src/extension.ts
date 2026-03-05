@@ -7,6 +7,7 @@ import { activateEditorCommands } from './editorCommands';
 import { SilverfinQuickFixProvider } from './diagnostics/quickFixes';
 import { SilverfinFoldingRangeProvider } from './foldingProvider';
 import { SilverfinDefinitionProvider } from './definitionProvider';
+import { SilverfinDocumentSymbolProvider } from './symbolProvider';
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('Silverfin extension activating...');
@@ -37,6 +38,13 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.languages.registerFoldingRangeProvider(
             { language: 'silverfin-lvlup' },
             new SilverfinFoldingRangeProvider()
+        )
+    );
+
+    context.subscriptions.push(
+        vscode.languages.registerDocumentSymbolProvider(
+            { language: 'silverfin-lvlup' },
+            new SilverfinDocumentSymbolProvider()
         )
     );
 
