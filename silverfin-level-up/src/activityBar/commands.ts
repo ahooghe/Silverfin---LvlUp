@@ -417,34 +417,45 @@ export async function setActiveEnvironment(firmId: string, cliInfoProvider: CLII
 }
 
 // ================================================================================================
-// RUN TESTS
+// RUN TESTS — HANDLE CACHE
 // ================================================================================================
 
-/**
- * Discovers all reconciliation handles from config.json files in the workspace
- */
-async function discoverReconciliationHandles(): Promise<string[]> {
-    const configFiles = await vscode.workspace.findFiles('**/config.json', '**/node_modules/**', 200);
-    const handles: string[] = [];
+const handleCache = new Set<string>();
+let handleCacheReady = false;
 
+async function scanWorkspaceHandles(): Promise<void> {
+    const configFiles = await vscode.workspace.findFiles('**/config.json', '**/node_modules/**', 200);
+    handleCache.clear();
     for (const file of configFiles) {
         try {
             const doc = await vscode.workspace.openTextDocument(file);
             const config = JSON.parse(doc.getText());
             if (config.handle && typeof config.handle === 'string') {
-                if (!handles.includes(config.handle)) {
-                    handles.push(config.handle);
-                }
+                handleCache.add(config.handle);
             }
         } catch { /* skip invalid configs */ }
     }
-
-    return handles.sort();
+    handleCacheReady = true;
 }
 
-/**
- * Runs tests for the current template handle (single click)
- */
+export function initHandleCache(): void {
+    scanWorkspaceHandles();
+}
+
+export function tryAddCurrentHandle(templateProvider: TemplateProvider): void {
+    if (templateProvider.getTemplateType() !== 'reconciliation') { return; }
+    const handle = templateProvider.getTemplateHandle();
+    if (handle) { handleCache.add(handle); }
+}
+
+function getCachedHandles(): string[] {
+    return [...handleCache].sort();
+}
+
+// ================================================================================================
+// RUN TESTS
+// ================================================================================================
+
 export async function runTestCurrent(templateProvider: TemplateProvider, outputChannel: vscode.OutputChannel): Promise<void> {
     const handle = templateProvider.getTemplateHandle();
     const templateType = templateProvider.getTemplateType();
@@ -461,35 +472,53 @@ export async function runTestCurrent(templateProvider: TemplateProvider, outputC
     await executeTestRun([handle], outputChannel);
 }
 
-/**
- * Lets user pick multiple handles from the workspace and run tests sequentially
- */
 export async function runTestSelect(templateProvider: TemplateProvider, outputChannel: vscode.OutputChannel): Promise<void> {
     const currentHandle = templateProvider.getTemplateHandle();
 
-    const allHandles = await vscode.window.withProgress(
-        { location: vscode.ProgressLocation.Notification, title: 'Discovering reconciliation handles...' },
-        () => discoverReconciliationHandles()
-    );
-
-    if (allHandles.length === 0) {
-        vscode.window.showWarningMessage('No reconciliation handles found in the workspace.');
-        return;
+    if (!handleCacheReady) {
+        await vscode.window.withProgress(
+            { location: vscode.ProgressLocation.Notification, title: 'Discovering reconciliation handles...' },
+            () => scanWorkspaceHandles()
+        );
     }
 
-    const items = allHandles.map(h => ({
-        label: h,
-        picked: h === currentHandle,
-        description: h === currentHandle ? '(current)' : undefined
-    }));
+    const showPicker = async (): Promise<void> => {
+        const allHandles = getCachedHandles();
 
-    const selected = await vscode.window.showQuickPick(items, {
-        canPickMany: true,
-        placeHolder: `Select handles to test (${allHandles.length} found in workspace)`
-    });
-    if (!selected || selected.length === 0) { return; }
+        if (allHandles.length === 0) {
+            vscode.window.showWarningMessage('No reconciliation handles found in the workspace.');
+            return;
+        }
 
-    await executeTestRun(selected.map(s => s.label), outputChannel);
+        const RESCAN_LABEL = '$(sync) Rescan workspace';
+        const items: vscode.QuickPickItem[] = [
+            { label: RESCAN_LABEL, description: `${allHandles.length} handles cached`, alwaysShow: true },
+            { label: '', kind: vscode.QuickPickItemKind.Separator },
+            ...allHandles.map(h => ({
+                label: h,
+                picked: h === currentHandle,
+                description: h === currentHandle ? '(current)' : undefined
+            }))
+        ];
+
+        const selected = await vscode.window.showQuickPick(items, {
+            canPickMany: true,
+            placeHolder: `Select handles to test (${allHandles.length} cached)`
+        });
+        if (!selected || selected.length === 0) { return; }
+
+        if (selected.some(s => s.label === RESCAN_LABEL)) {
+            await vscode.window.withProgress(
+                { location: vscode.ProgressLocation.Notification, title: 'Rescanning workspace...' },
+                () => scanWorkspaceHandles()
+            );
+            return showPicker();
+        }
+
+        await executeTestRun(selected.map(s => s.label), outputChannel);
+    };
+
+    await showPicker();
 }
 
 async function executeTestRun(handles: string[], outputChannel: vscode.OutputChannel): Promise<void> {

@@ -5,7 +5,7 @@ import {
     syncTemplate, updateAllReconciliations, addSharedPartsToTemplate, addTextPartsToConfig,
     createReconciliation, createSharedPart, updateCLI,
     addEnvironment, removeEnvironment, toggleProdEnvironment, setActiveEnvironment,
-    runTestCurrent, runTestSelect
+    runTestCurrent, runTestSelect, initHandleCache, tryAddCurrentHandle
 } from './commands';
 
 // ================================================================================================
@@ -32,9 +32,12 @@ export function activateActivityBar(context: vscode.ExtensionContext) {
 
     vscode.commands.executeCommand('setContext', 'silverfin-lvlup.active', true);
 
+    initHandleCache();
+
     vscode.window.onDidChangeActiveTextEditor(() => {
         templateProvider.refresh();
         developmentProvider.refresh();
+        tryAddCurrentHandle(templateProvider);
     });
 
     vscode.workspace.onDidChangeConfiguration(e => {
