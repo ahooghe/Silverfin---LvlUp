@@ -9,17 +9,21 @@ Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
 
 ✅ **100+ Smart Snippets** for every Silverfin scenario  
 ✅ **Intelligent Auto-completion** with hover documentation  
-✅ **One-click Formatting** for clean, readable code  
+✅ **One-click Formatting** with format on save  
 ✅ **Real-time Diagnostics** with error and warning squiggles  
 ✅ **Quick Fixes** with auto-correction for typos on save  
 ✅ **Go to Definition** with Ctrl+click on variables and includes  
+✅ **Find All References** across template and included shared parts  
+✅ **Rename Symbol** scoped to template or shared part  
+✅ **Document Outline** with assigns, captures, results, loops, and more  
+✅ **Signature Help** for complex tags (input, assign, for, t=, etc.)  
 ✅ **Custom Code Folding** for Liquid, markdown, and HTML blocks  
-✅ **Format on Save** enabled by default  
-✅ **Custom Syntax Highlighting** with Silverfin-specific theme  
+✅ **Unused Variable Detection** with cross-file awareness for shared parts  
+✅ **Number & Markdown Tag Highlighting** with theme-friendly colors  
+✅ **Run Tests** from the activity bar — single or batch execution  
 ✅ **Complete Activity Bar Interface** with template & environment management  
 ✅ **CLI Integration** with version detection, updates, and environment switching  
 ✅ **Production Guard** to protect live environments from accidental pushes  
-✅ **Advanced Input Types** including validation and dynamic inputs 
 
 ---
 
@@ -146,6 +150,58 @@ Here's everything you get with **Silverfin: Level-Up** for Visual Studio Code:
   Lightbulb suggestions for misspelled tags (`{% asign %}` -> `{% assign %}`) and invalid input types (`as:boolan` -> `as:boolean`), powered by Levenshtein distance matching.
 - **Auto-fix on save:**
   High-confidence typo corrections (single-character mistakes with only one possible match) are applied automatically when you save.
+
+---
+
+## ✏️ Find All References & Rename
+
+- **Find All References:**
+  Right-click a variable and select "Find All References" to see every usage across the template, its text parts, and included shared parts.
+- **Rename Symbol:**
+  Press F2 on a variable to rename it everywhere. In a shared part, renames are scoped to the shared part. In a template, renames span the template and its included shared parts.
+
+---
+
+## 💡 Signature Help
+
+- **Parameter hints as you type:**
+  When typing inside `{% input %}`, `{% input_validation %}`, `{% assign %}`, `{% for %}`, `{% fori %}`, `{% rollforward %}`, `{% t= %}`, or `{% result %}`, you'll see inline parameter documentation showing what each argument means.
+
+---
+
+## ⚠️ Unused Variable Detection
+
+- **Catch dead code:**
+  Variables assigned with `{% assign %}` or `{% capture %}` that are never used later get a warning squiggle.
+- **Cross-file aware:**
+  In shared parts, the check looks at all templates that include the shared part — only warns if the variable is truly unused everywhere.
+
+---
+
+## 🔢 Number & Markdown Tag Highlighting
+
+- **Number literals:**
+  Numeric values inside Liquid tags are highlighted in orange for quick visual distinction.
+- **Markdown tags:**
+  `{::infotext}` (blue), `{::warningtext}` (yellow), `{::cautiontext}` (red), `{::group}` (purple), `{::font}`/`{::indent}`/`{::target}` (green).
+
+---
+
+## 📐 Document Outline
+
+- **Breadcrumbs and Outline panel:**
+  See a structured overview of your template: assigns, captures, results, rollforwards, inputs, includes, for/fori loops, IC/NIC blocks, and markdown blocks — all visible in the Outline panel and breadcrumbs bar.
+
+---
+
+## 🧪 Run Tests
+
+- **Run Tests button:**
+  One click to run `silverfin run-test --handle` for the current reconciliation template.
+- **Batch execution:**
+  Select multiple handles from the workspace and run them sequentially with a summary of passed/failed at the end.
+- **Context-aware:**
+  The Run Tests section is hidden when you're inside a shared part (tests only apply to reconciliation templates).
 
 ---
 

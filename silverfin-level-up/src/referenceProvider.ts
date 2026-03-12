@@ -1,15 +1,5 @@
 import * as vscode from 'vscode';
-import * as path from 'path';
-
-const INCLUDE_PATTERN = /\{%-?\s*include\s+["']shared\/([^"']+)["']/g;
-
-function findTemplateRoot(filePath: string): string {
-    let dir = path.dirname(filePath);
-    if (path.basename(dir) === 'text_parts') {
-        dir = path.dirname(dir);
-    }
-    return dir;
-}
+import { findTemplateRoot, extractIncludedSharedParts } from './workspaceUtils';
 
 function findWordOccurrences(text: string, word: string, uri: vscode.Uri): vscode.Location[] {
     const locations: vscode.Location[] = [];
@@ -26,16 +16,6 @@ function findWordOccurrences(text: string, word: string, uri: vscode.Uri): vscod
         }
     }
     return locations;
-}
-
-function extractIncludedSharedParts(text: string): string[] {
-    const handles: string[] = [];
-    let match;
-    INCLUDE_PATTERN.lastIndex = 0;
-    while ((match = INCLUDE_PATTERN.exec(text)) !== null) {
-        if (!handles.includes(match[1])) { handles.push(match[1]); }
-    }
-    return handles;
 }
 
 export class SilverfinReferenceProvider implements vscode.ReferenceProvider {

@@ -35,7 +35,10 @@
     "syntax highlighting",
     "snippets",
     "hover documentation",
-    "auto-closing tags",
+    "diagnostics",
+    "go to definition",
+    "rename",
+    "code folding",
     "html"
   ],
   "contributes": {

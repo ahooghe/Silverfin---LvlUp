@@ -39,6 +39,18 @@ Tired of wrestling with syntax errors, manual CLI commands, or repetitive templa
 - **🔗 Go to Definition & Include Navigation**  
   Ctrl+click on variables to jump to their definition, or on include tags to open shared parts and text parts directly.
 
+- **✏️ Find All References & Rename**  
+  Find every usage of a variable across templates and shared parts. Rename with F2 — scoped intelligently to template or shared part boundaries.
+
+- **💡 Signature Help**  
+  Parameter hints for complex tags like `input`, `input_validation`, `assign`, `for`, `fori`, `rollforward`, `t=`, and `result`.
+
+- **📐 Document Outline**  
+  Assigns, captures, results, includes, loops, and markdown blocks in the Outline panel and breadcrumbs.
+
+- **🧪 Run Tests**  
+  Run `silverfin run-test` for the current template with one click, or batch-run multiple handles from the workspace.
+
 - **📁 Custom Code Folding**  
   Fold and unfold Liquid, markdown, and HTML blocks for cleaner navigation of large templates.
 
@@ -88,7 +100,7 @@ The formatter automatically indents HTML and Liquid blocks together, making even
 
 - Works with mixed HTML and Liquid code
 - Supports nested and advanced block structures
-- Available from the Command Palette or on save (if enabled [🚧 WIP])
+- Available from the Command Palette or automatically on save
 
 ---
 

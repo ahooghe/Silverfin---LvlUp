@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { findTemplateRoot, extractIncludedSharedParts } from './workspaceUtils';
 
 const DEFINITION_PATTERNS = [
     /\{%-?\s*assign\s+(\w+)/g,
@@ -7,8 +8,6 @@ const DEFINITION_PATTERNS = [
     /\{%-?\s*for\s+(\w+)\s+in\b/g,
     /\{%-?\s*fori\s+(\w+)\s+in\b/g,
 ];
-
-const INCLUDE_PATTERN = /\{%-?\s*include\s+["']shared\/([^"']+)["']/g;
 
 interface DefinitionEntry {
     name: string;
@@ -37,28 +36,6 @@ function findDefinitionsInText(text: string, uri: vscode.Uri): DefinitionEntry[]
         }
     }
     return entries;
-}
-
-function findTemplateRoot(filePath: string): string | null {
-    let dir = path.dirname(filePath);
-    // If inside text_parts, go up one level
-    if (path.basename(dir) === 'text_parts') {
-        dir = path.dirname(dir);
-    }
-    // Verify this looks like a template root (has main.liquid or config.json)
-    return dir;
-}
-
-function extractIncludedSharedParts(text: string): string[] {
-    const handles: string[] = [];
-    let match;
-    INCLUDE_PATTERN.lastIndex = 0;
-    while ((match = INCLUDE_PATTERN.exec(text)) !== null) {
-        if (!handles.includes(match[1])) {
-            handles.push(match[1]);
-        }
-    }
-    return handles;
 }
 
 function getWordAtPosition(document: vscode.TextDocument, position: vscode.Position): string | null {

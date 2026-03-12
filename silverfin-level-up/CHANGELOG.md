@@ -4,24 +4,36 @@ All notable changes to this project will be documented in this file.
 
 > **Note:** Changes prior to version 0.1.2 were not tracked in this changelog.
 
-## [1.0.0] - 05/03/2026
+## [1.0.0] - 12/03/2026
 ### Added
-- Real-time diagnostics with error/warning squiggles for Silverfin templates.
-- Block matching, tag completeness, translation validation, IC/NIC nesting checks, and more.
+- Real-time diagnostics with error/warning squiggles (17 checks: block matching, tag completeness, translation validation, IC/NIC nesting, unused variables, and more).
 - Quick fixes: lightbulb suggestions for tag typos and invalid input types using Levenshtein distance matching.
 - Auto-fix on save: high-confidence typo corrections (distance 1, unambiguous) are applied automatically on save.
 - Go to Definition: Ctrl+click on variables to jump to their assign/capture definition across text parts and shared parts.
 - Include navigation: Ctrl+click on `{% include "shared/..." %}` or `{% include "part/..." %}` to open the target file.
+- Find All References: search for variable usage across template and included shared parts.
+- Rename Symbol: rename variables across template + included shared parts (scoped to shared part when inside one).
+- Document Outline (Symbols): assigns, captures, results, includes, loops, IC/NIC, and markdown blocks in the Outline panel and breadcrumbs.
+- Signature Help: parameter hints for `input`, `input_validation`, `assign`, `for`, `fori`, `rollforward`, `t=`, and `result` tags.
 - Custom folding ranges for Liquid, markdown, and HTML blocks.
-- Format on save re-enabled for Silverfin files.
+- Unused variable detection: warns when a variable is assigned but never used; cross-file aware for shared parts (checks consuming templates).
+- Number literal syntax highlighting (orange) inside Liquid tags.
+- Markdown tag syntax highlighting: infotext (blue), warningtext (yellow), cautiontext (red), group (purple), font/indent/target (green).
+- Run Tests in activity bar: one-click to run tests for the current template, or multi-select handles from the workspace for batch runs.
+- Format on save enabled by default for Silverfin files.
 
 ### Changed
 - Refactored large source files into modular directory structures.
+- Extracted shared workspace utilities (template root, include parsing) into a common module.
 - Theme no longer forced on activation; Silverfin token colors are injected as scoped defaults, working on any theme.
+- Diagnostics are debounced (500ms) for better performance; shared part lookups are cached (30s TTL).
 
 ### Fixed
 - Multi-line `{% ic %}` blocks no longer collapsed to one line.
 - Structural markdown tags (`{::infotext}`, `{::group}`, etc.) always format at column 0.
+- Consecutive `{:/group}` `{::group}` no longer triggers false errors.
+- `{% t variable_name %}` no longer flagged as missing a key (variable references allowed for `{% t %}`).
+- `break` and `continue` recognized as valid Liquid tags.
 
 ---
 

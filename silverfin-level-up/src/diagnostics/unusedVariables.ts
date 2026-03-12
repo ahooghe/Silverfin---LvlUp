@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import * as path from 'path';
 import { createDiagnostic, getCommentRanges, isInCommentRange } from './helpers';
+import { getSharedPartHandle, isInSharedPart } from '../workspaceUtils';
 
 interface VarDefinition {
     name: string;
@@ -12,16 +12,6 @@ interface VarDefinition {
 const ASSIGN_PATTERN = /\{%-?\s*assign\s+(\w+)/g;
 const CAPTURE_PATTERN = /\{%-?\s*capture\s+(\w+)/g;
 const INCLUDE_PATTERN = /\{%-?\s*include\b/;
-
-function getSharedPartHandle(filePath: string): string | null {
-    const normalized = filePath.replace(/\\/g, '/');
-    const match = normalized.match(/\/shared_parts\/([^/]+)\//);
-    return match ? match[1] : null;
-}
-
-function isInSharedPart(filePath: string): boolean {
-    return getSharedPartHandle(filePath) !== null;
-}
 
 const externalTextCache = new Map<string, { texts: string[]; timestamp: number }>();
 const CACHE_TTL = 30_000; // 30 seconds
