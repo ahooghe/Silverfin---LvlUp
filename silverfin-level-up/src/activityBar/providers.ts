@@ -313,8 +313,11 @@ export class DevelopmentWebviewProvider implements vscode.WebviewViewProvider {
 <div class="separator"></div>
 <div class="section">
     <div class="section-title">Testing</div>
-    <button class="action-btn secondary" onclick="send('silverfin-lvlup.runTests')">
+    <button class="action-btn primary" onclick="send('silverfin-lvlup.runTestCurrent')">
         <span class="btn-icon">${getIconSvg('play')}</span>Run Tests
+    </button>
+    <button class="action-btn secondary" onclick="send('silverfin-lvlup.runTestSelect')">
+        <span class="btn-icon">${getIconSvg('play')}</span>Select & Run Multiple
     </button>
 </div>
 <div class="separator"></div>

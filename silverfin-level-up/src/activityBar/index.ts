@@ -5,7 +5,7 @@ import {
     syncTemplate, updateAllReconciliations, addSharedPartsToTemplate, addTextPartsToConfig,
     createReconciliation, createSharedPart, updateCLI,
     addEnvironment, removeEnvironment, toggleProdEnvironment, setActiveEnvironment,
-    runTests
+    runTestCurrent, runTestSelect
 } from './commands';
 
 // ================================================================================================
@@ -75,7 +75,8 @@ function registerAllCommands(
         ['silverfin-lvlup.addTextPartsToConfig', () => addTextPartsToConfig(providers.templateProvider)],
         ['silverfin-lvlup.createReconciliation', () => createReconciliation(outputChannel)],
         ['silverfin-lvlup.createSharedPart', () => createSharedPart(outputChannel)],
-        ['silverfin-lvlup.runTests', () => runTests(providers.templateProvider, outputChannel)],
+        ['silverfin-lvlup.runTestCurrent', () => runTestCurrent(providers.templateProvider, outputChannel)],
+        ['silverfin-lvlup.runTestSelect', () => runTestSelect(providers.templateProvider, outputChannel)],
 
         // CLI Info commands
         ['silverfin-lvlup.refreshCLIInfo', () => providers.cliInfoProvider.refresh()],

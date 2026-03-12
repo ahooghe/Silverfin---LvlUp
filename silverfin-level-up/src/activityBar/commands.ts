@@ -443,59 +443,56 @@ async function discoverReconciliationHandles(): Promise<string[]> {
 }
 
 /**
- * Runs tests for the current template handle or lets user pick multiple handles
+ * Runs tests for the current template handle (single click)
  */
-export async function runTests(templateProvider: TemplateProvider, outputChannel: vscode.OutputChannel): Promise<void> {
-    const currentHandle = templateProvider.getTemplateHandle();
+export async function runTestCurrent(templateProvider: TemplateProvider, outputChannel: vscode.OutputChannel): Promise<void> {
+    const handle = templateProvider.getTemplateHandle();
     const templateType = templateProvider.getTemplateType();
 
     if (templateType === 'shared_part') {
         vscode.window.showWarningMessage('Run Tests is only available for reconciliation templates, not shared parts.');
         return;
     }
-
-    const choice = await vscode.window.showQuickPick(
-        [
-            { label: '$(play) Run Tests for Current Template', description: currentHandle || 'no handle detected', value: 'current' },
-            { label: '$(checklist) Select Handles from Workspace', description: 'Pick from discovered templates', value: 'select' },
-        ],
-        { placeHolder: 'How would you like to run tests?' }
-    );
-    if (!choice) { return; }
-
-    let handles: string[] = [];
-
-    if (choice.value === 'current') {
-        if (!currentHandle) {
-            vscode.window.showErrorMessage('No template handle found. Make sure you have a valid config.json file.');
-            return;
-        }
-        handles = [currentHandle];
-    } else {
-        const allHandles = await vscode.window.withProgress(
-            { location: vscode.ProgressLocation.Notification, title: 'Discovering reconciliation handles...' },
-            () => discoverReconciliationHandles()
-        );
-
-        if (allHandles.length === 0) {
-            vscode.window.showWarningMessage('No reconciliation handles found in the workspace.');
-            return;
-        }
-
-        const items = allHandles.map(h => ({
-            label: h,
-            picked: h === currentHandle,
-            description: h === currentHandle ? '(current)' : undefined
-        }));
-
-        const selected = await vscode.window.showQuickPick(items, {
-            canPickMany: true,
-            placeHolder: `Select handles to test (${allHandles.length} found in workspace)`
-        });
-        if (!selected || selected.length === 0) { return; }
-        handles = selected.map(s => s.label);
+    if (!handle) {
+        vscode.window.showErrorMessage('No template handle found. Make sure you have a valid config.json file.');
+        return;
     }
 
+    await executeTestRun([handle], outputChannel);
+}
+
+/**
+ * Lets user pick multiple handles from the workspace and run tests sequentially
+ */
+export async function runTestSelect(templateProvider: TemplateProvider, outputChannel: vscode.OutputChannel): Promise<void> {
+    const currentHandle = templateProvider.getTemplateHandle();
+
+    const allHandles = await vscode.window.withProgress(
+        { location: vscode.ProgressLocation.Notification, title: 'Discovering reconciliation handles...' },
+        () => discoverReconciliationHandles()
+    );
+
+    if (allHandles.length === 0) {
+        vscode.window.showWarningMessage('No reconciliation handles found in the workspace.');
+        return;
+    }
+
+    const items = allHandles.map(h => ({
+        label: h,
+        picked: h === currentHandle,
+        description: h === currentHandle ? '(current)' : undefined
+    }));
+
+    const selected = await vscode.window.showQuickPick(items, {
+        canPickMany: true,
+        placeHolder: `Select handles to test (${allHandles.length} found in workspace)`
+    });
+    if (!selected || selected.length === 0) { return; }
+
+    await executeTestRun(selected.map(s => s.label), outputChannel);
+}
+
+async function executeTestRun(handles: string[], outputChannel: vscode.OutputChannel): Promise<void> {
     outputChannel.show(true);
     outputChannel.appendLine(`Running tests for ${handles.length} handle(s): ${handles.join(', ')}`);
     outputChannel.appendLine(''.padEnd(50, '='));

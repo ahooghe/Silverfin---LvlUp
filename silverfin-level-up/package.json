@@ -130,9 +130,14 @@
         "icon": "$(plug)"
       },
       {
-        "command": "silverfin-lvlup.runTests",
-        "title": "Run Silverfin Tests",
+        "command": "silverfin-lvlup.runTestCurrent",
+        "title": "Run Tests for Current Template",
         "icon": "$(play)"
+      },
+      {
+        "command": "silverfin-lvlup.runTestSelect",
+        "title": "Select & Run Multiple Tests",
+        "icon": "$(checklist)"
       },
       {
         "command": "silverfin-lvlup.surroundWithComment",
