@@ -310,7 +310,7 @@ export class DevelopmentWebviewProvider implements vscode.WebviewViewProvider {
     <div class="section-title">Template Actions</div>
     ${templateButtons}
 </div>
-<div class="separator"></div>
+${templateType !== 'shared_part' ? `<div class="separator"></div>
 <div class="section">
     <div class="section-title">Testing</div>
     <button class="action-btn primary" onclick="send('silverfin-lvlup.runTestCurrent')">
@@ -319,7 +319,7 @@ export class DevelopmentWebviewProvider implements vscode.WebviewViewProvider {
     <button class="action-btn secondary" onclick="send('silverfin-lvlup.runTestSelect')">
         <span class="btn-icon">${getIconSvg('play')}</span>Select & Run Multiple
     </button>
-</div>
+</div>` : ''}
 <div class="separator"></div>
 <div class="section">
     <div class="section-title">Bulk Actions</div>
