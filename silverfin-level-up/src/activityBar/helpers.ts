@@ -43,6 +43,7 @@ export function getIconSvg(name: string): string {
         alert: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1L1 14h14L8 1zm0 4v4m0 2v1" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
         shield: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5l-5.5 2v4c0 3.5 2.3 6.2 5.5 7.5 3.2-1.3 5.5-4 5.5-7.5v-4L8 1.5z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>',
         trash: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M5.5 2h5M3 4h10m-1 0l-.5 8.5a1 1 0 0 1-1 .5h-5a1 1 0 0 1-1-.5L4 4" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>',
+        play: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5L4 2.5z"/></svg>',
     };
     return icons[name] || '';
 }

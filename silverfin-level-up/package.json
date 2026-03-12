@@ -130,6 +130,11 @@
         "icon": "$(plug)"
       },
       {
+        "command": "silverfin-lvlup.runTests",
+        "title": "Run Silverfin Tests",
+        "icon": "$(play)"
+      },
+      {
         "command": "silverfin-lvlup.surroundWithComment",
         "title": "Surround with Liquid Comment"
       },

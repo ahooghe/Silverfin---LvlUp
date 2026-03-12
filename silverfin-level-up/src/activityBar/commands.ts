@@ -417,6 +417,86 @@ export async function setActiveEnvironment(firmId: string, cliInfoProvider: CLII
 }
 
 // ================================================================================================
+// RUN TESTS
+// ================================================================================================
+
+/**
+ * Runs tests for the current template handle or lets user pick multiple handles
+ */
+export async function runTests(templateProvider: TemplateProvider, outputChannel: vscode.OutputChannel): Promise<void> {
+    const currentHandle = templateProvider.getTemplateHandle();
+    const templateType = templateProvider.getTemplateType();
+
+    if (templateType === 'shared_part') {
+        vscode.window.showWarningMessage('Run Tests is only available for reconciliation templates, not shared parts.');
+        return;
+    }
+
+    const choice = await vscode.window.showQuickPick(
+        [
+            { label: '$(play) Run Tests for Current Template', description: currentHandle || 'no handle detected', value: 'current' },
+            { label: '$(list-unordered) Run Tests for Multiple Handles', description: 'Enter handles manually', value: 'multiple' },
+        ],
+        { placeHolder: 'How would you like to run tests?' }
+    );
+    if (!choice) { return; }
+
+    let handles: string[] = [];
+
+    if (choice.value === 'current') {
+        if (!currentHandle) {
+            vscode.window.showErrorMessage('No template handle found. Make sure you have a valid config.json file.');
+            return;
+        }
+        handles = [currentHandle];
+    } else {
+        const input = await vscode.window.showInputBox({
+            prompt: 'Enter template handles separated by commas',
+            placeHolder: 'e.g., handle_one, handle_two, handle_three',
+            value: currentHandle || ''
+        });
+        if (!input) { return; }
+        handles = input.split(',').map(h => h.trim()).filter(h => h.length > 0);
+    }
+
+    if (handles.length === 0) {
+        vscode.window.showWarningMessage('No handles provided.');
+        return;
+    }
+
+    outputChannel.show(true);
+    outputChannel.appendLine(`Running tests for ${handles.length} handle(s): ${handles.join(', ')}`);
+    outputChannel.appendLine(''.padEnd(50, '='));
+
+    let passed = 0;
+    let failed = 0;
+
+    for (const handle of handles) {
+        outputChannel.appendLine('');
+        outputChannel.appendLine(`▶ Running tests: ${handle}`);
+        outputChannel.appendLine(''.padEnd(50, '-'));
+
+        try {
+            await runSilverfinCommand('silverfin', ['run-test', '--handle', handle], outputChannel);
+            passed++;
+        } catch {
+            failed++;
+        }
+    }
+
+    outputChannel.appendLine('');
+    outputChannel.appendLine(''.padEnd(50, '='));
+    outputChannel.appendLine(`Test run complete: ${passed} passed, ${failed} failed out of ${handles.length} handle(s)`);
+    outputChannel.appendLine(''.padEnd(50, '='));
+
+    if (failed === 0) {
+        vscode.window.showInformationMessage(`All tests passed (${passed}/${handles.length} handles)`);
+    } else {
+        vscode.window.showWarningMessage(`Tests completed with failures: ${passed} passed, ${failed} failed`);
+    }
+}
+
+// ================================================================================================
 // PRODUCTION GUARD
 // ================================================================================================
 
